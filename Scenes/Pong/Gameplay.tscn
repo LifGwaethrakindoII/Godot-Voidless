@@ -1,0 +1,298 @@
+[gd_scene format=3 uid="uid://d4in3a21npabw"]
+
+[ext_resource type="Script" uid="uid://bmrsnpmgnmurn" path="res://Scripts/PONG/PongGameplayManager.cs" id="1_mofsa"]
+[ext_resource type="Script" uid="uid://duhebojq28m8e" path="res://Scripts/PONG/PongBackground.cs" id="1_tdndw"]
+[ext_resource type="PackedScene" uid="uid://deuv5uv372pp8" path="res://Scenes/Pong/Nodes/PongPaddle.tscn" id="2_ovofm"]
+[ext_resource type="Script" uid="uid://bbsfebupb01cx" path="res://Scripts/PONG/PongPlayerPaddleController.cs" id="3_mofsa"]
+[ext_resource type="Script" uid="uid://bs7lieb3upcc7" path="res://Scripts/PONG/PongBall.cs" id="4_ovofm"]
+[ext_resource type="Script" uid="uid://cxouy4qwdy3vu" path="res://Scripts/PONG/PongAIPaddleController.cs" id="6_u8j7u"]
+[ext_resource type="Script" uid="uid://cpf28jw73rjqv" path="res://Scripts/PONG/PongGameplayUIController.cs" id="7_xwjbm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pskrv"]
+size = Vector2(960, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ovofm"]
+size = Vector2(20, 760)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mofsa"]
+
+[node name="Gameplay" type="Node2D" unique_id=1947575392 node_paths=PackedStringArray("ball", "leftPaddle", "rightPaddle", "leftArea", "rightArea", "UIController", "playerPaddleController", "AIPaddleController")]
+script = ExtResource("1_mofsa")
+ball = NodePath("Ball")
+leftPaddle = NodePath("Paddle_Left")
+rightPaddle = NodePath("Paddle_Right")
+leftArea = NodePath("Court/WallsContainer/Area2D_Goal_Left")
+rightArea = NodePath("Court/WallsContainer/Area2D_Goal_Right")
+UIController = NodePath("GameplayUIController")
+playerPaddleController = NodePath("PlayerPaddleController")
+AIPaddleController = NodePath("AIPaddleController")
+
+[node name="PlayerPaddleController" type="Node2D" parent="." unique_id=881763969 node_paths=PackedStringArray("playerPaddle")]
+script = ExtResource("3_mofsa")
+playerPaddle = NodePath("../Paddle_Left")
+
+[node name="AIPaddleController" type="Node2D" parent="." unique_id=1380323195 node_paths=PackedStringArray("paddle", "ball")]
+script = ExtResource("6_u8j7u")
+paddle = NodePath("../Paddle_Right")
+ball = NodePath("../Ball")
+reactionTime = 0.07
+_debug = true
+
+[node name="GameplayUIController" type="CanvasLayer" parent="." unique_id=1774141086 node_paths=PackedStringArray("debugCheckbox", "AIModeDropdown", "difficultyDropdown", "timeScalarSlider", "paddleSpeedSlider", "ballSpeedSlider", "resetGameButton", "resetParametersButton", "timeScalarLabel", "paddleSpeedLabel", "ballSpeedLabel")]
+offset = Vector2(-20, 20)
+transform = Transform2D(1, 0, 0, 1, -20, 20)
+follow_viewport_scale = 0.001
+script = ExtResource("7_xwjbm")
+debugCheckbox = NodePath("MarginContainer/VBoxContainer/CheckButton_Debug")
+AIModeDropdown = NodePath("MarginContainer/VBoxContainer/HBoxContainer_AIModeDropdown/OptionButton_Difficulty")
+difficultyDropdown = NodePath("MarginContainer/VBoxContainer/HBoxContainer_DifficultyDropdown/OptionButton_Difficulty")
+timeScalarSlider = NodePath("MarginContainer/VBoxContainer/HBoxContainer_TimeScalarSpeedSlider/HSlider_TimeScalar")
+paddleSpeedSlider = NodePath("MarginContainer/VBoxContainer/HBoxContainer_PaddleSpeedSlider/HSlider_PaddleSpeed")
+ballSpeedSlider = NodePath("MarginContainer/VBoxContainer/HBoxContainer_BallSpeedSlider/HSlider_TimeScalar")
+resetGameButton = NodePath("MarginContainer/VBoxContainer/Button_ResetGame")
+resetParametersButton = NodePath("MarginContainer/VBoxContainer/Button_ResetParameters")
+timeScalarLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer_TimeScalarSpeedSlider/Label_ScalarValue")
+paddleSpeedLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer_PaddleSpeedSlider/Label_ScalarValue")
+ballSpeedLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer_BallSpeedSlider/Label_ScalarValue")
+
+[node name="MarginContainer" type="MarginContainer" parent="GameplayUIController" unique_id=1253478932]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -98.0
+offset_bottom = 121.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameplayUIController/MarginContainer" unique_id=1127339606]
+layout_mode = 2
+alignment = 1
+
+[node name="CheckButton_Debug" type="CheckButton" parent="GameplayUIController/MarginContainer/VBoxContainer" unique_id=1822340981]
+layout_mode = 2
+text = "Debug"
+
+[node name="HBoxContainer_AIModeDropdown" type="HBoxContainer" parent="GameplayUIController/MarginContainer/VBoxContainer" unique_id=630071411]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_AIModeDropdown" unique_id=109651628]
+layout_mode = 2
+text = "Difficulty: "
+
+[node name="OptionButton_Difficulty" type="OptionButton" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_AIModeDropdown" unique_id=465449506]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Scripted"
+popup/item_0/id = 0
+popup/item_1/text = "Neural Networks"
+popup/item_1/id = 1
+
+[node name="HBoxContainer_DifficultyDropdown" type="HBoxContainer" parent="GameplayUIController/MarginContainer/VBoxContainer" unique_id=1812165460]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_DifficultyDropdown" unique_id=1994057302]
+layout_mode = 2
+text = "Difficulty: "
+
+[node name="OptionButton_Difficulty" type="OptionButton" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_DifficultyDropdown" unique_id=1478899837]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "Easy"
+popup/item_0/id = 0
+popup/item_1/text = "Normal"
+popup/item_1/id = 1
+popup/item_2/text = "Hard"
+popup/item_2/id = 2
+
+[node name="HBoxContainer_TimeScalarSpeedSlider" type="HBoxContainer" parent="GameplayUIController/MarginContainer/VBoxContainer" unique_id=443742034]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="Label_SliderTitle" type="Label" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_TimeScalarSpeedSlider" unique_id=1765062558]
+layout_mode = 2
+text = "Time Scalar: "
+
+[node name="HSlider_TimeScalar" type="HSlider" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_TimeScalarSpeedSlider" unique_id=64527382]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+max_value = 10.0
+
+[node name="Label_ScalarValue" type="Label" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_TimeScalarSpeedSlider" unique_id=1121778530]
+layout_mode = 2
+text = "0.0"
+
+[node name="HBoxContainer_PaddleSpeedSlider" type="HBoxContainer" parent="GameplayUIController/MarginContainer/VBoxContainer" unique_id=1274534743]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="Label_SliderTitle" type="Label" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_PaddleSpeedSlider" unique_id=546705946]
+layout_mode = 2
+text = "Paddle Speed: "
+
+[node name="HSlider_PaddleSpeed" type="HSlider" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_PaddleSpeedSlider" unique_id=131476026]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+max_value = 1000.0
+
+[node name="Label_ScalarValue" type="Label" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_PaddleSpeedSlider" unique_id=1819384133]
+layout_mode = 2
+text = "0.0"
+
+[node name="HBoxContainer_BallSpeedSlider" type="HBoxContainer" parent="GameplayUIController/MarginContainer/VBoxContainer" unique_id=1212427041]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="Label_SliderTitle" type="Label" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_BallSpeedSlider" unique_id=1077321649]
+layout_mode = 2
+text = "Ball Speed: "
+
+[node name="HSlider_TimeScalar" type="HSlider" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_BallSpeedSlider" unique_id=1306440615]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+max_value = 1000.0
+
+[node name="Label_ScalarValue" type="Label" parent="GameplayUIController/MarginContainer/VBoxContainer/HBoxContainer_BallSpeedSlider" unique_id=1840311645]
+layout_mode = 2
+text = "0.0"
+
+[node name="Button_ResetGame" type="Button" parent="GameplayUIController/MarginContainer/VBoxContainer" unique_id=1671548818]
+layout_mode = 2
+text = "Reset Game"
+
+[node name="Button_ResetParameters" type="Button" parent="GameplayUIController/MarginContainer/VBoxContainer" unique_id=362200933]
+layout_mode = 2
+text = "Reset Parameters"
+
+[node name="Background" type="ColorRect" parent="." unique_id=1206328785]
+custom_minimum_size = Vector2(1280, 720)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_tdndw")
+metadata/_edit_use_anchors_ = true
+
+[node name="Court" type="Node2D" parent="." unique_id=1317545166]
+
+[node name="MiddleLineContainer" type="Node2D" parent="Court" unique_id=1274738155]
+position = Vector2(-160, -400)
+
+[node name="MiddleLine_1" type="Line2D" parent="Court/MiddleLineContainer" unique_id=331689129]
+position = Vector2(0, 20)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_2" type="Line2D" parent="Court/MiddleLineContainer" unique_id=1419823062]
+position = Vector2(0, 80)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_3" type="Line2D" parent="Court/MiddleLineContainer" unique_id=927694283]
+position = Vector2(0, 140)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_4" type="Line2D" parent="Court/MiddleLineContainer" unique_id=1789382362]
+position = Vector2(0, 200)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_5" type="Line2D" parent="Court/MiddleLineContainer" unique_id=1411869898]
+position = Vector2(0, 260)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_6" type="Line2D" parent="Court/MiddleLineContainer" unique_id=1788354938]
+position = Vector2(0, 320)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_7" type="Line2D" parent="Court/MiddleLineContainer" unique_id=556244532]
+position = Vector2(0, 380)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_8" type="Line2D" parent="Court/MiddleLineContainer" unique_id=606280706]
+position = Vector2(0, 440)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_9" type="Line2D" parent="Court/MiddleLineContainer" unique_id=813164676]
+position = Vector2(0, 500)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_10" type="Line2D" parent="Court/MiddleLineContainer" unique_id=67880974]
+position = Vector2(0, 560)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_11" type="Line2D" parent="Court/MiddleLineContainer" unique_id=947268943]
+position = Vector2(0, 620)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_12" type="Line2D" parent="Court/MiddleLineContainer" unique_id=499984169]
+position = Vector2(0, 680)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="MiddleLine_13" type="Line2D" parent="Court/MiddleLineContainer" unique_id=226638164]
+position = Vector2(0, 740)
+points = PackedVector2Array(0, 0, 0, 40)
+
+[node name="WallsContainer" type="Node2D" parent="Court" unique_id=699493747]
+
+[node name="Wall_Top" type="StaticBody2D" parent="Court/WallsContainer" unique_id=950149517]
+position = Vector2(-160, -370)
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Court/WallsContainer/Wall_Top" unique_id=177950686]
+shape = SubResource("RectangleShape2D_pskrv")
+
+[node name="Wall_Bottom" type="StaticBody2D" parent="Court/WallsContainer" unique_id=1093040869]
+position = Vector2(-160, 370)
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Court/WallsContainer/Wall_Bottom" unique_id=1670247641]
+shape = SubResource("RectangleShape2D_pskrv")
+
+[node name="Area2D_Goal_Left" type="Area2D" parent="Court/WallsContainer" unique_id=435187206]
+position = Vector2(-650, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Court/WallsContainer/Area2D_Goal_Left" unique_id=1477678040]
+shape = SubResource("RectangleShape2D_ovofm")
+
+[node name="Area2D_Goal_Right" type="Area2D" parent="Court/WallsContainer" unique_id=1218329573]
+position = Vector2(330, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Court/WallsContainer/Area2D_Goal_Right" unique_id=113403120]
+shape = SubResource("RectangleShape2D_ovofm")
+
+[node name="Paddle_Left" parent="." unique_id=62696668 instance=ExtResource("2_ovofm")]
+position = Vector2(-600, 0)
+
+[node name="Paddle_Right" parent="." unique_id=1744542670 instance=ExtResource("2_ovofm")]
+position = Vector2(280, 0)
+rotation = -3.1415925
+
+[node name="Ball" type="CharacterBody2D" parent="." unique_id=1016707888]
+position = Vector2(-160, 0)
+collision_mask = 7
+script = ExtResource("4_ovofm")
+speed = 700.0
+distanceInfluence = 0.2
+speedBoost = 0.05
+
+[node name="Polygon2D" type="Polygon2D" parent="Ball" unique_id=2020155208]
+offset = Vector2(-10, -10)
+polygon = PackedVector2Array(0, 0, 20, 0, 20, 20, 0, 20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball" unique_id=1709730261]
+shape = SubResource("RectangleShape2D_mofsa")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1066304099]

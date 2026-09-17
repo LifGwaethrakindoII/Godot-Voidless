@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://deuv5uv372pp8"]
+
+[ext_resource type="Script" uid="uid://cxpowr1rfuk2f" path="res://Scripts/PONG/PongPaddle.cs" id="1_5dpbw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k2aq1"]
+size = Vector2(20, 150)
+
+[node name="Paddle" type="CharacterBody2D" unique_id=62696668]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_5dpbw")
+speed = 700.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1297050202]
+shape = SubResource("RectangleShape2D_k2aq1")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1267347979]
+offset = Vector2(-10, -75)
+polygon = PackedVector2Array(0, 0, 20, 0, 20, 150, 0, 150)

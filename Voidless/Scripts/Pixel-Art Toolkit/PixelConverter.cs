@@ -30,6 +30,8 @@ namespace Voidless.PixelArtToolkit
         private const float DIMENSION_SWATCH = 24.0f;
         private const int MAX_PALETTECOLORS = 256;
 
+        [ExportCategory("Controls:")]
+        [Export] private EnhancementsControl enhancementsControl;
         [ExportCategory("UI Containers:")]
         [Export] private MarginContainer appMargins;
         [Export] private BoxContainer baseLayout;
@@ -137,10 +139,10 @@ namespace Voidless.PixelArtToolkit
             configFile = new ConfigFile();
             settings = new Settings();
             popUp.Visible = false;
-            SetupFloatRange(contrastSlider);
+            /*SetupFloatRange(contrastSlider);
             SetupFloatRange(brightnessSlider);
             SetupFloatRange(contrastSpinBox);
-            SetupFloatRange(brightnessSpinBox);
+            SetupFloatRange(brightnessSpinBox);*/
             SetupFloatRange(widthSpinBox, 0.0f, Mathf.Inf);
             SetupFloatRange(heightSpinBox, 0.0f, Mathf.Inf);
             SetupFloatRange(ditheringStrengthSlider, 0.0f);
@@ -152,11 +154,11 @@ namespace Voidless.PixelArtToolkit
             processButton.Pressed += OnProcessPressed;
             loadImageFileDialog.FileSelected += OnImageFileSelected;
             showSourceCheck.Toggled += OnPreviewToggled;
-            contrastSlider.ValueChanged += OnContrastSliderValueChanged;
-            brightnessSlider.ValueChanged += OnBrightnessSliderValueChanged;
+            /*contrastSlider.ValueChanged += OnContrastSliderValueChanged;
+            brightnessSlider.ValueChanged += OnBrightnessSliderValueChanged;*/
             ditheringStrengthSlider.ValueChanged += OnDitheringSliderValueChanged;
-            brightnessSpinBox.ValueChanged += OnBrightnessSpinBoxValueChanged;
-            contrastSpinBox.ValueChanged += OnContrastSpinBoxValueChanged;
+            /*brightnessSpinBox.ValueChanged += OnBrightnessSpinBoxValueChanged;
+            contrastSpinBox.ValueChanged += OnContrastSpinBoxValueChanged;*/
             widthSpinBox.ValueChanged += OnWidthSpinBoxValueChanged;
             heightSpinBox.ValueChanged += OnHeightSpinBoxValueChanged;
             ditheringStrenthSpinBox.ValueChanged += OnDitheringSpinBoxValueChanged;
@@ -365,8 +367,8 @@ namespace Voidless.PixelArtToolkit
             processedImage = processedImage.NearestNeighborScale(width, height);
             processedImage.ApplyModifications
             (
-                img => VColor.Brightness(img, brightness / MAX_RANGEVALUE),
-                img => VColor.Contrast(img, contrast / MAX_RANGEVALUE)
+                img => VColor.Brightness(img, enhancementsControl.Brightness),
+                img => VColor.Contrast(img, enhancementsControl.Contrast)
             );
             //processedImage = VImage.ApplyPalette(processedImage, VColor.PALETTE_GAMEBOY);
             float s = settings.DitheringStrength / MAX_RANGEVALUE;

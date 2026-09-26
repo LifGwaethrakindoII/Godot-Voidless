@@ -26,14 +26,16 @@ namespace Voidless.PixelArtToolkit
 
         public override void _Ready()
         {
-            contrastSpinBox.SetupNormalized(Constants.STEP_RANGE, false, contrastSlider);
-            brightnessSpinBox.SetupNormalized(Constants.STEP_RANGE, false, brightnessSlider);
+            contrastSpinBox.SetupNormalized(Constants.STEP_RANGE, true, contrastSlider);
+            brightnessSpinBox.SetupNormalized(Constants.STEP_RANGE, true, brightnessSlider);
 
             darkOutlineCheckButton.Toggled += OnDarkOutlineCheckBoxToggled;
             contrastSlider.ValueChanged += OnContrastSliderValueChanged;
             brightnessSlider.ValueChanged += OnBrightnessSliderValueChanged;
             brightnessSpinBox.ValueChanged += OnBrightnessSpinBoxValueChanged;
             contrastSpinBox.ValueChanged += OnContrastSpinBoxValueChanged;
+
+            GD.Print(contrastSpinBox.RangeToString());
         }
 
         private void InvokeSignal() { if(OnChanged != null) OnChanged(); }

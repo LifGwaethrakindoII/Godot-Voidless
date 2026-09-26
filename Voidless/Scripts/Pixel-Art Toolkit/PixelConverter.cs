@@ -8,13 +8,6 @@ using Range = Godot.Range;
 
 namespace Voidless.PixelArtToolkit
 {
-    public enum DitheringType { None, Ordered, Floyd_S }
-
-    public enum ColorPaletteType { AutoExtract, DefinedPreset, CustomPreset }
-
-    // Hybrid = Octree + K-Means
-    public enum ColorExtractionMethod { Octree, MedianCut, KMeans, Hybrid }
-
     public partial class PixelConverter : Control
     {
         private static readonly string[] FILTERS_IMAGES;
@@ -33,6 +26,7 @@ namespace Voidless.PixelArtToolkit
         [ExportCategory("Controls:")]
         [Export] private EnhancementsControl enhancementsControl;
         [Export] private DimensionsControl dimensionsControl;
+        [Export] private DitheringControl ditheringControl;
         [ExportCategory("UI Containers:")]
         [Export] private MarginContainer appMargins;
         [Export] private BoxContainer baseLayout;
@@ -146,8 +140,8 @@ namespace Voidless.PixelArtToolkit
             SetupFloatRange(brightnessSpinBox);*/
             /*SetupFloatRange(widthSpinBox, 0.0f, Mathf.Inf);
             SetupFloatRange(heightSpinBox, 0.0f, Mathf.Inf);*/
-            SetupFloatRange(ditheringStrengthSlider, 0.0f);
-            SetupFloatRange(ditheringStrenthSpinBox, 0.0f);
+            /*SetupFloatRange(ditheringStrengthSlider, 0.0f);
+            SetupFloatRange(ditheringStrenthSpinBox, 0.0f);*/
             SetupIntRange(paletteColorLimitSpinBox);
 
             GetTree().Root.SizeChanged += OnViewportResized;
@@ -157,15 +151,15 @@ namespace Voidless.PixelArtToolkit
             showSourceCheck.Toggled += OnPreviewToggled;
             /*contrastSlider.ValueChanged += OnContrastSliderValueChanged;
             brightnessSlider.ValueChanged += OnBrightnessSliderValueChanged;*/
-            ditheringStrengthSlider.ValueChanged += OnDitheringSliderValueChanged;
+            //ditheringStrengthSlider.ValueChanged += OnDitheringSliderValueChanged;
             /*brightnessSpinBox.ValueChanged += OnBrightnessSpinBoxValueChanged;
             contrastSpinBox.ValueChanged += OnContrastSpinBoxValueChanged;*/
             /*widthSpinBox.ValueChanged += OnWidthSpinBoxValueChanged;
             heightSpinBox.ValueChanged += OnHeightSpinBoxValueChanged;*/
-            ditheringStrenthSpinBox.ValueChanged += OnDitheringSpinBoxValueChanged;
+            //ditheringStrenthSpinBox.ValueChanged += OnDitheringSpinBoxValueChanged;
             paletteColorLimitSpinBox.ValueChanged += OnPaletteLimitSpinBoxValueChanged;
             //proportionalEditingCheckBox.Toggled += OnProportionalEditingCheckBoxToggled;
-            ditheringTypeDropdown.ItemSelected += OnDitheringTypeOptionSelected;
+            //ditheringTypeDropdown.ItemSelected += OnDitheringTypeOptionSelected;
             colorPaletteTypeDropdown.ItemSelected += OnColorPaletteTypeOptionSelected;
             definedColorPaletteDropdown.ItemSelected += OnDefinedPaletteOptionSelected;
             customColorPaletteDropdown.ItemSelected += OnCustomPaletteOptionSelected;
@@ -372,9 +366,9 @@ namespace Voidless.PixelArtToolkit
                 img => VColor.Contrast(img, enhancementsControl.Contrast)
             );
             //processedImage = VImage.ApplyPalette(processedImage, VColor.PALETTE_GAMEBOY);
-            float s = settings.DitheringStrength / MAX_RANGEVALUE;
+            float s = ditheringControl.Strength;
 
-            switch(settings.DitheringType)
+            switch(ditheringControl.DitheringType)
             {
                 case DitheringType.None:
                     processedImage.ApplyPalette(palette);

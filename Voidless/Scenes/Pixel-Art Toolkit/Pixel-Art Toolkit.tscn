@@ -4,11 +4,12 @@
 [ext_resource type="Script" uid="uid://7tpm6bdnvcsg" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/EnhancementsControl.cs" id="2_5xjmc"]
 [ext_resource type="Script" uid="uid://cncwd1atg2l3t" path="res://Voidless/Scripts/UI/DisplayDialogue.cs" id="2_p2vgv"]
 [ext_resource type="Script" uid="uid://d3m4b171tbn61" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/DimensionsControl.cs" id="3_de1ei"]
+[ext_resource type="Script" uid="uid://b1m6p65xju4fm" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/DitheringControl.cs" id="4_ilx1j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2vgv"]
 bg_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 
-[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("enhancementsControl", "dimensionsControl", "appMargins", "baseLayout", "canvasPanel", "autoExtractPaletteContainer", "definedPresetPaletteContainer", "customPresetPaletteContainer", "definedPaletteFlowContainer", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "loadImageButton", "processButton", "squareDimensionButton8", "squareDimensionButton16", "squareDimensionButton32", "squareDimensionButton64", "squareDimensionButton128", "squareDimensionButton256", "paletteLimitButton8", "paletteLimitButton16", "paletteLimitButton32", "paletteLimitButton64", "paletteLimitButton128", "paletteLimitButton256", "contrastSlider", "brightnessSlider", "ditheringStrengthSlider", "contrastSpinBox", "brightnessSpinBox", "widthSpinBox", "heightSpinBox", "ditheringStrenthSpinBox", "paletteColorLimitSpinBox", "ditheringTypeDropdown", "colorPaletteTypeDropdown", "definedColorPaletteDropdown", "customColorPaletteDropdown", "extractionMethodDropdown", "proportionalEditingCheckBox", "showSourceCheck")]
+[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("enhancementsControl", "dimensionsControl", "ditheringControl", "appMargins", "baseLayout", "canvasPanel", "autoExtractPaletteContainer", "definedPresetPaletteContainer", "customPresetPaletteContainer", "definedPaletteFlowContainer", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "loadImageButton", "processButton", "squareDimensionButton8", "squareDimensionButton16", "squareDimensionButton32", "squareDimensionButton64", "squareDimensionButton128", "squareDimensionButton256", "paletteLimitButton8", "paletteLimitButton16", "paletteLimitButton32", "paletteLimitButton64", "paletteLimitButton128", "paletteLimitButton256", "contrastSlider", "brightnessSlider", "ditheringStrengthSlider", "contrastSpinBox", "brightnessSpinBox", "widthSpinBox", "heightSpinBox", "ditheringStrenthSpinBox", "paletteColorLimitSpinBox", "ditheringTypeDropdown", "colorPaletteTypeDropdown", "definedColorPaletteDropdown", "customColorPaletteDropdown", "extractionMethodDropdown", "proportionalEditingCheckBox", "showSourceCheck")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,6 +19,7 @@ grow_vertical = 2
 script = ExtResource("1_5p8kf")
 enhancementsControl = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements")
 dimensionsControl = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions")
+ditheringControl = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering")
 appMargins = NodePath("AppMargins")
 baseLayout = NodePath("AppMargins/BaseLayout")
 canvasPanel = NodePath("AppMargins/BaseLayout/CanvasPanel")
@@ -46,14 +48,14 @@ paletteLimitButton128 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsL
 paletteLimitButton256 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_256")
 contrastSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HSlider_Contrast")
 brightnessSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HSlider_Brightness")
-ditheringStrengthSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength/VBoxContainer_DitheringStrength/HSlider_DitheringStrength")
+ditheringStrengthSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HSlider_DitheringStrength")
 contrastSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings/SpinBox_Contrast")
 brightnessSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings/SpinBox_Brightness")
 widthSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings/SpinBox_Width")
 heightSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings/SpinBox_Height")
-ditheringStrenthSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength/SpinBox_DitheringStrength")
+ditheringStrenthSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength/SpinBox_DitheringStrength")
 paletteColorLimitSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_MaxColorPaletteColors/SpinBox_MaxColorPaletteColors")
-ditheringTypeDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_Dithering/OptionButton_DitheringType")
+ditheringTypeDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/HBoxContainer_Dithering/OptionButton_DitheringType")
 colorPaletteTypeDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_PaletteType/OptionButton_PaletteType")
 definedColorPaletteDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DefinedPresetPaletteType/VBoxContainer/HBoxContainer_DefinedPalette/OptionButton_DefinedPalette")
 customColorPaletteDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette/OptionButton_CustomPalette")
@@ -140,7 +142,7 @@ text = "Load Image"
 layout_mode = 2
 text = "Process & Export"
 
-[node name="HSeparator" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=300633798]
+[node name="HSeparator_0" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=300633798]
 layout_mode = 2
 
 [node name="MarginContainer_Enhancements" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1440292536 node_paths=PackedStringArray("darkOutlineCheckButton", "contrastSpinBox", "brightnessSpinBox", "contrastSlider", "brightnessSlider")]
@@ -200,7 +202,7 @@ layout_mode = 2
 layout_mode = 2
 min_value = -100.0
 
-[node name="HSeparator_0" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=841757826]
+[node name="HSeparator_1" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=841757826]
 layout_mode = 2
 
 [node name="MarginContainer_Dimensions" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=412454544 node_paths=PackedStringArray("proportionalEditingCheckBox", "widthSpinBox", "heightSpinBox", "squareDimensionButton8", "squareDimensionButton16", "squareDimensionButton32", "squareDimensionButton64", "squareDimensionButton128", "squareDimensionButton256")]
@@ -272,21 +274,32 @@ text = "128"
 layout_mode = 2
 text = "256"
 
-[node name="HSeparator3" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=151003091]
+[node name="HSeparator_2" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=151003091]
 layout_mode = 2
 
-[node name="Label_Dithering" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=323246854]
+[node name="MarginContainer_Dithering" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1805005140 node_paths=PackedStringArray("strengthSliderContainer", "ditheringTypeDropdown", "strengthSpinBox", "strengthSlider")]
+layout_mode = 2
+script = ExtResource("4_ilx1j")
+strengthSliderContainer = NodePath("VBoxContainer_Dithering/MarginContainer_DitheringStrength")
+ditheringTypeDropdown = NodePath("VBoxContainer_Dithering/HBoxContainer_Dithering/OptionButton_DitheringType")
+strengthSpinBox = NodePath("VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength/SpinBox_DitheringStrength")
+strengthSlider = NodePath("VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HSlider_DitheringStrength")
+
+[node name="VBoxContainer_Dithering" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering" unique_id=121219073]
+layout_mode = 2
+
+[node name="Label_Dithering" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=323246854]
 layout_mode = 2
 text = "Dithering:"
 
-[node name="HBoxContainer_Dithering" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=618159807]
+[node name="HBoxContainer_Dithering" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=618159807]
 layout_mode = 2
 
-[node name="Label_DitheringMode" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_Dithering" unique_id=1591884188]
+[node name="Label_DitheringMode" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/HBoxContainer_Dithering" unique_id=1591884188]
 layout_mode = 2
 text = "Mode: "
 
-[node name="OptionButton_DitheringType" type="OptionButton" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_Dithering" unique_id=1488940075]
+[node name="OptionButton_DitheringType" type="OptionButton" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/HBoxContainer_Dithering" unique_id=1488940075]
 layout_mode = 2
 selected = 0
 item_count = 3
@@ -297,23 +310,23 @@ popup/item_1/id = 1
 popup/item_2/text = "Floyd-S"
 popup/item_2/id = 2
 
-[node name="PanelContainer_DitheringStrength" type="PanelContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1878537002]
+[node name="MarginContainer_DitheringStrength" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=1900719296]
 layout_mode = 2
 
-[node name="VBoxContainer_DitheringStrength" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength" unique_id=1464010935]
+[node name="VBoxContainer_DitheringStrength" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength" unique_id=1464010935]
 layout_mode = 2
 
-[node name="HBoxContainer_DitheringStrength" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength/VBoxContainer_DitheringStrength" unique_id=582729418]
+[node name="HBoxContainer_DitheringStrength" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength" unique_id=582729418]
 layout_mode = 2
 
-[node name="Label_DitheringStrength" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength" unique_id=416730398]
+[node name="Label_DitheringStrength" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength" unique_id=416730398]
 layout_mode = 2
 text = "Strength: "
 
-[node name="SpinBox_DitheringStrength" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength" unique_id=1741529233]
+[node name="SpinBox_DitheringStrength" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength" unique_id=1741529233]
 layout_mode = 2
 
-[node name="HSlider_DitheringStrength" type="HSlider" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength/VBoxContainer_DitheringStrength" unique_id=1958471745]
+[node name="HSlider_DitheringStrength" type="HSlider" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength" unique_id=1958471745]
 layout_mode = 2
 
 [node name="HSeparator4" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=992337203]

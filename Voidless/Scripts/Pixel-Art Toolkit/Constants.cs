@@ -3,6 +3,13 @@ using System;
 
 namespace Voidless.PixelArtToolkit
 {
+    public enum DitheringType { None, Ordered, Floyd_S }
+
+    public enum ColorPaletteType { AutoExtract, DefinedPreset, CustomPreset }
+
+    // Hybrid = Octree + K-Means
+    public enum ColorExtractionMethod { Octree, MedianCut, KMeans, Hybrid }
+    
     public static class Constants
     {
         public static readonly string[] FILTERS_IMAGES;

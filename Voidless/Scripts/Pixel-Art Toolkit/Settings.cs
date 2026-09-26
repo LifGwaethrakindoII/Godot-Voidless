@@ -4,7 +4,7 @@ using System;
 namespace Voidless.PixelArtToolkit
 {
     [Serializable]
-    public struct PixelArtToolkitSettings
+    public struct Settings
     {
         // --- Enhancements ---
         public bool EnhanceEdges { get; set; }
@@ -31,9 +31,9 @@ namespace Voidless.PixelArtToolkit
         public DitheringType DitheringType { get; set; }
         public ColorExtractionMethod ColorExtractionMethod { get; set; }
 
-        public static PixelArtToolkitSettings Default()
+        public static Settings Default()
         {
-            return new PixelArtToolkitSettings
+            return new Settings
             {
                 EnhanceEdges = false,
                 DarkOutline = false,

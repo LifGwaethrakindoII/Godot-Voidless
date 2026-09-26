@@ -15,7 +15,7 @@ namespace Voidless.PixelArtToolkit
     // Hybrid = Octree + K-Means
     public enum ColorExtractionMethod { Octree, MedianCut, KMeans, Hybrid }
 
-    public partial class PixelArtToolkitController : Control
+    public partial class PixelConverter : Control
     {
         private static readonly string[] FILTERS_IMAGES;
         private static readonly string[] FILTERS_COLORPALETTES;
@@ -83,7 +83,7 @@ namespace Voidless.PixelArtToolkit
         private Image sourceImage;
         private Image processedImage;
         private ConfigFile configFile;
-        private PixelArtToolkitSettings settings;
+        private Settings settings;
         private Color[] palette;
         private ColorPalette CGAColorPalette;
         private ColorPalette EGAColorPalette;
@@ -105,7 +105,7 @@ namespace Voidless.PixelArtToolkit
         private bool isLandscape;
         private bool hasProcessed;
 
-        static PixelArtToolkitController()
+        static PixelConverter()
         {
             FILTERS_IMAGES = new string[] { "*.png", "*.jpg", "*.jprg" };
             FILTERS_COLORPALETTES = new string[] { "*.tres", "*.res" };
@@ -135,7 +135,7 @@ namespace Voidless.PixelArtToolkit
         public override void _Ready()
         {
             configFile = new ConfigFile();
-            settings = new PixelArtToolkitSettings();
+            settings = new Settings();
             popUp.Visible = false;
             SetupFloatRange(contrastSlider);
             SetupFloatRange(brightnessSlider);

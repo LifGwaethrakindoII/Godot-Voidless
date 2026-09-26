@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dfu84c3lxs4bm"]
 
-[ext_resource type="Script" uid="uid://bj724ydidcfx" path="res://Voidless/Scripts/Pixel-Art Toolkit/PixelArtToolkitController.cs" id="1_5p8kf"]
+[ext_resource type="Script" uid="uid://bj724ydidcfx" path="res://Voidless/Scripts/Pixel-Art Toolkit/PixelConverter.cs" id="1_5p8kf"]
+[ext_resource type="Script" uid="uid://7tpm6bdnvcsg" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/EnhancementsControl.cs" id="2_5xjmc"]
 [ext_resource type="Script" uid="uid://cncwd1atg2l3t" path="res://Voidless/Scripts/UI/DisplayDialogue.cs" id="2_p2vgv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2vgv"]
@@ -40,11 +41,11 @@ paletteLimitButton32 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsLi
 paletteLimitButton64 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_64")
 paletteLimitButton128 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_128")
 paletteLimitButton256 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_256")
-contrastSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HSlider_Contrast")
-brightnessSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HSlider_Brightness")
+contrastSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HSlider_Contrast")
+brightnessSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HSlider_Brightness")
 ditheringStrengthSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength/VBoxContainer_DitheringStrength/HSlider_DitheringStrength")
-contrastSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_ContrastSettings/SpinBox_Contrast")
-brightnessSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_BrightnessSettings/SpinBox_Brightness")
+contrastSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings/SpinBox_Contrast")
+brightnessSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings/SpinBox_Brightness")
 widthSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_DimensionSettings/SpinBox_Width")
 heightSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_DimensionSettings/SpinBox_Height")
 ditheringStrenthSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength/SpinBox_DitheringStrength")
@@ -55,7 +56,7 @@ definedColorPaletteDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/Con
 customColorPaletteDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette/OptionButton_CustomPalette")
 extractionMethodDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_ExtractionMethod/OptionButton_ExtractionMethod")
 proportionalEditingCheckBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/CheckBox_ProportionalEditing")
-showSourceCheck = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/CheckButton_DarkEdge")
+showSourceCheck = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/CheckButton_DarkEdge")
 
 [node name="Background" type="ColorRect" parent="." unique_id=2080152795]
 layout_mode = 1
@@ -139,52 +140,64 @@ text = "Process & Export"
 [node name="HSeparator" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=300633798]
 layout_mode = 2
 
-[node name="Label_Enhancements" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=2142551607]
+[node name="MarginContainer_Enhancements" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1440292536 node_paths=PackedStringArray("darkOutlineCheckButton", "contrastSpinBox", "brightnessSpinBox", "contrastSlider", "brightnessSlider")]
+layout_mode = 2
+script = ExtResource("2_5xjmc")
+darkOutlineCheckButton = NodePath("VBoxContainer_Enhancements/CheckButton_DarkEdge")
+contrastSpinBox = NodePath("VBoxContainer_Enhancements/HBoxContainer_ContrastSettings/SpinBox_Contrast")
+brightnessSpinBox = NodePath("VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings/SpinBox_Brightness")
+contrastSlider = NodePath("VBoxContainer_Enhancements/HSlider_Contrast")
+brightnessSlider = NodePath("VBoxContainer_Enhancements/HSlider_Brightness")
+
+[node name="VBoxContainer_Enhancements" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements" unique_id=447406116]
+layout_mode = 2
+
+[node name="Label_Enhancements" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=2142551607]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Enhancements"
 
-[node name="CheckButton_DarkEdge" type="CheckButton" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1662301872]
+[node name="CheckButton_DarkEdge" type="CheckButton" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1662301872]
 layout_mode = 2
 text = "Dark Outline"
 
-[node name="HBoxContainer_ContrastSettings" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1971584178]
+[node name="HBoxContainer_ContrastSettings" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1971584178]
 layout_mode = 2
 
-[node name="Label_Contrast" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_ContrastSettings" unique_id=1905424440]
+[node name="Label_Contrast" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings" unique_id=1905424440]
 layout_mode = 2
 text = "Contrast: "
 
-[node name="LineEdit_Contrast" type="LineEdit" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_ContrastSettings" unique_id=399028727]
+[node name="LineEdit_Contrast" type="LineEdit" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings" unique_id=399028727]
 visible = false
 layout_mode = 2
 
-[node name="SpinBox_Contrast" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_ContrastSettings" unique_id=179846709]
+[node name="SpinBox_Contrast" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings" unique_id=179846709]
 layout_mode = 2
 
-[node name="HSlider_Contrast" type="HSlider" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1756684763]
+[node name="HSlider_Contrast" type="HSlider" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1756684763]
 layout_mode = 2
 min_value = -100.0
 
-[node name="HBoxContainer_BrightnessSettings" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=355553262]
+[node name="HBoxContainer_BrightnessSettings" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=355553262]
 layout_mode = 2
 
-[node name="Label_Brightness" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_BrightnessSettings" unique_id=2108254258]
+[node name="Label_Brightness" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings" unique_id=2108254258]
 layout_mode = 2
 text = "Brightness: "
 
-[node name="LineEdit_Brightness" type="LineEdit" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_BrightnessSettings" unique_id=560215138]
+[node name="LineEdit_Brightness" type="LineEdit" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings" unique_id=560215138]
 visible = false
 layout_mode = 2
 
-[node name="SpinBox_Brightness" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_BrightnessSettings" unique_id=13416511]
+[node name="SpinBox_Brightness" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings" unique_id=13416511]
 layout_mode = 2
 
-[node name="HSlider_Brightness" type="HSlider" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1237804574]
+[node name="HSlider_Brightness" type="HSlider" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1237804574]
 layout_mode = 2
 min_value = -100.0
 
-[node name="HSeparator2" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=841757826]
+[node name="HSeparator_0" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=841757826]
 layout_mode = 2
 
 [node name="Label_Dimensions" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=298415130]

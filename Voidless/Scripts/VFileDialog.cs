@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace Voidless
+namespace Voidless.UI
 {
     public static class VFileDialog
     {

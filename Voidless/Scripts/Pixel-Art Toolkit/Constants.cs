@@ -19,6 +19,7 @@ namespace Voidless.PixelArtToolkit
         public const float DIMENSION_SWATCH = 24.0f;
         public const double STEP_RANGE = 0.01;
         public const int MAX_PALETTECOLORS = 256;
+        public const int MAX_DIMENSION = 4096;
 
         static Constants()
         {

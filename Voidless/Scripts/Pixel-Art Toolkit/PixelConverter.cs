@@ -32,6 +32,7 @@ namespace Voidless.PixelArtToolkit
 
         [ExportCategory("Controls:")]
         [Export] private EnhancementsControl enhancementsControl;
+        [Export] private DimensionsControl dimensionsControl;
         [ExportCategory("UI Containers:")]
         [Export] private MarginContainer appMargins;
         [Export] private BoxContainer baseLayout;
@@ -143,8 +144,8 @@ namespace Voidless.PixelArtToolkit
             SetupFloatRange(brightnessSlider);
             SetupFloatRange(contrastSpinBox);
             SetupFloatRange(brightnessSpinBox);*/
-            SetupFloatRange(widthSpinBox, 0.0f, Mathf.Inf);
-            SetupFloatRange(heightSpinBox, 0.0f, Mathf.Inf);
+            /*SetupFloatRange(widthSpinBox, 0.0f, Mathf.Inf);
+            SetupFloatRange(heightSpinBox, 0.0f, Mathf.Inf);*/
             SetupFloatRange(ditheringStrengthSlider, 0.0f);
             SetupFloatRange(ditheringStrenthSpinBox, 0.0f);
             SetupIntRange(paletteColorLimitSpinBox);
@@ -159,22 +160,22 @@ namespace Voidless.PixelArtToolkit
             ditheringStrengthSlider.ValueChanged += OnDitheringSliderValueChanged;
             /*brightnessSpinBox.ValueChanged += OnBrightnessSpinBoxValueChanged;
             contrastSpinBox.ValueChanged += OnContrastSpinBoxValueChanged;*/
-            widthSpinBox.ValueChanged += OnWidthSpinBoxValueChanged;
-            heightSpinBox.ValueChanged += OnHeightSpinBoxValueChanged;
+            /*widthSpinBox.ValueChanged += OnWidthSpinBoxValueChanged;
+            heightSpinBox.ValueChanged += OnHeightSpinBoxValueChanged;*/
             ditheringStrenthSpinBox.ValueChanged += OnDitheringSpinBoxValueChanged;
             paletteColorLimitSpinBox.ValueChanged += OnPaletteLimitSpinBoxValueChanged;
-            proportionalEditingCheckBox.Toggled += OnProportionalEditingCheckBoxToggled;
+            //proportionalEditingCheckBox.Toggled += OnProportionalEditingCheckBoxToggled;
             ditheringTypeDropdown.ItemSelected += OnDitheringTypeOptionSelected;
             colorPaletteTypeDropdown.ItemSelected += OnColorPaletteTypeOptionSelected;
             definedColorPaletteDropdown.ItemSelected += OnDefinedPaletteOptionSelected;
             customColorPaletteDropdown.ItemSelected += OnCustomPaletteOptionSelected;
             extractionMethodDropdown.ItemSelected += OnExtractionMethodOptionSelected;
-            squareDimensionButton8.Pressed += ()=> OnSquareDimensionButtonPressed(8);
+            /*squareDimensionButton8.Pressed += ()=> OnSquareDimensionButtonPressed(8);
             squareDimensionButton16.Pressed += ()=> OnSquareDimensionButtonPressed(16);
             squareDimensionButton32.Pressed += ()=> OnSquareDimensionButtonPressed(32);
             squareDimensionButton64.Pressed += ()=> OnSquareDimensionButtonPressed(64);
             squareDimensionButton128.Pressed += ()=> OnSquareDimensionButtonPressed(128);
-            squareDimensionButton256.Pressed += ()=> OnSquareDimensionButtonPressed(256);
+            squareDimensionButton256.Pressed += ()=> OnSquareDimensionButtonPressed(256);*/
             paletteLimitButton8.Pressed += ()=> OnPaletteLimitButtonPressed(8);
             paletteLimitButton16.Pressed += ()=> OnPaletteLimitButtonPressed(16);
             paletteLimitButton32.Pressed += ()=> OnPaletteLimitButtonPressed(32);
@@ -364,7 +365,7 @@ namespace Voidless.PixelArtToolkit
             }
 
             processedImage = sourceImage.Duplicate() as Image;
-            processedImage = processedImage.NearestNeighborScale(width, height);
+            processedImage = processedImage.NearestNeighborScale(dimensionsControl.Width, dimensionsControl.Height);
             processedImage.ApplyModifications
             (
                 img => VColor.Brightness(img, enhancementsControl.Brightness),

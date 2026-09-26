@@ -3,11 +3,12 @@
 [ext_resource type="Script" uid="uid://bj724ydidcfx" path="res://Voidless/Scripts/Pixel-Art Toolkit/PixelConverter.cs" id="1_5p8kf"]
 [ext_resource type="Script" uid="uid://7tpm6bdnvcsg" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/EnhancementsControl.cs" id="2_5xjmc"]
 [ext_resource type="Script" uid="uid://cncwd1atg2l3t" path="res://Voidless/Scripts/UI/DisplayDialogue.cs" id="2_p2vgv"]
+[ext_resource type="Script" uid="uid://d3m4b171tbn61" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/DimensionsControl.cs" id="3_de1ei"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2vgv"]
 bg_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 
-[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("enhancementsControl", "appMargins", "baseLayout", "canvasPanel", "autoExtractPaletteContainer", "definedPresetPaletteContainer", "customPresetPaletteContainer", "definedPaletteFlowContainer", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "loadImageButton", "processButton", "squareDimensionButton8", "squareDimensionButton16", "squareDimensionButton32", "squareDimensionButton64", "squareDimensionButton128", "squareDimensionButton256", "paletteLimitButton8", "paletteLimitButton16", "paletteLimitButton32", "paletteLimitButton64", "paletteLimitButton128", "paletteLimitButton256", "contrastSlider", "brightnessSlider", "ditheringStrengthSlider", "contrastSpinBox", "brightnessSpinBox", "widthSpinBox", "heightSpinBox", "ditheringStrenthSpinBox", "paletteColorLimitSpinBox", "ditheringTypeDropdown", "colorPaletteTypeDropdown", "definedColorPaletteDropdown", "customColorPaletteDropdown", "extractionMethodDropdown", "proportionalEditingCheckBox", "showSourceCheck")]
+[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("enhancementsControl", "dimensionsControl", "appMargins", "baseLayout", "canvasPanel", "autoExtractPaletteContainer", "definedPresetPaletteContainer", "customPresetPaletteContainer", "definedPaletteFlowContainer", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "loadImageButton", "processButton", "squareDimensionButton8", "squareDimensionButton16", "squareDimensionButton32", "squareDimensionButton64", "squareDimensionButton128", "squareDimensionButton256", "paletteLimitButton8", "paletteLimitButton16", "paletteLimitButton32", "paletteLimitButton64", "paletteLimitButton128", "paletteLimitButton256", "contrastSlider", "brightnessSlider", "ditheringStrengthSlider", "contrastSpinBox", "brightnessSpinBox", "widthSpinBox", "heightSpinBox", "ditheringStrenthSpinBox", "paletteColorLimitSpinBox", "ditheringTypeDropdown", "colorPaletteTypeDropdown", "definedColorPaletteDropdown", "customColorPaletteDropdown", "extractionMethodDropdown", "proportionalEditingCheckBox", "showSourceCheck")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,6 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5p8kf")
 enhancementsControl = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements")
+dimensionsControl = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions")
 appMargins = NodePath("AppMargins")
 baseLayout = NodePath("AppMargins/BaseLayout")
 canvasPanel = NodePath("AppMargins/BaseLayout/CanvasPanel")
@@ -30,12 +32,12 @@ popUp = NodePath("PopUpPanel")
 loadImageFileDialog = NodePath("FileDialog_LoadImage")
 loadImageButton = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/Button_LoadImage")
 processButton = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/Button_Process")
-squareDimensionButton8 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_8")
-squareDimensionButton16 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_16")
-squareDimensionButton32 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_32")
-squareDimensionButton64 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_64")
-squareDimensionButton128 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_128")
-squareDimensionButton256 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_256")
+squareDimensionButton8 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_8")
+squareDimensionButton16 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_16")
+squareDimensionButton32 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_32")
+squareDimensionButton64 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_64")
+squareDimensionButton128 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_128")
+squareDimensionButton256 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_256")
 paletteLimitButton8 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_8")
 paletteLimitButton16 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_16")
 paletteLimitButton32 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_32")
@@ -47,8 +49,8 @@ brightnessSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/M
 ditheringStrengthSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength/VBoxContainer_DitheringStrength/HSlider_DitheringStrength")
 contrastSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings/SpinBox_Contrast")
 brightnessSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings/SpinBox_Brightness")
-widthSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_DimensionSettings/SpinBox_Width")
-heightSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_DimensionSettings/SpinBox_Height")
+widthSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings/SpinBox_Width")
+heightSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings/SpinBox_Height")
 ditheringStrenthSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength/SpinBox_DitheringStrength")
 paletteColorLimitSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_MaxColorPaletteColors/SpinBox_MaxColorPaletteColors")
 ditheringTypeDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_Dithering/OptionButton_DitheringType")
@@ -56,7 +58,7 @@ colorPaletteTypeDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/Contro
 definedColorPaletteDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_DefinedPresetPaletteType/VBoxContainer/HBoxContainer_DefinedPalette/OptionButton_DefinedPalette")
 customColorPaletteDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette/OptionButton_CustomPalette")
 extractionMethodDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_ExtractionMethod/OptionButton_ExtractionMethod")
-proportionalEditingCheckBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/CheckBox_ProportionalEditing")
+proportionalEditingCheckBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/CheckBox_ProportionalEditing")
 showSourceCheck = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/CheckButton_DarkEdge")
 
 [node name="Background" type="ColorRect" parent="." unique_id=2080152795]
@@ -201,56 +203,72 @@ min_value = -100.0
 [node name="HSeparator_0" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=841757826]
 layout_mode = 2
 
-[node name="Label_Dimensions" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=298415130]
+[node name="MarginContainer_Dimensions" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=412454544 node_paths=PackedStringArray("proportionalEditingCheckBox", "widthSpinBox", "heightSpinBox", "squareDimensionButton8", "squareDimensionButton16", "squareDimensionButton32", "squareDimensionButton64", "squareDimensionButton128", "squareDimensionButton256")]
+layout_mode = 2
+script = ExtResource("3_de1ei")
+proportionalEditingCheckBox = NodePath("VBoxContainer_Dimensions/CheckBox_ProportionalEditing")
+widthSpinBox = NodePath("VBoxContainer_Dimensions/HBoxContainer_DimensionSettings/SpinBox_Width")
+heightSpinBox = NodePath("VBoxContainer_Dimensions/HBoxContainer_DimensionSettings/SpinBox_Height")
+squareDimensionButton8 = NodePath("VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_8")
+squareDimensionButton16 = NodePath("VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_16")
+squareDimensionButton32 = NodePath("VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_32")
+squareDimensionButton64 = NodePath("VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_64")
+squareDimensionButton128 = NodePath("VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_128")
+squareDimensionButton256 = NodePath("VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_256")
+
+[node name="VBoxContainer_Dimensions" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions" unique_id=1863872963]
+layout_mode = 2
+
+[node name="Label_Dimensions" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=298415130]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Dimensions"
 
-[node name="CheckBox_ProportionalEditing" type="CheckBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1370146583]
+[node name="CheckBox_ProportionalEditing" type="CheckBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=1370146583]
 layout_mode = 2
 text = "Proportional Editing"
 
-[node name="HBoxContainer_DimensionSettings" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1878863431]
+[node name="HBoxContainer_DimensionSettings" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=1878863431]
 layout_mode = 2
 
-[node name="Label_Width" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_DimensionSettings" unique_id=1833323784]
+[node name="Label_Width" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=1833323784]
 layout_mode = 2
 text = "Width: "
 
-[node name="SpinBox_Width" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_DimensionSettings" unique_id=1322719446]
+[node name="SpinBox_Width" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=1322719446]
 layout_mode = 2
 
-[node name="Label_Height" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_DimensionSettings" unique_id=732815362]
+[node name="Label_Height" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=732815362]
 layout_mode = 2
 text = "Height: "
 
-[node name="SpinBox_Height" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_DimensionSettings" unique_id=431074520]
+[node name="SpinBox_Height" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=431074520]
 layout_mode = 2
 
-[node name="HBoxContainer_SquareDimensionButtons" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1256232276]
+[node name="HBoxContainer_SquareDimensionButtons" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=1256232276]
 layout_mode = 2
 
-[node name="Button_SquareDimension_8" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons" unique_id=161869157]
+[node name="Button_SquareDimension_8" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=161869157]
 layout_mode = 2
 text = "8"
 
-[node name="Button_SquareDimension_16" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons" unique_id=1554736605]
+[node name="Button_SquareDimension_16" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=1554736605]
 layout_mode = 2
 text = "16"
 
-[node name="Button_SquareDimension_32" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons" unique_id=1101136519]
+[node name="Button_SquareDimension_32" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=1101136519]
 layout_mode = 2
 text = "32"
 
-[node name="Button_SquareDimension_64" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons" unique_id=1886584602]
+[node name="Button_SquareDimension_64" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=1886584602]
 layout_mode = 2
 text = "64"
 
-[node name="Button_SquareDimension_128" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons" unique_id=496923748]
+[node name="Button_SquareDimension_128" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=496923748]
 layout_mode = 2
 text = "128"
 
-[node name="Button_SquareDimension_256" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/HBoxContainer_SquareDimensionButtons" unique_id=2048005002]
+[node name="Button_SquareDimension_256" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=2048005002]
 layout_mode = 2
 text = "256"
 

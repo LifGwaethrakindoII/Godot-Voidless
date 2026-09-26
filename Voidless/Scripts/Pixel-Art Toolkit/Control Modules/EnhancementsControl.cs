@@ -4,17 +4,13 @@ using Voidless.UI;
 
 namespace Voidless.PixelArtToolkit
 {
-    public delegate void OnChanged();
-
-    public partial class EnhancementsControl : Control
+    public partial class EnhancementsControl : ControlModule
     {
-        public event OnChanged OnChanged;
-
         [Export] private CheckButton darkOutlineCheckButton;
-        [ExportGroup("Spinboxes:")]
+        [ExportGroup("Spinboxes")]
         [Export] private SpinBox contrastSpinBox;
         [Export] private SpinBox brightnessSpinBox;
-        [ExportGroup("Sliders:")]
+        [ExportGroup("Sliders")]
         [Export] private HSlider contrastSlider;
         [Export] private HSlider brightnessSlider;
 
@@ -37,8 +33,6 @@ namespace Voidless.PixelArtToolkit
 
             GD.Print(contrastSpinBox.RangeToString());
         }
-
-        private void InvokeSignal() { if(OnChanged != null) OnChanged(); }
 
         public void SetValues(bool darkOutline, float contrast, float brightness, bool sendSignal = true)
         {
@@ -65,31 +59,31 @@ namespace Voidless.PixelArtToolkit
 #region Callbacks:
         private void OnDarkOutlineCheckBoxToggled(bool toggled)
         {
-            InvokeSignal();
+            InvokeChangedSignal();
         }
 
         private void OnContrastSliderValueChanged(double value)
         {
             contrastSpinBox.SetValueNoSignal(value);
-            InvokeSignal();
+            InvokeChangedSignal();
         }
 
         private void OnBrightnessSliderValueChanged(double value)
         {
             brightnessSpinBox.SetValueNoSignal(value);
-            InvokeSignal();
+            InvokeChangedSignal();
         }
 
         private void OnBrightnessSpinBoxValueChanged(double value)
         {
             brightnessSlider.SetValueNoSignal(value);
-            InvokeSignal();
+            InvokeChangedSignal();
         }
 
         private void OnContrastSpinBoxValueChanged(double value)
         {
             contrastSlider.SetValueNoSignal(value);
-            InvokeSignal();
+            InvokeChangedSignal();
         }
 #endregion
     }

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Voidless"
-run/main_scene="uid://d4in3a21npabw"
+run/main_scene="uid://dfu84c3lxs4bm"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 

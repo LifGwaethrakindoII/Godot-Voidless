@@ -18,21 +18,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5p8kf")
-enhancementsControl = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements")
-dimensionsControl = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions")
-ditheringControl = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering")
-colorPaletteControl = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes")
+enhancementsControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements")
+dimensionsControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions")
+ditheringControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering")
+colorPaletteControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes")
 appMargins = NodePath("AppMargins")
-baseLayout = NodePath("AppMargins/BaseLayout")
-canvasPanel = NodePath("AppMargins/BaseLayout/CanvasPanel")
-controlsScroll = NodePath("AppMargins/BaseLayout/ControlsScroll")
-sourceDisplay = NodePath("AppMargins/BaseLayout/CanvasPanel/ImageContainer/SourceDisplay")
-processedDisplay = NodePath("AppMargins/BaseLayout/CanvasPanel/ImageContainer/ProcessedDisplay")
+baseLayout = NodePath("AppMargins/HBoxContainer_BaseLayout")
+canvasPanel = NodePath("AppMargins/HBoxContainer_BaseLayout/CanvasPanel")
+controlsScroll = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll")
+sourceDisplay = NodePath("AppMargins/HBoxContainer_BaseLayout/CanvasPanel/ImageContainer/SourceDisplay")
+processedDisplay = NodePath("AppMargins/HBoxContainer_BaseLayout/CanvasPanel/ImageContainer/ProcessedDisplay")
 popUp = NodePath("PopUpPanel")
 loadImageFileDialog = NodePath("FileDialog_LoadImage")
-loadImageButton = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO/VBoxContainer_FileIO/Button_LoadImage")
-processButton = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO/VBoxContainer_FileIO/Button_Process")
-showSourceCheck = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/CheckButton_DarkEdge")
+loadImageButton = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import/VBoxContainer_Import/Button_LoadImage")
+processButton = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export/VBoxContainer_Export/Button_Process")
+showSourceCheck = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/CheckButton_DarkEdge")
 
 [node name="Background" type="ColorRect" parent="." unique_id=2080152795]
 layout_mode = 1
@@ -55,16 +55,17 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="BaseLayout" type="VBoxContainer" parent="AppMargins" unique_id=2012280730]
+[node name="HBoxContainer_BaseLayout" type="HBoxContainer" parent="AppMargins" unique_id=2084746345]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="CanvasPanel" type="Panel" parent="AppMargins/BaseLayout" unique_id=2010412551]
+[node name="CanvasPanel" type="Panel" parent="AppMargins/HBoxContainer_BaseLayout" unique_id=2010412551]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 2.5
 
-[node name="ImageDisplay" type="TextureRect" parent="AppMargins/BaseLayout/CanvasPanel" unique_id=378818691]
-visible = false
+[node name="ImageDisplay" type="TextureRect" parent="AppMargins/HBoxContainer_BaseLayout/CanvasPanel" unique_id=378818691]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,7 +74,7 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch_mode = 4
 
-[node name="ImageContainer" type="HBoxContainer" parent="AppMargins/BaseLayout/CanvasPanel" unique_id=270353115]
+[node name="ImageContainer" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/CanvasPanel" unique_id=270353115]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -82,50 +83,55 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SourceDisplay" type="TextureRect" parent="AppMargins/BaseLayout/CanvasPanel/ImageContainer" unique_id=1630097064]
+[node name="SourceDisplay" type="TextureRect" parent="AppMargins/HBoxContainer_BaseLayout/CanvasPanel/ImageContainer" unique_id=1630097064]
 layout_mode = 2
 size_flags_horizontal = 3
 expand_mode = 4
 stretch_mode = 5
 
-[node name="ProcessedDisplay" type="TextureRect" parent="AppMargins/BaseLayout/CanvasPanel/ImageContainer" unique_id=960511555]
+[node name="ProcessedDisplay" type="TextureRect" parent="AppMargins/HBoxContainer_BaseLayout/CanvasPanel/ImageContainer" unique_id=960511555]
 layout_mode = 2
 size_flags_horizontal = 3
 expand_mode = 4
 stretch_mode = 5
 
-[node name="ControlsScroll" type="ScrollContainer" parent="AppMargins/BaseLayout" unique_id=1257956139]
+[node name="VBoxContainer_RightPanel" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout" unique_id=132916777]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer_Import" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel" unique_id=1861978792]
+layout_mode = 2
+
+[node name="VBoxContainer_Import" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import" unique_id=1670426421]
+layout_mode = 2
+
+[node name="Label_Import" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import/VBoxContainer_Import" unique_id=364465138]
+layout_mode = 2
+text = "Import Settings"
+
+[node name="Label_FileInfo" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import/VBoxContainer_Import" unique_id=1216827474]
+layout_mode = 2
+text = "File Information:"
+
+[node name="Button_LoadImage" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import/VBoxContainer_Import" unique_id=703394779]
+layout_mode = 2
+text = "Load Image"
+
+[node name="HSeparator_0" type="HSeparator" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import/VBoxContainer_Import" unique_id=300633798]
+layout_mode = 2
+
+[node name="ControlsScroll" type="ScrollContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel" unique_id=1257956139]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/scrollbar_h_separation = 16
 
-[node name="ControlsList" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll" unique_id=309919460]
+[node name="ControlsList" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll" unique_id=309919460]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="MarginContainer_FileIO" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1861978792]
-layout_mode = 2
-
-[node name="VBoxContainer_FileIO" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO" unique_id=1670426421]
-layout_mode = 2
-
-[node name="Label_FileInfo" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO/VBoxContainer_FileIO" unique_id=364465138]
-layout_mode = 2
-text = "FILE_INFO"
-
-[node name="Button_LoadImage" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO/VBoxContainer_FileIO" unique_id=703394779]
-layout_mode = 2
-text = "Load Image"
-
-[node name="Button_Process" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO/VBoxContainer_FileIO" unique_id=860016394]
-layout_mode = 2
-text = "Process & Export"
-
-[node name="HSeparator_0" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=300633798]
-layout_mode = 2
-
-[node name="MarginContainer_Enhancements" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1440292536 node_paths=PackedStringArray("darkOutlineCheckButton", "contrastSpinBox", "brightnessSpinBox", "contrastSlider", "brightnessSlider")]
+[node name="MarginContainer_Enhancements" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList" unique_id=1440292536 node_paths=PackedStringArray("darkOutlineCheckButton", "contrastSpinBox", "brightnessSpinBox", "contrastSlider", "brightnessSlider")]
 layout_mode = 2
 script = ExtResource("2_5xjmc")
 darkOutlineCheckButton = NodePath("VBoxContainer_Enhancements/CheckButton_DarkEdge")
@@ -134,58 +140,58 @@ brightnessSpinBox = NodePath("VBoxContainer_Enhancements/HBoxContainer_Brightnes
 contrastSlider = NodePath("VBoxContainer_Enhancements/HSlider_Contrast")
 brightnessSlider = NodePath("VBoxContainer_Enhancements/HSlider_Brightness")
 
-[node name="VBoxContainer_Enhancements" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements" unique_id=447406116]
+[node name="VBoxContainer_Enhancements" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements" unique_id=447406116]
 layout_mode = 2
 
-[node name="Label_Enhancements" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=2142551607]
+[node name="Label_Enhancements" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=2142551607]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Enhancements"
 
-[node name="CheckButton_DarkEdge" type="CheckButton" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1662301872]
+[node name="CheckButton_DarkEdge" type="CheckButton" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1662301872]
 layout_mode = 2
 text = "Dark Outline"
 
-[node name="HBoxContainer_ContrastSettings" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1971584178]
+[node name="HBoxContainer_ContrastSettings" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1971584178]
 layout_mode = 2
 
-[node name="Label_Contrast" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings" unique_id=1905424440]
+[node name="Label_Contrast" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings" unique_id=1905424440]
 layout_mode = 2
 text = "Contrast: "
 
-[node name="LineEdit_Contrast" type="LineEdit" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings" unique_id=399028727]
+[node name="LineEdit_Contrast" type="LineEdit" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings" unique_id=399028727]
 visible = false
 layout_mode = 2
 
-[node name="SpinBox_Contrast" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings" unique_id=179846709]
+[node name="SpinBox_Contrast" type="SpinBox" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings" unique_id=179846709]
 layout_mode = 2
 
-[node name="HSlider_Contrast" type="HSlider" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1756684763]
+[node name="HSlider_Contrast" type="HSlider" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1756684763]
 layout_mode = 2
 min_value = -100.0
 
-[node name="HBoxContainer_BrightnessSettings" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=355553262]
+[node name="HBoxContainer_BrightnessSettings" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=355553262]
 layout_mode = 2
 
-[node name="Label_Brightness" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings" unique_id=2108254258]
+[node name="Label_Brightness" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings" unique_id=2108254258]
 layout_mode = 2
 text = "Brightness: "
 
-[node name="LineEdit_Brightness" type="LineEdit" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings" unique_id=560215138]
+[node name="LineEdit_Brightness" type="LineEdit" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings" unique_id=560215138]
 visible = false
 layout_mode = 2
 
-[node name="SpinBox_Brightness" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings" unique_id=13416511]
+[node name="SpinBox_Brightness" type="SpinBox" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings" unique_id=13416511]
 layout_mode = 2
 
-[node name="HSlider_Brightness" type="HSlider" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1237804574]
+[node name="HSlider_Brightness" type="HSlider" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=1237804574]
 layout_mode = 2
 min_value = -100.0
 
-[node name="HSeparator_1" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=841757826]
+[node name="HSeparator_1" type="HSeparator" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements" unique_id=841757826]
 layout_mode = 2
 
-[node name="MarginContainer_Dimensions" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=412454544 node_paths=PackedStringArray("proportionalEditingCheckBox", "widthSpinBox", "heightSpinBox", "squareDimensionButton8", "squareDimensionButton16", "squareDimensionButton32", "squareDimensionButton64", "squareDimensionButton128", "squareDimensionButton256")]
+[node name="MarginContainer_Dimensions" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList" unique_id=412454544 node_paths=PackedStringArray("proportionalEditingCheckBox", "widthSpinBox", "heightSpinBox", "squareDimensionButton8", "squareDimensionButton16", "squareDimensionButton32", "squareDimensionButton64", "squareDimensionButton128", "squareDimensionButton256")]
 layout_mode = 2
 script = ExtResource("3_de1ei")
 proportionalEditingCheckBox = NodePath("VBoxContainer_Dimensions/CheckBox_ProportionalEditing")
@@ -198,66 +204,66 @@ squareDimensionButton64 = NodePath("VBoxContainer_Dimensions/HBoxContainer_Squar
 squareDimensionButton128 = NodePath("VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_128")
 squareDimensionButton256 = NodePath("VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_256")
 
-[node name="VBoxContainer_Dimensions" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions" unique_id=1863872963]
+[node name="VBoxContainer_Dimensions" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions" unique_id=1863872963]
 layout_mode = 2
 
-[node name="Label_Dimensions" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=298415130]
+[node name="Label_Dimensions" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=298415130]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Dimensions"
 
-[node name="CheckBox_ProportionalEditing" type="CheckBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=1370146583]
+[node name="CheckBox_ProportionalEditing" type="CheckBox" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=1370146583]
 layout_mode = 2
 text = "Proportional Editing"
 
-[node name="HBoxContainer_DimensionSettings" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=1878863431]
+[node name="HBoxContainer_DimensionSettings" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=1878863431]
 layout_mode = 2
 
-[node name="Label_Width" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=1833323784]
+[node name="Label_Width" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=1833323784]
 layout_mode = 2
 text = "Width: "
 
-[node name="SpinBox_Width" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=1322719446]
+[node name="SpinBox_Width" type="SpinBox" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=1322719446]
 layout_mode = 2
 
-[node name="Label_Height" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=732815362]
+[node name="Label_Height" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=732815362]
 layout_mode = 2
 text = "Height: "
 
-[node name="SpinBox_Height" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=431074520]
+[node name="SpinBox_Height" type="SpinBox" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings" unique_id=431074520]
 layout_mode = 2
 
-[node name="HBoxContainer_SquareDimensionButtons" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=1256232276]
+[node name="HBoxContainer_SquareDimensionButtons" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=1256232276]
 layout_mode = 2
 
-[node name="Button_SquareDimension_8" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=161869157]
+[node name="Button_SquareDimension_8" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=161869157]
 layout_mode = 2
 text = "8"
 
-[node name="Button_SquareDimension_16" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=1554736605]
+[node name="Button_SquareDimension_16" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=1554736605]
 layout_mode = 2
 text = "16"
 
-[node name="Button_SquareDimension_32" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=1101136519]
+[node name="Button_SquareDimension_32" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=1101136519]
 layout_mode = 2
 text = "32"
 
-[node name="Button_SquareDimension_64" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=1886584602]
+[node name="Button_SquareDimension_64" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=1886584602]
 layout_mode = 2
 text = "64"
 
-[node name="Button_SquareDimension_128" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=496923748]
+[node name="Button_SquareDimension_128" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=496923748]
 layout_mode = 2
 text = "128"
 
-[node name="Button_SquareDimension_256" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=2048005002]
+[node name="Button_SquareDimension_256" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons" unique_id=2048005002]
 layout_mode = 2
 text = "256"
 
-[node name="HSeparator_2" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=151003091]
+[node name="HSeparator_2" type="HSeparator" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=151003091]
 layout_mode = 2
 
-[node name="MarginContainer_Dithering" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1805005140 node_paths=PackedStringArray("strengthSliderContainer", "ditheringTypeDropdown", "strengthSpinBox", "strengthSlider")]
+[node name="MarginContainer_Dithering" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList" unique_id=1805005140 node_paths=PackedStringArray("strengthSliderContainer", "ditheringTypeDropdown", "strengthSpinBox", "strengthSlider")]
 layout_mode = 2
 script = ExtResource("4_ilx1j")
 strengthSliderContainer = NodePath("VBoxContainer_Dithering/MarginContainer_DitheringStrength")
@@ -265,21 +271,21 @@ ditheringTypeDropdown = NodePath("VBoxContainer_Dithering/HBoxContainer_Ditherin
 strengthSpinBox = NodePath("VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength/SpinBox_DitheringStrength")
 strengthSlider = NodePath("VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HSlider_DitheringStrength")
 
-[node name="VBoxContainer_Dithering" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering" unique_id=121219073]
+[node name="VBoxContainer_Dithering" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering" unique_id=121219073]
 layout_mode = 2
 
-[node name="Label_Dithering" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=323246854]
+[node name="Label_Dithering" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=323246854]
 layout_mode = 2
 text = "Dithering:"
 
-[node name="HBoxContainer_Dithering" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=618159807]
+[node name="HBoxContainer_Dithering" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=618159807]
 layout_mode = 2
 
-[node name="Label_DitheringMode" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/HBoxContainer_Dithering" unique_id=1591884188]
+[node name="Label_DitheringMode" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/HBoxContainer_Dithering" unique_id=1591884188]
 layout_mode = 2
 text = "Mode: "
 
-[node name="OptionButton_DitheringType" type="OptionButton" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/HBoxContainer_Dithering" unique_id=1488940075]
+[node name="OptionButton_DitheringType" type="OptionButton" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/HBoxContainer_Dithering" unique_id=1488940075]
 layout_mode = 2
 selected = 0
 item_count = 3
@@ -290,29 +296,29 @@ popup/item_1/id = 1
 popup/item_2/text = "Floyd-S"
 popup/item_2/id = 2
 
-[node name="MarginContainer_DitheringStrength" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=1900719296]
+[node name="MarginContainer_DitheringStrength" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=1900719296]
 layout_mode = 2
 
-[node name="VBoxContainer_DitheringStrength" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength" unique_id=1464010935]
+[node name="VBoxContainer_DitheringStrength" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength" unique_id=1464010935]
 layout_mode = 2
 
-[node name="HBoxContainer_DitheringStrength" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength" unique_id=582729418]
+[node name="HBoxContainer_DitheringStrength" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength" unique_id=582729418]
 layout_mode = 2
 
-[node name="Label_DitheringStrength" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength" unique_id=416730398]
+[node name="Label_DitheringStrength" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength" unique_id=416730398]
 layout_mode = 2
 text = "Strength: "
 
-[node name="SpinBox_DitheringStrength" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength" unique_id=1741529233]
+[node name="SpinBox_DitheringStrength" type="SpinBox" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength" unique_id=1741529233]
 layout_mode = 2
 
-[node name="HSlider_DitheringStrength" type="HSlider" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength" unique_id=1958471745]
+[node name="HSlider_DitheringStrength" type="HSlider" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength" unique_id=1958471745]
 layout_mode = 2
 
-[node name="HSeparator4" type="HSeparator" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=992337203]
+[node name="HSeparator4" type="HSeparator" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=992337203]
 layout_mode = 2
 
-[node name="MarginContainer_ColorPalettes" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=95473189 node_paths=PackedStringArray("colorPicker", "maxColorsSpinBox", "autoExtractPaletteContainer", "definedPresetPaletteContainer", "customPresetPaletteContainer", "definedPaletteFlowContainer", "colorPaletteTypeDropdown", "definedColorPaletteDropdown", "customColorPaletteDropdown", "extractionMethodDropdown", "paletteLimitButton8", "paletteLimitButton16", "paletteLimitButton32", "paletteLimitButton64", "paletteLimitButton128", "paletteLimitButton256")]
+[node name="MarginContainer_ColorPalettes" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList" unique_id=95473189 node_paths=PackedStringArray("colorPicker", "maxColorsSpinBox", "autoExtractPaletteContainer", "definedPresetPaletteContainer", "customPresetPaletteContainer", "definedPaletteFlowContainer", "colorPaletteTypeDropdown", "definedColorPaletteDropdown", "customColorPaletteDropdown", "extractionMethodDropdown", "paletteLimitButton8", "paletteLimitButton16", "paletteLimitButton32", "paletteLimitButton64", "paletteLimitButton128", "paletteLimitButton256")]
 layout_mode = 2
 script = ExtResource("5_gcmr3")
 colorPicker = NodePath("VBoxContainer_ColorPalettes/ColorPicker")
@@ -332,21 +338,21 @@ paletteLimitButton64 = NodePath("../MarginContainer_Dimensions/VBoxContainer_Dim
 paletteLimitButton128 = NodePath("../MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_128")
 paletteLimitButton256 = NodePath("../MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_256")
 
-[node name="VBoxContainer_ColorPalettes" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes" unique_id=436461435]
+[node name="VBoxContainer_ColorPalettes" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes" unique_id=436461435]
 layout_mode = 2
 
-[node name="Label_ColorPalettes" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=2049669050]
+[node name="Label_ColorPalettes" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=2049669050]
 layout_mode = 2
 text = "Color Palettes"
 
-[node name="HBoxContainer_PaletteType" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=1651910648]
+[node name="HBoxContainer_PaletteType" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=1651910648]
 layout_mode = 2
 
-[node name="Label_PresetType" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/HBoxContainer_PaletteType" unique_id=2011329831]
+[node name="Label_PresetType" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/HBoxContainer_PaletteType" unique_id=2011329831]
 layout_mode = 2
 text = "Color-Palette Mode"
 
-[node name="OptionButton_PaletteType" type="OptionButton" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/HBoxContainer_PaletteType" unique_id=1213795327]
+[node name="OptionButton_PaletteType" type="OptionButton" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/HBoxContainer_PaletteType" unique_id=1213795327]
 layout_mode = 2
 selected = 0
 item_count = 3
@@ -357,30 +363,30 @@ popup/item_1/id = 1
 popup/item_2/text = "Custom Preset"
 popup/item_2/id = 2
 
-[node name="PanelContainer_Auto-ExtractPaletteType" type="PanelContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=1652383388]
+[node name="PanelContainer_Auto-ExtractPaletteType" type="PanelContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=1652383388]
 layout_mode = 2
 
-[node name="VBoxContainer_Auto-ExtractPaletteType" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType" unique_id=348000403]
+[node name="VBoxContainer_Auto-ExtractPaletteType" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType" unique_id=348000403]
 layout_mode = 2
 
-[node name="HBoxContainer_MaxColorPaletteColors" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType" unique_id=34394773]
+[node name="HBoxContainer_MaxColorPaletteColors" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType" unique_id=34394773]
 layout_mode = 2
 
-[node name="Label_MaxColorPaletteColors" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_MaxColorPaletteColors" unique_id=1238564289]
+[node name="Label_MaxColorPaletteColors" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_MaxColorPaletteColors" unique_id=1238564289]
 layout_mode = 2
 text = "Max Colors: "
 
-[node name="SpinBox_MaxColorPaletteColors" type="SpinBox" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_MaxColorPaletteColors" unique_id=326793728]
+[node name="SpinBox_MaxColorPaletteColors" type="SpinBox" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_MaxColorPaletteColors" unique_id=326793728]
 layout_mode = 2
 
-[node name="HBoxContainer_ExtractionMethod" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType" unique_id=390758150]
+[node name="HBoxContainer_ExtractionMethod" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType" unique_id=390758150]
 layout_mode = 2
 
-[node name="Label_ExtractionMethod" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_ExtractionMethod" unique_id=763955247]
+[node name="Label_ExtractionMethod" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_ExtractionMethod" unique_id=763955247]
 layout_mode = 2
 text = "Extraction Method: "
 
-[node name="OptionButton_ExtractionMethod" type="OptionButton" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_ExtractionMethod" unique_id=324536848]
+[node name="OptionButton_ExtractionMethod" type="OptionButton" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_ExtractionMethod" unique_id=324536848]
 layout_mode = 2
 selected = 0
 item_count = 4
@@ -393,48 +399,48 @@ popup/item_2/id = 2
 popup/item_3/text = "Octree + K-Means"
 popup/item_3/id = 3
 
-[node name="HBoxContainer_LimitColorPaletteColors" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType" unique_id=784831004]
+[node name="HBoxContainer_LimitColorPaletteColors" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType" unique_id=784831004]
 layout_mode = 2
 
-[node name="Button_PaletteLimit_8" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=1083935706]
+[node name="Button_PaletteLimit_8" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=1083935706]
 layout_mode = 2
 text = "8"
 
-[node name="Button_PaletteLimit_16" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=1351256914]
+[node name="Button_PaletteLimit_16" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=1351256914]
 layout_mode = 2
 text = "16"
 
-[node name="Button_PaletteLimit_32" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=120280769]
+[node name="Button_PaletteLimit_32" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=120280769]
 layout_mode = 2
 text = "32"
 
-[node name="Button_PaletteLimit_64" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=681275359]
+[node name="Button_PaletteLimit_64" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=681275359]
 layout_mode = 2
 text = "64"
 
-[node name="Button_PaletteLimit_128" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=488156061]
+[node name="Button_PaletteLimit_128" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=488156061]
 layout_mode = 2
 text = "128"
 
-[node name="Button_PaletteLimit_256" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=370896416]
+[node name="Button_PaletteLimit_256" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors" unique_id=370896416]
 layout_mode = 2
 text = "256"
 
-[node name="PanelContainer_DefinedPresetPaletteType" type="PanelContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=1425876287]
+[node name="PanelContainer_DefinedPresetPaletteType" type="PanelContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=1425876287]
 visible = false
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType" unique_id=1037759166]
+[node name="VBoxContainer" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType" unique_id=1037759166]
 layout_mode = 2
 
-[node name="HBoxContainer_DefinedPalette" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType/VBoxContainer" unique_id=100994441]
+[node name="HBoxContainer_DefinedPalette" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType/VBoxContainer" unique_id=100994441]
 layout_mode = 2
 
-[node name="Label_DefinedPalette" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType/VBoxContainer/HBoxContainer_DefinedPalette" unique_id=2017288857]
+[node name="Label_DefinedPalette" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType/VBoxContainer/HBoxContainer_DefinedPalette" unique_id=2017288857]
 layout_mode = 2
 text = "Palette: "
 
-[node name="OptionButton_DefinedPalette" type="OptionButton" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType/VBoxContainer/HBoxContainer_DefinedPalette" unique_id=897649625]
+[node name="OptionButton_DefinedPalette" type="OptionButton" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType/VBoxContainer/HBoxContainer_DefinedPalette" unique_id=897649625]
 layout_mode = 2
 selected = 0
 item_count = 12
@@ -463,25 +469,25 @@ popup/item_10/id = 10
 popup/item_11/text = "1-Bit"
 popup/item_11/id = 11
 
-[node name="PanelContainer_CustomPresetPaletteType" type="PanelContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=345389080]
+[node name="PanelContainer_CustomPresetPaletteType" type="PanelContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=345389080]
 visible = false
 layout_mode = 2
 
-[node name="Label" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType" unique_id=88583204]
+[node name="Label" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType" unique_id=88583204]
 layout_mode = 2
 text = "Custom Palettes"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType" unique_id=653950843]
+[node name="VBoxContainer" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType" unique_id=653950843]
 layout_mode = 2
 
-[node name="HBoxContainer_CustomPalette" type="HBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer" unique_id=1568782753]
+[node name="HBoxContainer_CustomPalette" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer" unique_id=1568782753]
 layout_mode = 2
 
-[node name="Label_DefinedPalette" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette" unique_id=1423537106]
+[node name="Label_DefinedPalette" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette" unique_id=1423537106]
 layout_mode = 2
 text = "Palette: "
 
-[node name="OptionButton_CustomPalette" type="OptionButton" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette" unique_id=275083758]
+[node name="OptionButton_CustomPalette" type="OptionButton" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette" unique_id=275083758]
 layout_mode = 2
 selected = 0
 item_count = 12
@@ -510,14 +516,35 @@ popup/item_10/id = 10
 popup/item_11/text = "1-Bit"
 popup/item_11/id = 11
 
-[node name="HFlowContainer_DefinedPalette" type="HFlowContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer" unique_id=1807151529]
+[node name="HFlowContainer_DefinedPalette" type="HFlowContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer" unique_id=1807151529]
 layout_mode = 2
 
-[node name="HFlowContainer_ColorPalettePreview" type="HFlowContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=1303446493]
+[node name="HFlowContainer_ColorPalettePreview" type="HFlowContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=1303446493]
 layout_mode = 2
 
-[node name="ColorPicker" type="ColorPicker" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=45611572]
+[node name="ColorPicker" type="ColorPicker" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=45611572]
 layout_mode = 2
+
+[node name="MarginContainer_Export" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel" unique_id=1259669980]
+layout_mode = 2
+
+[node name="VBoxContainer_Export" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export" unique_id=2027173648]
+layout_mode = 2
+
+[node name="HSeparator_0" type="HSeparator" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export/VBoxContainer_Export" unique_id=290002076]
+layout_mode = 2
+
+[node name="Label_Export" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export/VBoxContainer_Export" unique_id=436384718]
+layout_mode = 2
+text = "Export Settings"
+
+[node name="Button_Process" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export/VBoxContainer_Export" unique_id=667741866]
+layout_mode = 2
+text = "Process Image"
+
+[node name="Button_SaveImage" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export/VBoxContainer_Export" unique_id=1886797291]
+layout_mode = 2
+text = "Save Image"
 
 [node name="FileDialog_LoadImage" type="FileDialog" parent="." unique_id=988085372]
 oversampling_override = 1.0

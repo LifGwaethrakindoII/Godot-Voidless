@@ -313,7 +313,7 @@ namespace Voidless
         /// </summary>
         public static Color MapToSNES(Color color)
         {
-            const int bitsPerChannel = 5;
+            //const int bitsPerChannel = 5;
             const float maxVal = 31.0f; // 2^5 - 1
             
             return new Color(
@@ -329,7 +329,7 @@ namespace Voidless
         /// </summary>
         public static Color MapToGenesis(Color color)
         {
-            const int bitsPerChannel = 3;
+            //const int bitsPerChannel = 3;
             const float maxVal = 7.0f; // 2^3 - 1
             
             return new Color(
@@ -381,7 +381,7 @@ namespace Voidless
         public static Color MapToN64(Color color)
         {
             const float maxRGB = 31.0f; // 5 bits for RGB
-            const float maxA = 1.0f;    // 1 bit for Alpha (fully transparent or fully opaque)
+            //const float maxA = 1.0f;    // 1 bit for Alpha (fully transparent or fully opaque)
             
             // For the alpha channel, if it's greater than 0.5, make it 1.0, else 0.0
             float quantizedAlpha = color.A > 0.5f ? 1.0f : 0.0f;

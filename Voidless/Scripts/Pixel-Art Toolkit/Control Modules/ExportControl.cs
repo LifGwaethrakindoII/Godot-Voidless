@@ -5,11 +5,7 @@ using Voidless.UI;
 
 namespace Voidless.PixelArtToolkit
 {
-    public enum FileEvent { Save, Preview, Load }
-
-    public delegate void OnFileEvent(FileEvent fileEvent);
-
-    public partial class FileControl : ControlModule
+    public partial class ExportControl : ControlModule
     {
         public event OnFileEvent OnFileEvent;
 

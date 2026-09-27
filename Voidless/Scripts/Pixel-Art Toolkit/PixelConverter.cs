@@ -60,7 +60,7 @@ namespace Voidless.PixelArtToolkit
             Vector2 size = GetViewportRect().Size;
             isLandscape = size.X > (size.Y * Constants.THRESHOLD_LANDSCAPE);
 
-            if(isLandscape) RebuildLayout();
+            //if(isLandscape) RebuildLayout();
         }
 
         private void UpdateDisplays()

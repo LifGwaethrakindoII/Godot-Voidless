@@ -27,6 +27,7 @@ namespace Voidless.PixelArtToolkit
         [Export] private EnhancementsControl enhancementsControl;
         [Export] private DimensionsControl dimensionsControl;
         [Export] private DitheringControl ditheringControl;
+        [Export] private ColorPaletteControl colorPaletteControl;
         [ExportCategory("UI Containers:")]
         [Export] private MarginContainer appMargins;
         [Export] private BoxContainer baseLayout;
@@ -157,25 +158,25 @@ namespace Voidless.PixelArtToolkit
             /*widthSpinBox.ValueChanged += OnWidthSpinBoxValueChanged;
             heightSpinBox.ValueChanged += OnHeightSpinBoxValueChanged;*/
             //ditheringStrenthSpinBox.ValueChanged += OnDitheringSpinBoxValueChanged;
-            paletteColorLimitSpinBox.ValueChanged += OnPaletteLimitSpinBoxValueChanged;
+            //paletteColorLimitSpinBox.ValueChanged += OnPaletteLimitSpinBoxValueChanged;
             //proportionalEditingCheckBox.Toggled += OnProportionalEditingCheckBoxToggled;
             //ditheringTypeDropdown.ItemSelected += OnDitheringTypeOptionSelected;
-            colorPaletteTypeDropdown.ItemSelected += OnColorPaletteTypeOptionSelected;
+            /*colorPaletteTypeDropdown.ItemSelected += OnColorPaletteTypeOptionSelected;
             definedColorPaletteDropdown.ItemSelected += OnDefinedPaletteOptionSelected;
             customColorPaletteDropdown.ItemSelected += OnCustomPaletteOptionSelected;
-            extractionMethodDropdown.ItemSelected += OnExtractionMethodOptionSelected;
+            extractionMethodDropdown.ItemSelected += OnExtractionMethodOptionSelected;*/
             /*squareDimensionButton8.Pressed += ()=> OnSquareDimensionButtonPressed(8);
             squareDimensionButton16.Pressed += ()=> OnSquareDimensionButtonPressed(16);
             squareDimensionButton32.Pressed += ()=> OnSquareDimensionButtonPressed(32);
             squareDimensionButton64.Pressed += ()=> OnSquareDimensionButtonPressed(64);
             squareDimensionButton128.Pressed += ()=> OnSquareDimensionButtonPressed(128);
             squareDimensionButton256.Pressed += ()=> OnSquareDimensionButtonPressed(256);*/
-            paletteLimitButton8.Pressed += ()=> OnPaletteLimitButtonPressed(8);
+            /*paletteLimitButton8.Pressed += ()=> OnPaletteLimitButtonPressed(8);
             paletteLimitButton16.Pressed += ()=> OnPaletteLimitButtonPressed(16);
             paletteLimitButton32.Pressed += ()=> OnPaletteLimitButtonPressed(32);
             paletteLimitButton64.Pressed += ()=> OnPaletteLimitButtonPressed(64);
             paletteLimitButton128.Pressed += ()=> OnPaletteLimitButtonPressed(128);
-            paletteLimitButton256.Pressed += ()=> OnPaletteLimitButtonPressed(256);
+            paletteLimitButton256.Pressed += ()=> OnPaletteLimitButtonPressed(256);*/
 
             loadImageFileDialog.Access = FileDialog.AccessEnum.Filesystem;
             loadImageFileDialog.FileMode = FileDialog.FileModeEnum.OpenFile; 
@@ -368,6 +369,8 @@ namespace Voidless.PixelArtToolkit
             //processedImage = VImage.ApplyPalette(processedImage, VColor.PALETTE_GAMEBOY);
             float s = ditheringControl.Strength;
 
+            palette = colorPaletteControl.Palette;
+
             switch(ditheringControl.DitheringType)
             {
                 case DitheringType.None:
@@ -406,6 +409,7 @@ namespace Voidless.PixelArtToolkit
             hasProcessed = false;
             showSourceCheck.ButtonPressed = false;
             showSourceCheck.Disabled = true;
+            colorPaletteControl.Image = sourceImage;
             UpdateDisplays();
             /*ImageTexture texture = ImageTexture.CreateFromImage(sourceImage);
             sourceDisplay.Texture = texture;*/

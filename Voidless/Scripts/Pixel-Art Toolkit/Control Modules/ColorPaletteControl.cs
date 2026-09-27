@@ -34,7 +34,7 @@ namespace Voidless.PixelArtToolkit
         private Image image;
 
         public Color[] Palette { get { return palette; } }
-        
+
         public Image Image
         {
             get { return image; }
@@ -45,6 +45,8 @@ namespace Voidless.PixelArtToolkit
 
         public override void _Ready()
         {
+            maxColorsSpinBox.SetupIntRange(0, Constants.MAX_PALETTECOLORS);
+
             maxColorsSpinBox.ValueChanged += OnPaletteLimitSpinBoxValueChanged;
             colorPaletteTypeDropdown.ItemSelected += OnColorPaletteTypeOptionSelected;
             definedColorPaletteDropdown.ItemSelected += OnDefinedPaletteOptionSelected;

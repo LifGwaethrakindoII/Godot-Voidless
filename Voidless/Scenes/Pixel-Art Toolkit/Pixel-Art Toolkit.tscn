@@ -2,15 +2,18 @@
 
 [ext_resource type="Script" uid="uid://bj724ydidcfx" path="res://Voidless/Scripts/Pixel-Art Toolkit/PixelConverter.cs" id="1_5p8kf"]
 [ext_resource type="Script" uid="uid://7tpm6bdnvcsg" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/EnhancementsControl.cs" id="2_5xjmc"]
+[ext_resource type="Script" uid="uid://blcgk5yrh2ddf" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ImportControl.cs" id="2_8p0x1"]
 [ext_resource type="Script" uid="uid://cncwd1atg2l3t" path="res://Voidless/Scripts/UI/DisplayDialogue.cs" id="2_p2vgv"]
 [ext_resource type="Script" uid="uid://d3m4b171tbn61" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/DimensionsControl.cs" id="3_de1ei"]
 [ext_resource type="Script" uid="uid://b1m6p65xju4fm" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/DitheringControl.cs" id="4_ilx1j"]
 [ext_resource type="Script" uid="uid://cekxrlwxrm6cl" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ColorPaletteControl.cs" id="5_gcmr3"]
+[ext_resource type="Script" uid="uid://dpl288j07lbg5" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ProcessControl.cs" id="7_0hpme"]
+[ext_resource type="Script" uid="uid://dyrb52c6mbv5" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ExportControl.cs" id="7_35h8d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2vgv"]
 bg_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 
-[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("enhancementsControl", "dimensionsControl", "ditheringControl", "colorPaletteControl", "appMargins", "baseLayout", "canvasPanel", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "loadImageButton", "processButton", "showSourceCheck")]
+[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("importControl", "enhancementsControl", "dimensionsControl", "ditheringControl", "colorPaletteControl", "processControl", "exportControl", "appMargins", "baseLayout", "canvasPanel", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "loadImageButton", "processButton", "showSourceCheck")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,10 +21,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5p8kf")
+importControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import")
 enhancementsControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements")
 dimensionsControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions")
 ditheringControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering")
 colorPaletteControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes")
+processControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Process")
+exportControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export")
 appMargins = NodePath("AppMargins")
 baseLayout = NodePath("AppMargins/HBoxContainer_BaseLayout")
 canvasPanel = NodePath("AppMargins/HBoxContainer_BaseLayout/CanvasPanel")
@@ -31,7 +37,7 @@ processedDisplay = NodePath("AppMargins/HBoxContainer_BaseLayout/CanvasPanel/Ima
 popUp = NodePath("PopUpPanel")
 loadImageFileDialog = NodePath("FileDialog_LoadImage")
 loadImageButton = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import/VBoxContainer_Import/Button_LoadImage")
-processButton = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export/VBoxContainer_Export/Button_Process")
+processButton = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Process/VBoxContainer_Process/Button_Process")
 showSourceCheck = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/CheckButton_DarkEdge")
 
 [node name="Background" type="ColorRect" parent="." unique_id=2080152795]
@@ -99,8 +105,12 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer_Import" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel" unique_id=1861978792]
+[node name="MarginContainer_Import" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel" unique_id=1861978792 node_paths=PackedStringArray("fileInfo", "loadButton", "loadFileDialog")]
 layout_mode = 2
+script = ExtResource("2_8p0x1")
+fileInfo = NodePath("VBoxContainer_Import/Label_FileInfo")
+loadButton = NodePath("VBoxContainer_Import/Button_LoadImage")
+loadFileDialog = NodePath("../../../../FileDialog_LoadImage")
 
 [node name="VBoxContainer_Import" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import" unique_id=1670426421]
 layout_mode = 2
@@ -525,8 +535,31 @@ layout_mode = 2
 [node name="ColorPicker" type="ColorPicker" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=45611572]
 layout_mode = 2
 
-[node name="MarginContainer_Export" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel" unique_id=1259669980]
+[node name="MarginContainer_Process" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel" unique_id=502069863 node_paths=PackedStringArray("previewCheckButton", "processButton")]
 layout_mode = 2
+script = ExtResource("7_0hpme")
+previewCheckButton = NodePath("VBoxContainer_Process/CheckButton_PreviewProcess")
+processButton = NodePath("VBoxContainer_Process/Button_Process")
+
+[node name="VBoxContainer_Process" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Process" unique_id=349973903]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Process/VBoxContainer_Process" unique_id=1098279738]
+layout_mode = 2
+
+[node name="CheckButton_PreviewProcess" type="CheckButton" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Process/VBoxContainer_Process" unique_id=915979193]
+layout_mode = 2
+text = "Preview"
+
+[node name="Button_Process" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Process/VBoxContainer_Process" unique_id=667741866]
+layout_mode = 2
+text = "Process Image"
+
+[node name="MarginContainer_Export" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel" unique_id=1259669980 node_paths=PackedStringArray("saveButton", "saveFileDialog")]
+layout_mode = 2
+script = ExtResource("7_35h8d")
+saveButton = NodePath("VBoxContainer_Export/Button_SaveImage")
+saveFileDialog = NodePath("../../../../FileDialog_LoadImage")
 
 [node name="VBoxContainer_Export" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export" unique_id=2027173648]
 layout_mode = 2
@@ -537,10 +570,6 @@ layout_mode = 2
 [node name="Label_Export" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export/VBoxContainer_Export" unique_id=436384718]
 layout_mode = 2
 text = "Export Settings"
-
-[node name="Button_Process" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export/VBoxContainer_Export" unique_id=667741866]
-layout_mode = 2
-text = "Process Image"
 
 [node name="Button_SaveImage" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export/VBoxContainer_Export" unique_id=1886797291]
 layout_mode = 2

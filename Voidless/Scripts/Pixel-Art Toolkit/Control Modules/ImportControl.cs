@@ -1,42 +1,35 @@
 using Godot;
 using System;
-using Voidless;
-using Voidless.UI;
 
 namespace Voidless.PixelArtToolkit
 {
-    public enum FileEvent { Save, Preview, Load }
-
-    public delegate void OnFileEvent(FileEvent fileEvent);
+    public delegate void OnFileImported(string filePath);
 
     public partial class ImportControl : ControlModule
     {
-        public event OnFileEvent OnFileEvent;
+        public event OnFileImported OnFileImported;
 
+        // UI References
         [Export] private Label fileInfo;
-        [Export] private CheckBox previewCheckBox;
         [Export] private Button loadButton;
-        [Export] private Button previewButton;
-        [Export] private Button saveButton;
         [ExportCategory("Windows")]
-        [Export] private FileDialog fileDialog;
-        [Export] private DisplayDialogue popUp;
+        [Export] private FileDialog loadFileDialog;
 
-        public Label FileInfo { get { return fileInfo; } }
-        
         public override void _Ready()
         {
-            previewCheckBox.Toggled += OnPreviewCheckBoxToggled;
-            loadButton.Pressed += ()=> InvokeFileEvent(FileEvent.Load);
-            previewButton.Pressed += ()=> InvokeFileEvent(FileEvent.Preview);
-            saveButton.Pressed += ()=> InvokeFileEvent(FileEvent.Save);
+            loadButton.Pressed += OnLoadButtonPressed;
+            loadFileDialog.FileSelected += OnLoadFileDialogFileSelected;
         }
 
-        private void InvokeFileEvent(FileEvent fileEvent) { if(OnFileEvent != null) OnFileEvent(fileEvent); }
-
-        private void OnPreviewCheckBoxToggled(bool toggled)
+        private void OnLoadButtonPressed()
         {
+            // The UI's only job is to open the window
+            loadFileDialog.PopupCentered();
+        }
 
+        private void OnLoadFileDialogFileSelected(string path)
+        {
+            if(OnFileImported != null) OnFileImported(path);
         }
     }
 }

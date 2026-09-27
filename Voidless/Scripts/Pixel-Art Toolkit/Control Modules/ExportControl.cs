@@ -1,38 +1,32 @@
 using Godot;
 using System;
-using Voidless;
-using Voidless.UI;
 
 namespace Voidless.PixelArtToolkit
 {
+    public delegate void OnFileExported(string filePath);
+
     public partial class ExportControl : ControlModule
     {
-        public event OnFileEvent OnFileEvent;
+        public event OnFileExported OnFileExported;
 
-        [Export] private Label fileInfo;
-        [Export] private CheckBox previewCheckBox;
-        [Export] private Button loadButton;
-        [Export] private Button previewButton;
-        [Export] private Button saveButton;
+        [Export] private Button saveButton;   
         [ExportCategory("Windows")]
-        [Export] private FileDialog fileDialog;
-        [Export] private DisplayDialogue popUp;
+        [Export] private FileDialog saveFileDialog;
 
-        public Label FileInfo { get { return fileInfo; } }
-        
         public override void _Ready()
         {
-            previewCheckBox.Toggled += OnPreviewCheckBoxToggled;
-            loadButton.Pressed += ()=> InvokeFileEvent(FileEvent.Load);
-            previewButton.Pressed += ()=> InvokeFileEvent(FileEvent.Preview);
-            saveButton.Pressed += ()=> InvokeFileEvent(FileEvent.Save);
+            saveButton.Pressed += OnSaveButtonPressed;
+            saveFileDialog.FileSelected += OnSaveFileDialogFileSelected;
         }
 
-        private void InvokeFileEvent(FileEvent fileEvent) { if(OnFileEvent != null) OnFileEvent(fileEvent); }
-
-        private void OnPreviewCheckBoxToggled(bool toggled)
+        private void OnSaveButtonPressed()
         {
+            saveFileDialog.PopupCentered();
+        }
 
+        private void OnSaveFileDialogFileSelected(string path)
+        {
+            if(OnFileExported != null) OnFileExported(path);
         }
     }
 }

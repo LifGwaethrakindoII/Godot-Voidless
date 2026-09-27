@@ -11,10 +11,13 @@ namespace Voidless.PixelArtToolkit
     public partial class PixelConverter : Control
     {
         [ExportCategory("Controls:")]
+        [Export] private ImportControl importControl;
         [Export] private EnhancementsControl enhancementsControl;
         [Export] private DimensionsControl dimensionsControl;
         [Export] private DitheringControl ditheringControl;
         [Export] private ColorPaletteControl colorPaletteControl;
+        [Export] private ProcessControl processControl;
+        [Export] private ExportControl exportControl;
         [ExportCategory("UI Containers:")]
         [Export] private MarginContainer controlsPanel;
         [Export] private MarginContainer appMargins;

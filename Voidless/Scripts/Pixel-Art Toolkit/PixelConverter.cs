@@ -16,6 +16,7 @@ namespace Voidless.PixelArtToolkit
         [Export] private DitheringControl ditheringControl;
         [Export] private ColorPaletteControl colorPaletteControl;
         [ExportCategory("UI Containers:")]
+        [Export] private MarginContainer controlsPanel;
         [Export] private MarginContainer appMargins;
         [Export] private BoxContainer baseLayout;
         [Export] private Panel canvasPanel;

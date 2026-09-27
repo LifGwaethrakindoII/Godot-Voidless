@@ -10,7 +10,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2vgv"]
 bg_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 
-[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("enhancementsControl", "dimensionsControl", "ditheringControl", "colorPaletteControl", "appMargins", "baseLayout", "canvasPanel", "autoExtractPaletteContainer", "definedPresetPaletteContainer", "customPresetPaletteContainer", "definedPaletteFlowContainer", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "loadImageButton", "processButton", "squareDimensionButton8", "squareDimensionButton16", "squareDimensionButton32", "squareDimensionButton64", "squareDimensionButton128", "squareDimensionButton256", "paletteLimitButton8", "paletteLimitButton16", "paletteLimitButton32", "paletteLimitButton64", "paletteLimitButton128", "paletteLimitButton256", "contrastSlider", "brightnessSlider", "ditheringStrengthSlider", "contrastSpinBox", "brightnessSpinBox", "widthSpinBox", "heightSpinBox", "ditheringStrenthSpinBox", "paletteColorLimitSpinBox", "ditheringTypeDropdown", "colorPaletteTypeDropdown", "definedColorPaletteDropdown", "customColorPaletteDropdown", "extractionMethodDropdown", "proportionalEditingCheckBox", "showSourceCheck")]
+[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("enhancementsControl", "dimensionsControl", "ditheringControl", "colorPaletteControl", "appMargins", "baseLayout", "canvasPanel", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "loadImageButton", "processButton", "showSourceCheck")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,44 +25,13 @@ colorPaletteControl = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsLis
 appMargins = NodePath("AppMargins")
 baseLayout = NodePath("AppMargins/BaseLayout")
 canvasPanel = NodePath("AppMargins/BaseLayout/CanvasPanel")
-autoExtractPaletteContainer = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType")
-definedPresetPaletteContainer = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType")
-customPresetPaletteContainer = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType")
-definedPaletteFlowContainer = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/HFlowContainer_ColorPalettePreview")
 controlsScroll = NodePath("AppMargins/BaseLayout/ControlsScroll")
 sourceDisplay = NodePath("AppMargins/BaseLayout/CanvasPanel/ImageContainer/SourceDisplay")
 processedDisplay = NodePath("AppMargins/BaseLayout/CanvasPanel/ImageContainer/ProcessedDisplay")
 popUp = NodePath("PopUpPanel")
 loadImageFileDialog = NodePath("FileDialog_LoadImage")
-loadImageButton = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/Button_LoadImage")
-processButton = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/Button_Process")
-squareDimensionButton8 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_8")
-squareDimensionButton16 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_16")
-squareDimensionButton32 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_32")
-squareDimensionButton64 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_64")
-squareDimensionButton128 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_128")
-squareDimensionButton256 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_256")
-paletteLimitButton8 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_8")
-paletteLimitButton16 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_16")
-paletteLimitButton32 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_32")
-paletteLimitButton64 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_64")
-paletteLimitButton128 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_128")
-paletteLimitButton256 = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_256")
-contrastSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HSlider_Contrast")
-brightnessSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HSlider_Brightness")
-ditheringStrengthSlider = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HSlider_DitheringStrength")
-contrastSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_ContrastSettings/SpinBox_Contrast")
-brightnessSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/HBoxContainer_BrightnessSettings/SpinBox_Brightness")
-widthSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings/SpinBox_Width")
-heightSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_DimensionSettings/SpinBox_Height")
-ditheringStrenthSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/MarginContainer_DitheringStrength/VBoxContainer_DitheringStrength/HBoxContainer_DitheringStrength/SpinBox_DitheringStrength")
-paletteColorLimitSpinBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_MaxColorPaletteColors/SpinBox_MaxColorPaletteColors")
-ditheringTypeDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering/HBoxContainer_Dithering/OptionButton_DitheringType")
-colorPaletteTypeDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/HBoxContainer_PaletteType/OptionButton_PaletteType")
-definedColorPaletteDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType/VBoxContainer/HBoxContainer_DefinedPalette/OptionButton_DefinedPalette")
-customColorPaletteDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette/OptionButton_CustomPalette")
-extractionMethodDropdown = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_ExtractionMethod/OptionButton_ExtractionMethod")
-proportionalEditingCheckBox = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions/CheckBox_ProportionalEditing")
+loadImageButton = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO/VBoxContainer_FileIO/Button_LoadImage")
+processButton = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO/VBoxContainer_FileIO/Button_Process")
 showSourceCheck = NodePath("AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/CheckButton_DarkEdge")
 
 [node name="Background" type="ColorRect" parent="." unique_id=2080152795]
@@ -126,7 +95,6 @@ expand_mode = 4
 stretch_mode = 5
 
 [node name="ControlsScroll" type="ScrollContainer" parent="AppMargins/BaseLayout" unique_id=1257956139]
-clip_contents = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/scrollbar_h_separation = 16
@@ -136,11 +104,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Button_LoadImage" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=703394779]
+[node name="MarginContainer_FileIO" type="MarginContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=1861978792]
+layout_mode = 2
+
+[node name="VBoxContainer_FileIO" type="VBoxContainer" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO" unique_id=1670426421]
+layout_mode = 2
+
+[node name="Label_FileInfo" type="Label" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO/VBoxContainer_FileIO" unique_id=364465138]
+layout_mode = 2
+text = "FILE_INFO"
+
+[node name="Button_LoadImage" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO/VBoxContainer_FileIO" unique_id=703394779]
 layout_mode = 2
 text = "Load Image"
 
-[node name="Button_Process" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList" unique_id=860016394]
+[node name="Button_Process" type="Button" parent="AppMargins/BaseLayout/ControlsScroll/ControlsList/MarginContainer_FileIO/VBoxContainer_FileIO" unique_id=860016394]
 layout_mode = 2
 text = "Process & Export"
 

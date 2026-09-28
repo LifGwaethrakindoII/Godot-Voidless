@@ -11,6 +11,7 @@ namespace Voidless.PixelArtToolkit
     public partial class PixelConverter : Control
     {
         [ExportCategory("Controls:")]
+        [Export] private ImageViewerControl imageViewerControl;
         [Export] private ImportControl importControl;
         [Export] private EnhancementsControl enhancementsControl;
         [Export] private DimensionsControl dimensionsControl;
@@ -24,15 +25,11 @@ namespace Voidless.PixelArtToolkit
         [Export] private BoxContainer baseLayout;
         [Export] private Panel canvasPanel;
         [Export] private ScrollContainer controlsScroll;
-        [Export] private TextureRect sourceDisplay;
-        [Export] private TextureRect processedDisplay;
         [ExportGroup("UI Interactables:")]
         [Export] private DisplayDialogue popUp;
         [Export] private FileDialog loadImageFileDialog;
         [ExportGroup("Checkboxes/Toggles:")]
         [Export] private CheckButton showSourceCheck;
-        private Image sourceImage;
-        private Image processedImage;
         private ConfigFile configFile;
         private Settings settings;
         private bool isLandscape;
@@ -54,7 +51,6 @@ namespace Voidless.PixelArtToolkit
             processControl.OnPreviewToggled += OnPreviewToggled;
             processControl.OnProcessRequested += OnProcessRequested;
             exportControl.OnFileExported += OnFileExported;
-            showSourceCheck.Toggled += OnPreviewToggled;
 
             UpdateLayout();
             EvaluateImageDisplays();
@@ -84,12 +80,18 @@ namespace Voidless.PixelArtToolkit
             popUp.ShowDialog("Error!", message, null, popUp.HideDialog);
         }
 
+        private void UpdateDisplays(Image sourceImage, Image processedImage = null)
+        {
+            imageViewerControl.SetValues(sourceImage, processedImage);
+            EvaluateImageDisplays();
+        }
+
         private void EvaluateImageDisplays()
         {
-            bool sourceDisplayLoaded = sourceDisplay.Texture != null;
+            bool sourceDisplayLoaded = imageViewerControl.HasSource;
 
             processControl.Visible = sourceDisplayLoaded;
-            exportControl.Visible = (sourceDisplayLoaded && processedDisplay.Texture != null);
+            exportControl.Visible = (sourceDisplayLoaded && imageViewerControl.HasProcessed);
             VCanvasItem.SetMultipleVisible
             (
                 sourceDisplayLoaded,
@@ -110,17 +112,20 @@ namespace Voidless.PixelArtToolkit
 
 #region UICallbacks:
 /*==========================================================================
-|       Button Callbacks:                                                  |
+|       Control Module Callbacks:                                          |
 ==========================================================================*/
         private void OnProcessRequested()
         {
-            if(sourceImage == null)
+            if(!imageViewerControl.HasSource)
             {
                 DisplayError("Please load an image first!");
                 return;
             }
 
-            processedImage = sourceImage.Duplicate() as Image;
+            Image sourceImage = imageViewerControl.SourceImage;
+            Image processedImage = imageViewerControl.ProcessedImage;
+
+            processedImage = imageViewerControl.GetDuplicateSourceImage();
             processedImage = processedImage.NearestNeighborScale(dimensionsControl.Width, dimensionsControl.Height);
             processedImage.ApplyModifications
             (
@@ -146,18 +151,16 @@ namespace Voidless.PixelArtToolkit
                     processedImage.ApplyFloydSteinberg(s, palette);
                 break;
             }
-            processedDisplay.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
-            processedDisplay.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
-            hasProcessed = true;
-            showSourceCheck.Disabled = false;
-            UpdateDisplays();
+            
+            imageViewerControl.UpdateProcessedDisplay();
+            UpdateDisplays(sourceImage, processedImage);
         }
 
         private void OnFileImported(string path)
         {
             GD.Print("Loading image from: " + path);
 
-            sourceImage = new Image();
+            Image sourceImage = new Image();
             Error error = sourceImage.Load(path);
 
             if(error != Error.Ok)
@@ -166,14 +169,8 @@ namespace Voidless.PixelArtToolkit
                 return;
             }
 
-            processedImage = null;
-            hasProcessed = false;
-            showSourceCheck.ButtonPressed = false;
-            showSourceCheck.Disabled = true;
             colorPaletteControl.Image = sourceImage;
-            UpdateDisplays();
-            /*ImageTexture texture = ImageTexture.CreateFromImage(sourceImage);
-            sourceDisplay.Texture = texture;*/
+            UpdateDisplays(sourceImage);
 
             GD.Print("Image loaded successfully with size: " + sourceImage.GetSize());
             configFile.SetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, Path.GetDirectoryName(path)); // "Path", "LastPath", ...
@@ -182,14 +179,14 @@ namespace Voidless.PixelArtToolkit
 
         private void OnFileExported(string path)
         {
-            if(processedImage == null)
+            if(!imageViewerControl.HasProcessed)
             {
                 DisplayError("No Processed image (What!?), won't be able to export image.");
                 return;
             }
 
             Vector2I size = scalingControl.ScaledDimensions;
-            Image duplicate = processedImage.Duplicate() as Image;
+            Image duplicate = imageViewerControl.GetDuplicateProcessedImage();
             duplicate = duplicate.NearestNeighborScale(size.X, size.Y);
             
             bool result = duplicate.SaveImageToDisk(path);
@@ -219,13 +216,6 @@ namespace Voidless.PixelArtToolkit
             //if(isLandscape) RebuildLayout();
         }
 
-        private void UpdateDisplays()
-        {
-            if(sourceImage != null) sourceDisplay.Texture = ImageTexture.CreateFromImage(sourceImage);
-            if(processedImage != null) processedDisplay.Texture = ImageTexture.CreateFromImage(processedImage);
-            EvaluateImageDisplays();
-        }
-
         private void RebuildLayout()
         {
             if(baseLayout == null || appMargins == null || canvasPanel == null || controlsScroll == null) return;
@@ -251,35 +241,12 @@ namespace Voidless.PixelArtToolkit
             baseLayout.QueueFree();
 
             ApplySizeFlags(canvasPanel, controlsScroll);
-            ApplyPremiumFeatures();
-        }
-
-        private void ApplyPremiumFeatures()
-        {
-            switch(isLandscape)
-            {
-                case true:
-                    sourceDisplay.Visible = true;
-                    processedDisplay.Visible = true;
-                    showSourceCheck.Disabled = true;
-                    showSourceCheck.Text = "Preview Original (PC: Always Visible)";
-                break;
-
-                case false:
-                    controlsScroll.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-                    controlsScroll.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
-                    controlsScroll.CustomMinimumSize = new Vector2(0, 0); 
-
-                    showSourceCheck.Disabled = !hasProcessed;
-                    showSourceCheck.Text = "Preview Original";
-                    sourceDisplay.Visible = showSourceCheck.ButtonPressed;
-                    processedDisplay.Visible = !showSourceCheck.ButtonPressed;
-                break;
-            }
         }
 
         private void ApplySizeFlags(Panel canvas, ScrollContainer scroll)
         {
+            if(canvas == null || scroll == null) return;
+
             canvas.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
             canvas.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
             canvas.CustomMinimumSize = new Vector2(0, 0); // Allow it to shrink if needed
@@ -302,14 +269,6 @@ namespace Voidless.PixelArtToolkit
                     scroll.CustomMinimumSize = new Vector2(0, 0); 
                 break;
             }
-        }
-
-        private void SwitchImageDisplay(bool toggled)
-        {
-            if(isLandscape) return;
-
-            sourceDisplay.Visible = !toggled;
-            processedDisplay.Visible = toggled;
         }
 #endregion
 

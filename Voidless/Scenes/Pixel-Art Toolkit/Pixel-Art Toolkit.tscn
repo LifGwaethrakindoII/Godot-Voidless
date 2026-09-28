@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bj724ydidcfx" path="res://Voidless/Scripts/Pixel-Art Toolkit/PixelConverter.cs" id="1_5p8kf"]
 [ext_resource type="Script" uid="uid://7tpm6bdnvcsg" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/EnhancementsControl.cs" id="2_5xjmc"]
 [ext_resource type="Script" uid="uid://blcgk5yrh2ddf" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ImportControl.cs" id="2_8p0x1"]
+[ext_resource type="Script" uid="uid://4skn5ki5v8m0" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ImageViewerControl.cs" id="2_n4rba"]
 [ext_resource type="Script" uid="uid://cncwd1atg2l3t" path="res://Voidless/Scripts/UI/DisplayDialogue.cs" id="2_p2vgv"]
 [ext_resource type="Script" uid="uid://d3m4b171tbn61" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/DimensionsControl.cs" id="3_de1ei"]
 [ext_resource type="Script" uid="uid://b1m6p65xju4fm" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/DitheringControl.cs" id="4_ilx1j"]
@@ -14,7 +15,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2vgv"]
 bg_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 
-[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("importControl", "enhancementsControl", "dimensionsControl", "scalingControl", "ditheringControl", "colorPaletteControl", "processControl", "exportControl", "appMargins", "baseLayout", "canvasPanel", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "showSourceCheck")]
+[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("imageViewerControl", "importControl", "enhancementsControl", "dimensionsControl", "scalingControl", "ditheringControl", "colorPaletteControl", "processControl", "exportControl", "appMargins", "baseLayout", "canvasPanel", "controlsScroll", "popUp", "loadImageFileDialog", "showSourceCheck")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,6 +23,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5p8kf")
+imageViewerControl = NodePath("AppMargins/HBoxContainer_BaseLayout/MarginContainer_ImageViewer")
 importControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import")
 enhancementsControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements")
 dimensionsControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions")
@@ -32,10 +34,8 @@ processControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_Rig
 exportControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Export")
 appMargins = NodePath("AppMargins")
 baseLayout = NodePath("AppMargins/HBoxContainer_BaseLayout")
-canvasPanel = NodePath("AppMargins/HBoxContainer_BaseLayout/CanvasPanel")
+canvasPanel = NodePath("AppMargins/HBoxContainer_BaseLayout/MarginContainer_ImageViewer/CanvasPanel")
 controlsScroll = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll")
-sourceDisplay = NodePath("AppMargins/HBoxContainer_BaseLayout/CanvasPanel/ImageContainer/SourceDisplay")
-processedDisplay = NodePath("AppMargins/HBoxContainer_BaseLayout/CanvasPanel/ImageContainer/ProcessedDisplay")
 popUp = NodePath("PopUpPanel")
 loadImageFileDialog = NodePath("FileDialog_LoadImage")
 showSourceCheck = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/CheckButton_DarkEdge")
@@ -65,13 +65,20 @@ theme_override_constants/margin_bottom = 16
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="CanvasPanel" type="Panel" parent="AppMargins/HBoxContainer_BaseLayout" unique_id=2010412551]
+[node name="MarginContainer_ImageViewer" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout" unique_id=762380041 node_paths=PackedStringArray("sourceDisplay", "processedDisplay")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.5
+script = ExtResource("2_n4rba")
+sourceDisplay = NodePath("CanvasPanel/ImageContainer/SourceDisplay")
+processedDisplay = NodePath("CanvasPanel/ImageContainer/ProcessedDisplay")
+
+[node name="CanvasPanel" type="Panel" parent="AppMargins/HBoxContainer_BaseLayout/MarginContainer_ImageViewer" unique_id=2010412551]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 2.5
 
-[node name="ImageDisplay" type="TextureRect" parent="AppMargins/HBoxContainer_BaseLayout/CanvasPanel" unique_id=378818691]
+[node name="ImageDisplay" type="TextureRect" parent="AppMargins/HBoxContainer_BaseLayout/MarginContainer_ImageViewer/CanvasPanel" unique_id=378818691]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -80,7 +87,7 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch_mode = 4
 
-[node name="ImageContainer" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/CanvasPanel" unique_id=270353115]
+[node name="ImageContainer" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/MarginContainer_ImageViewer/CanvasPanel" unique_id=270353115]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -89,13 +96,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SourceDisplay" type="TextureRect" parent="AppMargins/HBoxContainer_BaseLayout/CanvasPanel/ImageContainer" unique_id=1630097064]
+[node name="SourceDisplay" type="TextureRect" parent="AppMargins/HBoxContainer_BaseLayout/MarginContainer_ImageViewer/CanvasPanel/ImageContainer" unique_id=1630097064]
 layout_mode = 2
 size_flags_horizontal = 3
 expand_mode = 4
 stretch_mode = 5
 
-[node name="ProcessedDisplay" type="TextureRect" parent="AppMargins/HBoxContainer_BaseLayout/CanvasPanel/ImageContainer" unique_id=960511555]
+[node name="ProcessedDisplay" type="TextureRect" parent="AppMargins/HBoxContainer_BaseLayout/MarginContainer_ImageViewer/CanvasPanel/ImageContainer" unique_id=960511555]
 layout_mode = 2
 size_flags_horizontal = 3
 expand_mode = 4

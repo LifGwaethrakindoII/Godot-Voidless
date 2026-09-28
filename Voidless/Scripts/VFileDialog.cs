@@ -1,3 +1,6 @@
+global using FileAccess = Godot.FileDialog.AccessEnum;
+global using FileMode = Godot.FileDialog.FileModeEnum;
+
 using Godot;
 using System;
 
@@ -5,27 +8,29 @@ namespace Voidless.UI
 {
     public static class VFileDialog
     {
-        public static void OpenInLoadMode(this FileDialog fileDialog, string title, params string[] filters)
+        public static void OpenInLoadMode(this FileDialog fileDialog, string title, string currentDir, float ratio = 0.8f, params string[] filters)
         {
             if(fileDialog == null || filters.IsNullOrEmpty()) return;
 
             fileDialog.Title = title;
+            fileDialog.CurrentDir = currentDir;
             fileDialog.Filters = filters;
-            fileDialog.FileMode = FileDialog.FileModeEnum.OpenFile;
-            fileDialog.Access = FileDialog.AccessEnum.Filesystem;
-            fileDialog.PopupCenteredRatio(0.8f);
+            fileDialog.FileMode = FileMode.OpenFile;
+            fileDialog.Access = FileAccess.Filesystem;
+            fileDialog.PopupCenteredRatio(ratio);
         }
 
-        public static void OpenInSaveMode(this FileDialog fileDialog, string title, string defaultFileName, params string[] filters)
+        public static void OpenInSaveMode(this FileDialog fileDialog, string title, string currentDir, string defaultFileName, float ratio = 0.8f, params string[] filters)
         {
             if(fileDialog == null || filters.IsNullOrEmpty()) return;
 
             fileDialog.Title = title;
+            fileDialog.CurrentDir = currentDir;
             fileDialog.Filters = filters;
-            fileDialog.FileMode = FileDialog.FileModeEnum.SaveFile;
-            fileDialog.Access = FileDialog.AccessEnum.Filesystem;
+            fileDialog.FileMode = FileMode.SaveFile;
+            fileDialog.Access = FileAccess.Filesystem;
             fileDialog.CurrentFile = defaultFileName;  
-            fileDialog.PopupCenteredRatio(0.8f);
+            fileDialog.PopupCenteredRatio(ratio);
         }
     }
 }

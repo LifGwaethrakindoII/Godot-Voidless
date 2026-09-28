@@ -13,7 +13,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2vgv"]
 bg_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 
-[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("importControl", "enhancementsControl", "dimensionsControl", "ditheringControl", "colorPaletteControl", "processControl", "exportControl", "appMargins", "baseLayout", "canvasPanel", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "loadImageButton", "processButton", "showSourceCheck")]
+[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("importControl", "enhancementsControl", "dimensionsControl", "ditheringControl", "colorPaletteControl", "processControl", "exportControl", "appMargins", "baseLayout", "canvasPanel", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "showSourceCheck")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,8 +36,6 @@ sourceDisplay = NodePath("AppMargins/HBoxContainer_BaseLayout/CanvasPanel/ImageC
 processedDisplay = NodePath("AppMargins/HBoxContainer_BaseLayout/CanvasPanel/ImageContainer/ProcessedDisplay")
 popUp = NodePath("PopUpPanel")
 loadImageFileDialog = NodePath("FileDialog_LoadImage")
-loadImageButton = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import/VBoxContainer_Import/Button_LoadImage")
-processButton = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Process/VBoxContainer_Process/Button_Process")
 showSourceCheck = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements/VBoxContainer_Enhancements/CheckButton_DarkEdge")
 
 [node name="Background" type="ColorRect" parent="." unique_id=2080152795]
@@ -342,11 +340,11 @@ definedColorPaletteDropdown = NodePath("VBoxContainer_ColorPalettes/PanelContain
 customColorPaletteDropdown = NodePath("VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette/OptionButton_CustomPalette")
 extractionMethodDropdown = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_ExtractionMethod/OptionButton_ExtractionMethod")
 paletteLimitButton8 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_8")
-paletteLimitButton16 = NodePath("../MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_16")
-paletteLimitButton32 = NodePath("../MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_32")
-paletteLimitButton64 = NodePath("../MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_64")
-paletteLimitButton128 = NodePath("../MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_128")
-paletteLimitButton256 = NodePath("../MarginContainer_Dimensions/VBoxContainer_Dimensions/HBoxContainer_SquareDimensionButtons/Button_SquareDimension_256")
+paletteLimitButton16 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_16")
+paletteLimitButton32 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_32")
+paletteLimitButton64 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_64")
+paletteLimitButton128 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_128")
+paletteLimitButton256 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_256")
 
 [node name="VBoxContainer_ColorPalettes" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes" unique_id=436461435]
 layout_mode = 2

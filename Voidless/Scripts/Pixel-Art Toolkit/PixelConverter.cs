@@ -29,9 +29,6 @@ namespace Voidless.PixelArtToolkit
         [ExportGroup("UI Interactables:")]
         [Export] private DisplayDialogue popUp;
         [Export] private FileDialog loadImageFileDialog;
-        [ExportGroup("Buttons:")]
-        [Export] private Button loadImageButton;
-        [Export] private Button processButton;
         [ExportGroup("Checkboxes/Toggles:")]
         [Export] private CheckButton showSourceCheck;
         private Image sourceImage;
@@ -44,20 +41,158 @@ namespace Voidless.PixelArtToolkit
         public override void _Ready()
         {
             configFile = new ConfigFile();
-            settings = new Settings();
+            settings = Settings.Default();
             popUp.Visible = false;
 
+            // Feed the ImportControl:
+            configFile.Load(Constants.PATH_SETTINGS);
+            SetupControls();
+
             GetTree().Root.SizeChanged += OnViewportResized;
-            loadImageButton.Pressed += OnLoadImagePressed;
-            processButton.Pressed += OnProcessPressed;
-            loadImageFileDialog.FileSelected += OnImageFileSelected;
+            importControl.OnFileImported += OnFileImported;
+            processControl.OnPreviewToggled += OnPreviewToggled;
+            processControl.OnProcessRequested += OnProcessRequested;
+            exportControl.OnFileExported += OnFileExported;
             showSourceCheck.Toggled += OnPreviewToggled;
 
-            loadImageFileDialog.Access = FileDialog.AccessEnum.Filesystem;
-            loadImageFileDialog.FileMode = FileDialog.FileModeEnum.OpenFile; 
             UpdateLayout();
+            EvaluateImageDisplays();
         }
 
+        private void SetupControls()
+        {
+            string currentDir = configFile.GetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, Constants.VARIANT_LASTPATH).As<string>();
+            
+            importControl.SetValues(Constants.TITLE_LOADIMAGE, currentDir, Constants.FILTERS_IMAGES);
+            enhancementsControl.SetValues(settings.DarkOutline, settings.Contrast, settings.Brightness);
+            dimensionsControl.SetValues(settings.ProportionalEditing, settings.Width, settings.Height);
+            ditheringControl.SetValues(settings.DitheringType, settings.DitheringStrength);
+            colorPaletteControl.SetValues(settings.ColorExtractionMethod, settings.PaletteType);
+            processControl.SetValues(false);
+            exportControl.SetValues(Constants.TITLE_SAVEIMAGE, currentDir, "newImage.png", Constants.FILTERS_IMAGES);
+        }
+
+        private void UpdateSettings()
+        {
+
+        }
+
+        private void DisplayError(string message)
+        {
+            popUp.ShowDialog("Error!", message, null, popUp.HideDialog);
+        }
+
+        private void EvaluateImageDisplays()
+        {
+            bool sourceDisplayLoaded = sourceDisplay.Texture != null;
+
+            processControl.Visible = sourceDisplayLoaded;
+            exportControl.Visible = (sourceDisplayLoaded && processedDisplay.Texture != null);
+            VCanvasItem.SetMultipleVisible
+            (
+                sourceDisplayLoaded,
+                enhancementsControl,
+                dimensionsControl,
+                ditheringControl,
+                colorPaletteControl
+            );
+        }
+
+#region Callbacks:
+        private void OnViewportResized()
+        {
+            UpdateLayout();
+        }
+#endregion
+
+#region UICallbacks:
+/*==========================================================================
+|       Button Callbacks:                                                  |
+==========================================================================*/
+        private void OnProcessRequested()
+        {
+            if(sourceImage == null)
+            {
+                DisplayError("Please load an image first!");
+                return;
+            }
+
+            processedImage = sourceImage.Duplicate() as Image;
+            processedImage = processedImage.NearestNeighborScale(dimensionsControl.Width, dimensionsControl.Height);
+            processedImage.ApplyModifications
+            (
+                img => VColor.Brightness(img, enhancementsControl.Brightness),
+                img => VColor.Contrast(img, enhancementsControl.Contrast)
+            );
+            //processedImage = VImage.ApplyPalette(processedImage, VColor.PALETTE_GAMEBOY);
+            float s = ditheringControl.Strength;
+
+            Color[] palette = colorPaletteControl.Palette;
+
+            switch(ditheringControl.DitheringType)
+            {
+                case DitheringType.None:
+                    processedImage.ApplyPalette(palette);
+                break;
+
+                case DitheringType.Ordered:
+                    processedImage.ApplyOrderedDithering(s, palette);
+                break;
+
+                case DitheringType.Floyd_S:
+                    processedImage.ApplyFloydSteinberg(s, palette);
+                break;
+            }
+            processedDisplay.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
+            processedDisplay.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
+            hasProcessed = true;
+            showSourceCheck.Disabled = false;
+            UpdateDisplays();
+        }
+
+        private void OnFileImported(string path)
+        {
+            GD.Print("Loading image from: " + path);
+
+            sourceImage = new Image();
+            Error error = sourceImage.Load(path);
+
+            if(error != Error.Ok)
+            {
+                DisplayError("Falied to load image. Error code: " + error);
+                return;
+            }
+
+            processedImage = null;
+            hasProcessed = false;
+            showSourceCheck.ButtonPressed = false;
+            showSourceCheck.Disabled = true;
+            colorPaletteControl.Image = sourceImage;
+            UpdateDisplays();
+            /*ImageTexture texture = ImageTexture.CreateFromImage(sourceImage);
+            sourceDisplay.Texture = texture;*/
+
+            GD.Print("Image loaded successfully with size: " + sourceImage.GetSize());
+            configFile.SetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, Path.GetDirectoryName(path)); // "Path", "LastPath", ...
+            configFile.Save(Constants.PATH_SETTINGS);
+        }
+
+        private void OnFileExported(string path)
+        {
+            bool result = processedImage.SaveImageToDisk(path);
+            DisplayError("Saved at path: " + path + ". Successful? " + result);
+        }
+
+/*==========================================================================
+|       Toggle Callbacks:                                                  |
+==========================================================================*/
+        private void OnPreviewToggled(bool toggled)
+        {
+            
+        }
+#endregion
+
+#region DeprecatedLayoutFunctions:
         private void UpdateLayout()
         {
             Vector2 size = GetViewportRect().Size;
@@ -70,6 +205,7 @@ namespace Voidless.PixelArtToolkit
         {
             if(sourceImage != null) sourceDisplay.Texture = ImageTexture.CreateFromImage(sourceImage);
             if(processedImage != null) processedDisplay.Texture = ImageTexture.CreateFromImage(processedImage);
+            EvaluateImageDisplays();
         }
 
         private void RebuildLayout()
@@ -150,102 +286,7 @@ namespace Voidless.PixelArtToolkit
             }
         }
 
-        private void DisplayError(string message)
-        {
-            popUp.ShowDialog("Error!", message, null, popUp.HideDialog);
-        }
-
-#region Callbacks:
-        private void OnViewportResized()
-        {
-            UpdateLayout();
-        }
-#endregion
-
-#region UICallbacks:
-/*==========================================================================
-|       Button Callbacks:                                                  |
-==========================================================================*/
-        private void OnLoadImagePressed()
-        {
-            configFile.Load(Constants.PATH_SETTINGS);
-
-            loadImageFileDialog.CurrentDir = configFile.GetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, Constants.VARIANT_LASTPATH).As<string>();
-            loadImageFileDialog.PopupCenteredRatio(0.8f);
-        }
-
-        private void OnProcessPressed()
-        {
-            if(sourceImage == null)
-            {
-                DisplayError("Please load an image first!");
-                return;
-            }
-
-            processedImage = sourceImage.Duplicate() as Image;
-            processedImage = processedImage.NearestNeighborScale(dimensionsControl.Width, dimensionsControl.Height);
-            processedImage.ApplyModifications
-            (
-                img => VColor.Brightness(img, enhancementsControl.Brightness),
-                img => VColor.Contrast(img, enhancementsControl.Contrast)
-            );
-            //processedImage = VImage.ApplyPalette(processedImage, VColor.PALETTE_GAMEBOY);
-            float s = ditheringControl.Strength;
-
-            Color[] palette = colorPaletteControl.Palette;
-
-            switch(ditheringControl.DitheringType)
-            {
-                case DitheringType.None:
-                    processedImage.ApplyPalette(palette);
-                break;
-
-                case DitheringType.Ordered:
-                    processedImage.ApplyOrderedDithering(s, palette);
-                break;
-
-                case DitheringType.Floyd_S:
-                    processedImage.ApplyFloydSteinberg(s, palette);
-                break;
-            }
-            processedDisplay.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
-            processedDisplay.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
-            hasProcessed = true;
-            showSourceCheck.Disabled = false;
-            UpdateDisplays();
-        }
-
-        private void OnImageFileSelected(string path)
-        {
-            GD.Print("Loading image from: " + path);
-
-            sourceImage = new Image();
-            Error error = sourceImage.Load(path);
-
-            if(error != Error.Ok)
-            {
-                DisplayError("Falied to load image. Error code: " + error);
-                return;
-            }
-
-            processedImage = null;
-            hasProcessed = false;
-            showSourceCheck.ButtonPressed = false;
-            showSourceCheck.Disabled = true;
-            colorPaletteControl.Image = sourceImage;
-            UpdateDisplays();
-            /*ImageTexture texture = ImageTexture.CreateFromImage(sourceImage);
-            sourceDisplay.Texture = texture;*/
-
-            GD.Print("Image loaded successfully with size: " + sourceImage.GetSize());
-            configFile.SetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, Path.GetDirectoryName(path)); // "Path", "LastPath", ...
-            configFile.Save(Constants.PATH_SETTINGS);
-        }
-
-/*==========================================================================
-|       Toggle Callbacks:                                                  |
-==========================================================================*/
-        private void OnPreviewToggled(bool toggled)
+        private void SwitchImageDisplay(bool toggled)
         {
             if(isLandscape) return;
 
@@ -253,5 +294,6 @@ namespace Voidless.PixelArtToolkit
             processedDisplay.Visible = toggled;
         }
 #endregion
+
     }
 }

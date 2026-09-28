@@ -7,6 +7,10 @@ namespace Voidless
     {
         public static readonly int[,] BAYERMATRIX_4X4;
 
+        public const string EXTENSION_PNG = ".png";
+        public const string EXTENSION_JPG = ".jpg";
+        public const string EXTENSION_JPEG = ".jpeg";
+
         static VImage()
         {
             BAYERMATRIX_4X4 = new int[,]
@@ -150,5 +154,36 @@ namespace Voidless
                 }
             }
         }
+
+#region Serialization:
+        public static bool SaveImageToDisk(this Image image, string filePath)
+        {
+            string extension = System.IO.Path.GetExtension(filePath).ToLower();
+            Error saveError = Error.Ok;
+
+            switch(extension)
+            {
+                case EXTENSION_PNG:
+                    saveError = image.SavePng(filePath);
+                break;
+
+                case EXTENSION_JPG:
+                case EXTENSION_JPEG:
+                    saveError = image.SaveJpg(filePath);
+                break;
+
+                default:
+                    GD.PrintErr("Unsupported image format: " + extension);
+                return false;
+            }
+
+            string message = saveError != Error.Ok ? "Failed to save " + extension + " image. Error: " + saveError.ToString()
+                            : "Successfuly saved " + extension + " image to: " + filePath;
+
+            GD.Print(message);
+
+            return saveError == Error.Ok;
+        }
+#endregion
     }
 }

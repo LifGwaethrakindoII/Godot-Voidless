@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Voidless.UI;
 
 namespace Voidless.PixelArtToolkit
 {
@@ -14,6 +15,27 @@ namespace Voidless.PixelArtToolkit
         [Export] private Button loadButton;
         [ExportCategory("Windows")]
         [Export] private FileDialog loadFileDialog;
+        private string title;
+        private string currentDir;
+        private string[] filters;
+
+        public string Title
+        {
+            get { return title; }
+            set { title = value; }
+        }
+
+        public string CurrentDir
+        {
+            get { return currentDir; }
+            set { currentDir = value; }
+        }
+
+        public string[] Filters
+        {
+            get { return filters; }
+            set { filters = value; }
+        }
 
         public override void _Ready()
         {
@@ -21,10 +43,19 @@ namespace Voidless.PixelArtToolkit
             loadFileDialog.FileSelected += OnLoadFileDialogFileSelected;
         }
 
+        public void SetValues(string title, string currentDir, params string[] filters)
+        {
+            Title = title;
+            CurrentDir = currentDir;
+            Filters = filters;
+            loadFileDialog.Title = title;
+            loadFileDialog.CurrentDir = currentDir;
+            loadFileDialog.Filters = filters;
+        }
+
         private void OnLoadButtonPressed()
         {
-            // The UI's only job is to open the window
-            loadFileDialog.PopupCentered();
+            loadFileDialog.OpenInLoadMode(Title, CurrentDir, Constants.RATIO_FILEDIALOG, Filters);
         }
 
         private void OnLoadFileDialogFileSelected(string path)

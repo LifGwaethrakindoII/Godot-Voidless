@@ -15,6 +15,8 @@ namespace Voidless.PixelArtToolkit
         public static readonly string[] FILTERS_IMAGES;
         public static readonly string[] FILTERS_COLORPALETTES;
 
+        public const string TITLE_LOADIMAGE = "Load Image";
+        public const string TITLE_SAVEIMAGE = "Save Image";
         public const string SECTION_PATH = "Path";
         public const string PATH_SETTINGS = "user://settings.cfg";
         public const string KEY_LASTPATH = "LastPath";
@@ -24,6 +26,7 @@ namespace Voidless.PixelArtToolkit
         public const float MAX_RANGEVALUE = 100.0f;
         public const float INVERSE_RANGE = 1.0f / MAX_RANGEVALUE;
         public const float DIMENSION_SWATCH = 24.0f;
+        public const float RATIO_FILEDIALOG = 0.8f;
         public const double STEP_RANGE = 0.01;
         public const int MAX_PALETTECOLORS = 256;
         public const int MAX_DIMENSION = 4096;

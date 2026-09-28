@@ -9,11 +9,12 @@
 [ext_resource type="Script" uid="uid://cekxrlwxrm6cl" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ColorPaletteControl.cs" id="5_gcmr3"]
 [ext_resource type="Script" uid="uid://dpl288j07lbg5" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ProcessControl.cs" id="7_0hpme"]
 [ext_resource type="Script" uid="uid://dyrb52c6mbv5" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ExportControl.cs" id="7_35h8d"]
+[ext_resource type="Script" uid="uid://ctl8dek1psgd4" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ScalingControl.cs" id="7_n4rba"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2vgv"]
 bg_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 
-[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("importControl", "enhancementsControl", "dimensionsControl", "ditheringControl", "colorPaletteControl", "processControl", "exportControl", "appMargins", "baseLayout", "canvasPanel", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "showSourceCheck")]
+[node name="PixelArtToolkit" type="Control" unique_id=587084 node_paths=PackedStringArray("importControl", "enhancementsControl", "dimensionsControl", "scalingControl", "ditheringControl", "colorPaletteControl", "processControl", "exportControl", "appMargins", "baseLayout", "canvasPanel", "controlsScroll", "sourceDisplay", "processedDisplay", "popUp", "loadImageFileDialog", "showSourceCheck")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,6 +25,7 @@ script = ExtResource("1_5p8kf")
 importControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Import")
 enhancementsControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Enhancements")
 dimensionsControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions")
+scalingControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling")
 ditheringControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering")
 colorPaletteControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes")
 processControl = NodePath("AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/MarginContainer_Process")
@@ -269,6 +271,77 @@ layout_mode = 2
 text = "256"
 
 [node name="HSeparator_2" type="HSeparator" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dimensions/VBoxContainer_Dimensions" unique_id=151003091]
+layout_mode = 2
+
+[node name="MarginContainer_Scaling" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList" unique_id=73310603 node_paths=PackedStringArray("outputLabel", "scaleFactorSpinBox", "x1ScaleButton", "x2ScaleButton", "x4ScaleButton", "x8ScaleButton", "x16ScaleButton", "x32ScaleButton")]
+layout_mode = 2
+script = ExtResource("7_n4rba")
+outputLabel = NodePath("VBoxContainer_Scaling/HBoxContainer_ScalingAmount/Label_ScaleOutput")
+scaleFactorSpinBox = NodePath("VBoxContainer_Scaling/HBoxContainer_ScalingSettings/SpinBox_Scaling")
+x1ScaleButton = NodePath("VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons/Button_ScaleFactor_1")
+x2ScaleButton = NodePath("VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons/Button_ScaleFactor_2")
+x4ScaleButton = NodePath("VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons/Button_ScaleFactor_4")
+x8ScaleButton = NodePath("VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons/Button_ScaleFactor_8")
+x16ScaleButton = NodePath("VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons/Button_ScaleFactor_16")
+x32ScaleButton = NodePath("VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons/Button_ScaleFactor_32")
+
+[node name="VBoxContainer_Scaling" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling" unique_id=1403302037]
+layout_mode = 2
+
+[node name="Label_Scaling" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling" unique_id=1796204038]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Scaling"
+
+[node name="HBoxContainer_ScalingAmount" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling" unique_id=718290810]
+layout_mode = 2
+
+[node name="Label_OutputInfo" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling/HBoxContainer_ScalingAmount" unique_id=909914776]
+layout_mode = 2
+text = "Output: "
+
+[node name="Label_ScaleOutput" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling/HBoxContainer_ScalingAmount" unique_id=713460990]
+layout_mode = 2
+text = "1024 x 1024"
+
+[node name="HBoxContainer_ScalingSettings" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling" unique_id=1680515763]
+layout_mode = 2
+
+[node name="Label_Scaling" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling/HBoxContainer_ScalingSettings" unique_id=673694680]
+layout_mode = 2
+text = "Scale Factor: "
+
+[node name="SpinBox_Scaling" type="SpinBox" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling/HBoxContainer_ScalingSettings" unique_id=1074047718]
+layout_mode = 2
+
+[node name="HBoxContainer_SquareDimensionButtons" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling" unique_id=448287698]
+layout_mode = 2
+
+[node name="Button_ScaleFactor_1" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons" unique_id=12997500]
+layout_mode = 2
+text = "x1"
+
+[node name="Button_ScaleFactor_2" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons" unique_id=635809561]
+layout_mode = 2
+text = "x2"
+
+[node name="Button_ScaleFactor_4" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons" unique_id=33741014]
+layout_mode = 2
+text = "x4"
+
+[node name="Button_ScaleFactor_8" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons" unique_id=742195510]
+layout_mode = 2
+text = "x8"
+
+[node name="Button_ScaleFactor_16" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons" unique_id=33422391]
+layout_mode = 2
+text = "x16"
+
+[node name="Button_ScaleFactor_32" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling/HBoxContainer_SquareDimensionButtons" unique_id=356933666]
+layout_mode = 2
+text = "x32"
+
+[node name="HSeparator" type="HSeparator" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Scaling/VBoxContainer_Scaling" unique_id=1188246410]
 layout_mode = 2
 
 [node name="MarginContainer_Dithering" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList" unique_id=1805005140 node_paths=PackedStringArray("strengthSliderContainer", "ditheringTypeDropdown", "strengthSpinBox", "strengthSlider")]

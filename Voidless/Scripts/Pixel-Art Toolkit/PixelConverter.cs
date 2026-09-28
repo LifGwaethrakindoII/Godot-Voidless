@@ -14,12 +14,12 @@ namespace Voidless.PixelArtToolkit
         [Export] private ImportControl importControl;
         [Export] private EnhancementsControl enhancementsControl;
         [Export] private DimensionsControl dimensionsControl;
+        [Export] private ScalingControl scalingControl;
         [Export] private DitheringControl ditheringControl;
         [Export] private ColorPaletteControl colorPaletteControl;
         [Export] private ProcessControl processControl;
         [Export] private ExportControl exportControl;
         [ExportCategory("UI Containers:")]
-        [Export] private MarginContainer controlsPanel;
         [Export] private MarginContainer appMargins;
         [Export] private BoxContainer baseLayout;
         [Export] private Panel canvasPanel;
@@ -50,6 +50,7 @@ namespace Voidless.PixelArtToolkit
 
             GetTree().Root.SizeChanged += OnViewportResized;
             importControl.OnFileImported += OnFileImported;
+            dimensionsControl.OnChanged += OnDimensionsControlChanged;
             processControl.OnPreviewToggled += OnPreviewToggled;
             processControl.OnProcessRequested += OnProcessRequested;
             exportControl.OnFileExported += OnFileExported;
@@ -66,6 +67,7 @@ namespace Voidless.PixelArtToolkit
             importControl.SetValues(Constants.TITLE_LOADIMAGE, currentDir, Constants.FILTERS_IMAGES);
             enhancementsControl.SetValues(settings.DarkOutline, settings.Contrast, settings.Brightness);
             dimensionsControl.SetValues(settings.ProportionalEditing, settings.Width, settings.Height);
+            scalingControl.SetValues(settings.ScaleFactor, settings.Width, settings.Height);
             ditheringControl.SetValues(settings.DitheringType, settings.DitheringStrength);
             colorPaletteControl.SetValues(settings.ColorExtractionMethod, settings.PaletteType);
             processControl.SetValues(false);
@@ -93,6 +95,7 @@ namespace Voidless.PixelArtToolkit
                 sourceDisplayLoaded,
                 enhancementsControl,
                 dimensionsControl,
+                scalingControl,
                 ditheringControl,
                 colorPaletteControl
             );
@@ -179,8 +182,23 @@ namespace Voidless.PixelArtToolkit
 
         private void OnFileExported(string path)
         {
-            bool result = processedImage.SaveImageToDisk(path);
+            if(processedImage == null)
+            {
+                DisplayError("No Processed image (What!?), won't be able to export image.");
+                return;
+            }
+
+            Vector2I size = scalingControl.ScaledDimensions;
+            Image duplicate = processedImage.Duplicate() as Image;
+            duplicate = duplicate.NearestNeighborScale(size.X, size.Y);
+            
+            bool result = duplicate.SaveImageToDisk(path);
             DisplayError("Saved at path: " + path + ". Successful? " + result);
+        }
+
+        private void OnDimensionsControlChanged()
+        {
+            scalingControl.SetValues(scalingControl.ScaleFactor, dimensionsControl.Width, dimensionsControl.Height);
         }
 
 /*==========================================================================

@@ -16,6 +16,7 @@ namespace Voidless.PixelArtToolkit
         public int Width { get; set; }
         public int Height { get; set; }
         public int Dimension { get; set; } // I assume this is for the preset size (16, 32, 64...)
+        public int ScaleFactor { get; set; }
         public bool ProportionalEditing { get; set; }
 
         // --- Palette & Dithering ---
@@ -44,6 +45,7 @@ namespace Voidless.PixelArtToolkit
                 Width = 64,
                 Height = 64,
                 Dimension = 64,
+                ScaleFactor = 1,
                 MaxColors = 16,
                 PixelScale = 1,
                 LastFilePath = "C:/My/Images",

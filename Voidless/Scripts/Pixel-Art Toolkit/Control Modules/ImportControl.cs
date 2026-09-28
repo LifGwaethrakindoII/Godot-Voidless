@@ -55,11 +55,14 @@ namespace Voidless.PixelArtToolkit
 
         private void OnLoadButtonPressed()
         {
+            // Add this line to see exactly what Godot is receiving
+            GD.Print("[ImportControl] Opening FileDialog in directory: '" + CurrentDir + "'");
             loadFileDialog.OpenInLoadMode(Title, CurrentDir, Constants.RATIO_FILEDIALOG, Filters);
         }
 
         private void OnLoadFileDialogFileSelected(string path)
         {
+            if(loadFileDialog.FileMode != FileMode.OpenFile) return;
             if(OnFileImported != null) OnFileImported(path);
         }
     }

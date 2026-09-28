@@ -22,6 +22,18 @@ namespace Voidless
             };
         }
 
+        public static bool Equals(Image a, Image b)
+        {
+            if(a.GetSize() != b.GetSize() || a.GetFormat() != b.GetFormat()) return false;
+
+            byte[] dataA = a.GetData();
+            byte[] dataB = b.GetData();
+            ReadOnlySpan<byte> spanA = dataA;
+            ReadOnlySpan<byte> spanB = dataB;
+
+            return spanA.SequenceEqual(spanB);
+        }
+
         public static void ApplyPalette(this Image image, params Color[] palette)
         {
             if(image == null || palette == null || palette.Length == 0) return;

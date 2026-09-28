@@ -67,6 +67,7 @@ namespace Voidless.PixelArtToolkit
 
         private void OnSaveFileDialogFileSelected(string path)
         {
+            if(saveFileDialog.FileMode != FileMode.SaveFile) return;
             if(OnFileExported != null) OnFileExported(path);
         }
     }

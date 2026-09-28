@@ -31,20 +31,11 @@ namespace Voidless.PixelArtToolkit
         [ExportGroup("Checkboxes/Toggles:")]
         [Export] private CheckButton showSourceCheck;
         private ConfigFile configFile;
-        private Settings settings;
+        private PixelConversionSettings settings;
         private bool isLandscape;
-        private bool hasProcessed;
 
         public override void _Ready()
         {
-            configFile = new ConfigFile();
-            settings = Settings.Default();
-            popUp.Visible = false;
-
-            // Feed the ImportControl:
-            configFile.Load(Constants.PATH_SETTINGS);
-            SetupControls();
-
             GetTree().Root.SizeChanged += OnViewportResized;
             importControl.OnFileImported += OnFileImported;
             dimensionsControl.OnChanged += OnDimensionsControlChanged;
@@ -52,6 +43,8 @@ namespace Voidless.PixelArtToolkit
             processControl.OnProcessRequested += OnProcessRequested;
             exportControl.OnFileExported += OnFileExported;
 
+            LoadConfigFile();
+            SetupControls();
             UpdateLayout();
             EvaluateImageDisplays();
         }
@@ -75,9 +68,9 @@ namespace Voidless.PixelArtToolkit
 
         }
 
-        private void DisplayError(string message)
+        private void DisplayPopUp(string title, string message)
         {
-            popUp.ShowDialog("Error!", message, null, popUp.HideDialog);
+            popUp.ShowDialog(title, message, null, popUp.HideDialog);
         }
 
         private void UpdateDisplays(Image sourceImage, Image processedImage = null)
@@ -103,6 +96,25 @@ namespace Voidless.PixelArtToolkit
             );
         }
 
+        private void LoadConfigFile()
+        {
+            configFile = new ConfigFile();
+            settings = PixelConversionSettings.Default();
+
+            // Feed the ImportControl:
+            Error loadError = configFile.Load(Constants.PATH_SETTINGS);
+            string lastPath = configFile.GetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, string.Empty).As<string>();
+
+            if(loadError != Error.Ok || string.IsNullOrEmpty(lastPath))
+            {
+                lastPath = OS.GetSystemDir(OS.SystemDir.Documents);
+                configFile.SetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, lastPath);
+                configFile.Save(Constants.PATH_SETTINGS);
+            }
+
+            settings.LastFilePath = lastPath;
+        }
+
 #region Callbacks:
         private void OnViewportResized()
         {
@@ -118,7 +130,7 @@ namespace Voidless.PixelArtToolkit
         {
             if(!imageViewerControl.HasSource)
             {
-                DisplayError("Please load an image first!");
+                DisplayPopUp("Error", "Please load an image first!");
                 return;
             }
 
@@ -165,23 +177,28 @@ namespace Voidless.PixelArtToolkit
 
             if(error != Error.Ok)
             {
-                DisplayError("Falied to load image. Error code: " + error);
+                DisplayPopUp("Error", "Falied to load image. Error code: " + error);
                 return;
             }
 
             colorPaletteControl.Image = sourceImage;
             UpdateDisplays(sourceImage);
 
+            string newDir = Path.GetDirectoryName(path);
+
             GD.Print("Image loaded successfully with size: " + sourceImage.GetSize());
-            configFile.SetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, Path.GetDirectoryName(path)); // "Path", "LastPath", ...
+            configFile.SetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, newDir); // "Path", "LastPath", ...
             configFile.Save(Constants.PATH_SETTINGS);
+
+            importControl.CurrentDir = newDir;
+            exportControl.CurrentDir = newDir;
         }
 
         private void OnFileExported(string path)
         {
             if(!imageViewerControl.HasProcessed)
             {
-                DisplayError("No Processed image (What!?), won't be able to export image.");
+                DisplayPopUp("Error", "No Processed image (What!?), won't be able to export image.");
                 return;
             }
 
@@ -190,7 +207,19 @@ namespace Voidless.PixelArtToolkit
             duplicate = duplicate.NearestNeighborScale(size.X, size.Y);
             
             bool result = duplicate.SaveImageToDisk(path);
-            DisplayError("Saved at path: " + path + ". Successful? " + result);
+
+            if(result)
+            {
+                string newDir = Path.GetDirectoryName(path);
+
+                configFile.SetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, newDir);
+                configFile.Save(Constants.PATH_SETTINGS);
+
+                importControl.CurrentDir = newDir;
+                exportControl.CurrentDir = newDir;
+            }
+
+            DisplayPopUp(result ? "Success" : "Failure", "Saved at path: " + path + ". Successful? " + result);
         }
 
         private void OnDimensionsControlChanged()

@@ -13,10 +13,10 @@ namespace Voidless.UI
             if(fileDialog == null || filters.IsNullOrEmpty()) return;
 
             fileDialog.Title = title;
+            fileDialog.Access = FileAccess.Filesystem;
             fileDialog.CurrentDir = currentDir;
             fileDialog.Filters = filters;
             fileDialog.FileMode = FileMode.OpenFile;
-            fileDialog.Access = FileAccess.Filesystem;
             fileDialog.PopupCenteredRatio(ratio);
         }
 

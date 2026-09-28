@@ -4,37 +4,27 @@ using System;
 namespace Voidless.PixelArtToolkit
 {
     [Serializable]
-    public struct Settings
+    public struct PixelConversionSettings
     {
-        // --- Enhancements ---
         public bool EnhanceEdges { get; set; }
         public bool DarkOutline { get; set; }
         public float Contrast { get; set; }
         public float Brightness { get; set; }
-
-        // --- Dimensions ---
         public int Width { get; set; }
         public int Height { get; set; }
-        public int Dimension { get; set; } // I assume this is for the preset size (16, 32, 64...)
         public int ScaleFactor { get; set; }
         public bool ProportionalEditing { get; set; }
-
-        // --- Palette & Dithering ---
         public int MaxColors { get; set; }
         public int PixelScale { get; set; }
         public float DitheringStrength { get; set; }
-        
-        // --- System ---
         public string LastFilePath { get; set; }
-        
-        // Enums for dropdowns
         public ColorPaletteType PaletteType { get; set; }
         public DitheringType DitheringType { get; set; }
         public ColorExtractionMethod ColorExtractionMethod { get; set; }
 
-        public static Settings Default()
+        public static PixelConversionSettings Default()
         {
-            return new Settings
+            return new PixelConversionSettings
             {
                 EnhanceEdges = false,
                 DarkOutline = false,
@@ -44,7 +34,6 @@ namespace Voidless.PixelArtToolkit
                 DitheringStrength = 0.2f,
                 Width = 64,
                 Height = 64,
-                Dimension = 64,
                 ScaleFactor = 1,
                 MaxColors = 16,
                 PixelScale = 1,

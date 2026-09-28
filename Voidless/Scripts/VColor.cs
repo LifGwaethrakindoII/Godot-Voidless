@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Voidless
 {
@@ -394,6 +396,34 @@ namespace Voidless
             );
         }
 #endregion
+
+        public static bool Equals(Color[,] a, Color[,] b)
+        {
+            if(a == null || b == null) return false;
+            if(ReferenceEquals(a, b)) return true;
+
+            int rowsA = a.GetLength(0);
+            int colsA = a.GetLength(1);
+            int rowsB = b.GetLength(0);
+            int colsB = b.GetLength(1);
+
+            if(rowsA != rowsB || colsA != colsB) return false;
+
+            int length = rowsA * colsA;
+
+            ReadOnlySpan<Color> spanA = MemoryMarshal.CreateReadOnlySpan
+            (
+                ref Unsafe.As<byte, Color>(ref MemoryMarshal.GetArrayDataReference(a)), 
+                length
+            );
+            ReadOnlySpan<Color> spanB = MemoryMarshal.CreateReadOnlySpan
+            (
+                ref Unsafe.As<byte, Color>(ref MemoryMarshal.GetArrayDataReference(b)), 
+                length
+            );
+
+            return spanA.SequenceEqual(spanB);
+        } 
 
         public static Color Regular(float c, float a = 1.0f)
         {

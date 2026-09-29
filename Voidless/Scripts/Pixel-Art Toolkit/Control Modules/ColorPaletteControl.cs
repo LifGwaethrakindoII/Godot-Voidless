@@ -234,32 +234,7 @@ namespace Voidless.PixelArtToolkit
             {
                 case FileMode.OpenFile:
                 {
-                    string extension = System.IO.Path.GetExtension(path);
-                    Color[] newPalette = null;
-
-                    switch(extension)
-                    {
-                        case Constants.EXTENSION_TRES:
-                            ColorPalette colorPalette = VColorPalette.Load(path);
-                            if(colorPalette != null) newPalette = colorPalette.Colors;
-                        break;
-
-                        case Constants.EXTENSION_GPL:
-                            newPalette = VColorPalette.ParseGpl(path);
-                        break;
-
-                        case Constants.EXTENSION_PNG:
-                            newPalette = VColorPalette.ParsePng(path);
-                        break;
-
-                        case Constants.EXTENSION_ASE:
-                            newPalette = VColorPalette.ParseAseprite(path);
-                        break;
-
-                        default:
-                            InvokeErrorSignal("Extension " + extension + " not supported.");
-                        return;
-                    }
+                    Color[] newPalette = SaveSystem.LoadColorPalette(path);
 
                     if(newPalette.IsNullOrEmpty()) return;
 
@@ -271,7 +246,7 @@ namespace Voidless.PixelArtToolkit
                 case FileMode.SaveFile:
                     if(palette == null) return;
                     
-                    VColorPalette.Save(palette, path);
+                    SaveSystem.SaveColorPalette(palette, path);
                     CreateSwatches(palette);
                 break;
             }

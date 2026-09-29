@@ -4,6 +4,8 @@ using Voidless.UI;
 
 namespace Voidless.PixelArtToolkit
 {
+    public enum PaletteExport { Extracted, Custom }
+
     public partial class ColorPaletteControl : ControlModule
     {
         [Export] private FileDialog fileDialog;
@@ -25,7 +27,7 @@ namespace Voidless.PixelArtToolkit
         [Export] private Button paletteLimitButton64;
         [Export] private Button paletteLimitButton128;
         [Export] private Button paletteLimitButton256;
-        [Export] private Button extractPreviousPaletteButton;
+        [Export] private Button exportExtractedButton;
         [Export] private Button addPaletteButton;
         [Export] private Button importPaletteButton;
         [Export] private Button exportPaletteButton;
@@ -36,6 +38,7 @@ namespace Voidless.PixelArtToolkit
         private string title;
         private string currentDir;
         private string[] filters;
+        private PaletteExport paletteExport;
 
         public Color[] Palette { get { return palette; } }
 
@@ -81,7 +84,7 @@ namespace Voidless.PixelArtToolkit
             paletteLimitButton128.Pressed += ()=> OnPaletteLimitButtonPressed(128);
             paletteLimitButton256.Pressed += ()=> OnPaletteLimitButtonPressed(256);
             colorPicker.PresetAdded += OnColorPresetAdded;
-            extractPreviousPaletteButton.Pressed += OnExtractPreviousPaletteButtonPressed;
+            exportExtractedButton.Pressed += OnExportExtractedButtonPressed;
             addPaletteButton.Pressed += OnAddPaletteButtonPressed;
             importPaletteButton.Pressed += OnImportPaletteButtonPressed;
             exportPaletteButton.Pressed += OnExportPaletteButtonPressed;
@@ -227,22 +230,72 @@ namespace Voidless.PixelArtToolkit
 
         private void OnLoadFileDialogFileSelected(string path)
         {
-            //Color[] newPalette = VColorPalette.ParseGpl(path);
-            //Color[] newPalette = VColorPalette.ParsePng(path);
-            Color[] newPalette = VColorPalette.ParseAseprite(path);
+            switch(fileDialog.FileMode)
+            {
+                case FileMode.OpenFile:
+                {
+                    string extension = System.IO.Path.GetExtension(path);
+                    Color[] newPalette = null;
 
-            if(newPalette.IsNullOrEmpty()) return;
+                    switch(extension)
+                    {
+                        case Constants.EXTENSION_TRES:
+                            ColorPalette colorPalette = VColorPalette.Load(path);
+                            if(colorPalette != null) newPalette = colorPalette.Colors;
+                        break;
 
-            palette = newPalette;
-            CreateSwatches(palette);
+                        case Constants.EXTENSION_GPL:
+                            newPalette = VColorPalette.ParseGpl(path);
+                        break;
+
+                        case Constants.EXTENSION_PNG:
+                            newPalette = VColorPalette.ParsePng(path);
+                        break;
+
+                        case Constants.EXTENSION_ASE:
+                            newPalette = VColorPalette.ParseAseprite(path);
+                        break;
+
+                        default:
+                            InvokeErrorSignal("Extension " + extension + " not supported.");
+                        return;
+                    }
+
+                    if(newPalette.IsNullOrEmpty()) return;
+
+                    palette = newPalette;
+                    CreateSwatches(palette);
+                }
+                break;
+
+                case FileMode.SaveFile:
+                    if(palette == null) return;
+                    
+                    VColorPalette.Save(palette, path);
+                    CreateSwatches(palette);
+                break;
+            }
         }
 
 /*==========================================================================
 |       Button Callbacks:                                                  |
 ==========================================================================*/
-        private void OnExtractPreviousPaletteButtonPressed()
+        private void OnExportExtractedButtonPressed()
         {
-
+            if(palette.IsNullOrEmpty())
+            {
+                InvokeErrorSignal("Extract a Color-Palette to export.");
+                return;
+            }
+            paletteExport = PaletteExport.Extracted;
+            fileDialog.OpenInSaveMode
+            (
+                "Save Extracted Color-Palette",
+                CurrentDir,
+                "new-extracted-palette.tres",
+                Constants.RATIO_FILEDIALOG,
+                Constants.FILTERS_COLORPALETTES
+            );
         }
 
         private void OnAddPaletteButtonPressed()

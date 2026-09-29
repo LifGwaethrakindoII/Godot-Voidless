@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Text;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
@@ -33,19 +34,32 @@ namespace Voidless
             return true;
         }
 
+        public static ColorPalette ToColorPalette(Color[] palette)
+        {
+            ColorPalette colorPalette = new ColorPalette();
+            colorPalette.Colors = palette;
+            return colorPalette;
+        }
+
         public static void Save(this ColorPalette colorPalette, string path)
         {
             Error saveResult = ResourceSaver.Save(colorPalette, path);
 
-            if (saveResult == Error.Ok) GD.Print("Successfully saved Game Boy palette to: " + path + ".");
-            else GD.Print("Failed to save palette. Error code: " + saveResult.ToString() + ".");
+            if (saveResult == Error.Ok) GD.Print(string.Concat("[ColorPalette] Successfully saved Game Boy palette to: ", path, "."));
+            else GD.PrintErr(string.Concat("[ColorPalette] Failed to save palette. Error code: ", saveResult.ToString(), "."));
+        }
+
+        public static void Save(Color[] palette, string path)
+        {
+            ColorPalette colorPalette = ToColorPalette(palette);
+            if(colorPalette != null) colorPalette.Save(path);
         }
 
         public static ColorPalette Load(string path)
         {
             if(string.IsNullOrEmpty(path))
             {
-                GD.Print("Path not provided.");
+                GD.PrintErr(string.Concat("[ColorPalette] Path", path, " not provided."));
                 return null;
             }
 
@@ -54,25 +68,14 @@ namespace Voidless
 
             if(loadedResource == null)
             {
-                GD.Print("Failed to load ColorPalette at path " + path + ".");
+                GD.PrintErr(string.Concat("[ColorPalette] Failed to load ColorPalette at path ", path, "."));
                 return null;
             }
 
             ColorPalette palette = loadedResource as ColorPalette;
 
-            // 2. Check if the loaded resource is actually a ColorPalette
-            if(palette != null)
-            {
-                GD.Print("Successfully loaded palette with " + palette.Colors.Length + " colors.");
-
-                // 3. Iterate through the PackedColorArray
-                foreach (Color color in palette.Colors)
-                {
-                    // ToHtml() is a handy Godot method that converts a Color to a Hex string (e.g., "9bbc0f")
-                    GD.Print("Loaded Color Hex: " + color.ToHtml()); 
-                }
-            }
-            else GD.Print("Failed to load ColorPalette. The file might be corrupted or the wrong type.");
+            if(palette == null)
+            GD.PrintErr("[ColorPalette] Failed to load ColorPalette. The file might be corrupted or the wrong type.");
 
             return palette;
         }
@@ -81,16 +84,14 @@ namespace Voidless
         {
             List<ColorPalette> palettes = new List<ColorPalette>();
 
-            // Open the directory in Godot
             DirAccess dirAccess = DirAccess.Open(directoryPath);
 
             if (dirAccess == null)
             {
-                GD.PrintErr("Could not open directory: " + directoryPath);
-                return palettes; // Return empty list if folder doesn't exist yet
+                GD.PrintErr(string.Concat("[ColorPalette] Could not open directory: ", directoryPath));
+                return palettes;
             }
 
-            // Iterate through all files in the folder
             dirAccess.ListDirBegin();
             string fileName = dirAccess.GetNext();
 
@@ -115,7 +116,10 @@ namespace Voidless
             return palettes;
         }
 
-        //Gimp
+#region Gimp:
+/*==========================================================================
+|       Gimp Functions:                                                    |
+==========================================================================*/
         public static Color[] ParseGpl(string path)
         {
             List<Color> colors = new List<Color>();
@@ -155,83 +159,97 @@ namespace Voidless
             return colors.ToArray();
         }
 
+        public static void ExportToGpl(Color[] colors, string filePath, string paletteName = "Custom Palette")
+        {
+            // 1. Build the text content using StringBuilder for performance
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("GIMP Palette");
+            sb.AppendLine("Name: " + paletteName);
+            sb.AppendLine("Columns: 0");
+            sb.AppendLine("#");
+
+            // 2. Write each color
+            foreach (Color color in colors)
+            {
+                // Convert 0.0-1.0 floats back to 0-255 integers
+                int r = (int)(color.R8); // R8 is a Godot 4 property that returns 0-255 byte
+                int g = (int)(color.G8);
+                int b = (int)(color.B8);
+
+                // Format: R G B \t HexCode (Standard GPL format)
+                string hex = color.ToHtml(false); // Gets hex without alpha
+                sb.AppendLine($"{r}\t{g}\t{b}\t{hex}");
+            }
+
+            // 3. Write to disk
+            File.WriteAllText(filePath, sb.ToString());
+        }
+#endregion
+
+#region PNG:
+/*==========================================================================
+|       PNG Functions:                                                     |
+==========================================================================*/
         public static Color[] ParsePng(string filePath)
         {
-            // 1. Use HashSet for O(1) lookups instead of List's O(N) Contains
             HashSet<Color> uniqueColors = new HashSet<Color>();
-
-            // 2. Load the image directly from the file path
             Image image = Image.LoadFromFile(filePath);
 
             if (image == null)
             {
-                GD.PrintErr("Failed to load PNG image from: " + filePath);
+                GD.PrintErr(string.Concat("[ColorPalette] Failed to load PNG image from: " + filePath));
                 return new Color[0];
             }
 
-            // 3. Iterate through every pixel in the image
             for (int y = 0; y < image.GetHeight(); y++)
             {
                 for (int x = 0; x < image.GetWidth(); x++)
                 {
                     Color pixelColor = image.GetPixel(x, y);
 
-                    // 4. Filter out fully transparent pixels
-                    if (pixelColor.A > 0.0f)
-                    {
-                        // HashSet.Add automatically checks for duplicates!
-                        // It returns true if the color was added, and false if it already existed.
-                        uniqueColors.Add(pixelColor);
-                    }
+                    if (pixelColor.A > 0.0f) uniqueColors.Add(pixelColor);
                 }
             }
 
-            // 5. Convert the HashSet back to an Array for the return type
             return uniqueColors.ToArray();
         }
 
-        public static Color[] ParseAseprite(string filePath)
+        public static void ExportToPng(Color[] colors, string filePath)
         {
-            List<Color> colors = new List<Color>();
+            if (colors == null || colors.Length == 0) return;
 
-            using (FileStream fileStream = File.OpenRead(filePath))
-            using (BinaryReader reader = new BinaryReader(fileStream))
+            // 1. Create a 1D image strip (Width = number of colors, Height = 1)
+            Image image = Image.CreateEmpty(colors.Length, 1, false, Image.Format.Rgba8);
+
+            // 2. Set the pixels
+            for (int x = 0; x < colors.Length; x++)
             {
-                // Ensure file is large enough
-                if (fileStream.Length < 16) return colors.ToArray();
-
-                // 1. Skip the 16-byte custom header ("ASEF" + metadata)
-                reader.ReadBytes(16);
-
-                // 2. Scan through the file
-                while (reader.BaseStream.Position < fileStream.Length - 4)
-                {
-                    // This custom format uses 2-byte sizes and 2-byte types
-                    ushort chunkSize = reader.ReadUInt16();
-                    ushort chunkType = reader.ReadUInt16();
-
-                    // Calculate where this chunk ends
-                    long chunkEndPosition = reader.BaseStream.Position + (chunkSize - 4);
-
-                    // 3. Check for Palette Chunk (Type 0x0007)
-                    if (chunkType == 0x0007)
-                    {
-                        // Seek to 12 bytes before the end of the chunk to find the RGB floats
-                        reader.BaseStream.Position = chunkEndPosition - 12;
-
-                        float r = reader.ReadSingle();
-                        float g = reader.ReadSingle();
-                        float b = reader.ReadSingle();
-
-                        colors.Add(new Color(r, g, b, 1.0f));
-                    }
-
-                    // Move to the start of the next chunk
-                    reader.BaseStream.Position = chunkEndPosition;
-                }
+                image.SetPixel(x, 0, colors[x]);
             }
 
-            return colors.ToArray();
+            // 3. Save to disk
+            Error saveError = image.SavePng(filePath);
+            if (saveError != Error.Ok)
+            {
+                GD.PrintErr(string.Concat("[ColorPalette] Failed to export PNG palette. Error: " + saveError));
+            }
         }
+#endregion
+
+#region Aseprite:
+/*==========================================================================
+|       Aseprite Functions:                                                |
+==========================================================================*/
+        public static Color[] ParseAseprite(string filePath)
+        {
+            // TODO: Implement function.
+            return null;
+        }
+
+        public static void ExportToAseprite(Color[] colors, string path)
+        {
+            // TODO: Yes, implement function...
+        }
+#endregion
     }
 }

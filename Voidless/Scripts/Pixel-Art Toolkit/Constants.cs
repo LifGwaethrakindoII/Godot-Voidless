@@ -24,6 +24,9 @@ namespace Voidless.PixelArtToolkit
         public const string KEY_LASTPATH = "LastPath";
         public const string VARIANT_LASTPATH = "C:/My/Images";
         public const string EXTENSION_TRES = ".tres";
+        public const string EXTENSION_GPL = ".gpl";
+        public const string EXTENSION_PNG = ".png";
+        public const string EXTENSION_ASE = ".ase";
         public const float THRESHOLD_LANDSCAPE = 1.2f;
         public const float MIN_RANGEVALUE = -100.0f;
         public const float MAX_RANGEVALUE = 100.0f;

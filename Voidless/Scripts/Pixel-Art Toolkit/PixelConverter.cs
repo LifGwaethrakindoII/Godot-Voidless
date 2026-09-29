@@ -36,6 +36,9 @@ namespace Voidless.PixelArtToolkit
 
         public override void _Ready()
         {
+            loadImageFileDialog.Visible = false;
+            popUp.Visible = false;
+            controlsScroll.ClipContents = true;
             SaveSystem.Initialize();
 
             GetTree().Root.SizeChanged += OnViewportResized;

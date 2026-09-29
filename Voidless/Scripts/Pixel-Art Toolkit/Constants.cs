@@ -19,8 +19,11 @@ namespace Voidless.PixelArtToolkit
         public const string TITLE_SAVEIMAGE = "Save Image";
         public const string SECTION_PATH = "Path";
         public const string PATH_SETTINGS = "user://settings.cfg";
+        public const string PATH_RESOURCES = "res://Resources";
+        public const string PATH_RESOURCES_PALETTES = PATH_RESOURCES + "/Color-Palettes";
         public const string KEY_LASTPATH = "LastPath";
         public const string VARIANT_LASTPATH = "C:/My/Images";
+        public const string EXTENSION_TRES = ".tres";
         public const float THRESHOLD_LANDSCAPE = 1.2f;
         public const float MIN_RANGEVALUE = -100.0f;
         public const float MAX_RANGEVALUE = 100.0f;
@@ -34,7 +37,7 @@ namespace Voidless.PixelArtToolkit
         static Constants()
         {
             FILTERS_IMAGES = new string[] { "*.png", "*.jpg", "*.jpeg" };
-            FILTERS_COLORPALETTES = new string[] { "*.tres", "*.res" };
+            FILTERS_COLORPALETTES = new string[] { "*.tres", "*.res", "*.gpl", "*.ase", "*.aseprite", "*.png", "*.jpg", "*.jpeg" };
         }
     }
 }

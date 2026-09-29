@@ -6,6 +6,7 @@ namespace Voidless.PixelArtToolkit
 {
     public partial class ColorPaletteControl : ControlModule
     {
+        [Export] private FileDialog fileDialog;
         [Export] private ColorPicker colorPicker;
         [Export] private SpinBox maxColorsSpinBox;
         [ExportGroup("Containers")]
@@ -16,7 +17,6 @@ namespace Voidless.PixelArtToolkit
         [ExportGroup("Dropdowns")]
         [Export] private OptionButton colorPaletteTypeDropdown;
         [Export] private OptionButton definedColorPaletteDropdown;
-        [Export] private OptionButton customColorPaletteDropdown;
         [Export] private OptionButton extractionMethodDropdown;
         [ExportGroup("Buttons")]
         [Export] private Button paletteLimitButton8;
@@ -25,13 +25,17 @@ namespace Voidless.PixelArtToolkit
         [Export] private Button paletteLimitButton64;
         [Export] private Button paletteLimitButton128;
         [Export] private Button paletteLimitButton256;
-        [Export] private Button loadSwatchesButton;
-        [Export] private Button saveSwatchesButton;
-        [Export] private Button addSwatchesButton;
+        [Export] private Button extractPreviousPaletteButton;
+        [Export] private Button addPaletteButton;
+        [Export] private Button importPaletteButton;
+        [Export] private Button exportPaletteButton;
         private Color[] palette;
         private ColorPaletteType paletteType;
         private ColorExtractionMethod colorExtractionMethod;
         private Image image;
+        private string title;
+        private string currentDir;
+        private string[] filters;
 
         public Color[] Palette { get { return palette; } }
 
@@ -41,16 +45,34 @@ namespace Voidless.PixelArtToolkit
             set { image = value; }
         }
 
+        public string Title
+        {
+            get { return title; }
+            set { title = value; }
+        }
+
+        public string CurrentDir
+        {
+            get { return currentDir; }
+            set { currentDir = value; }
+        }
+
+        public string[] Filters
+        {
+            get { return filters; }
+            set { filters = value; }
+        }
+
         public int MaxColors { get { return (int)maxColorsSpinBox.Value; } }
 
         public override void _Ready()
         {
             maxColorsSpinBox.SetupIntRange(0, Constants.MAX_PALETTECOLORS);
 
+            fileDialog.FileSelected += OnLoadFileDialogFileSelected;
             maxColorsSpinBox.ValueChanged += OnPaletteLimitSpinBoxValueChanged;
             colorPaletteTypeDropdown.ItemSelected += OnColorPaletteTypeOptionSelected;
             definedColorPaletteDropdown.ItemSelected += OnDefinedPaletteOptionSelected;
-            customColorPaletteDropdown.ItemSelected += OnCustomPaletteOptionSelected;
             extractionMethodDropdown.ItemSelected += OnExtractionMethodOptionSelected;
             paletteLimitButton8.Pressed += ()=> OnPaletteLimitButtonPressed(8);
             paletteLimitButton16.Pressed += ()=> OnPaletteLimitButtonPressed(16);
@@ -58,26 +80,28 @@ namespace Voidless.PixelArtToolkit
             paletteLimitButton64.Pressed += ()=> OnPaletteLimitButtonPressed(64);
             paletteLimitButton128.Pressed += ()=> OnPaletteLimitButtonPressed(128);
             paletteLimitButton256.Pressed += ()=> OnPaletteLimitButtonPressed(256);
+            colorPicker.PresetAdded += OnColorPresetAdded;
+            extractPreviousPaletteButton.Pressed += OnExtractPreviousPaletteButtonPressed;
+            addPaletteButton.Pressed += OnAddPaletteButtonPressed;
+            importPaletteButton.Pressed += OnImportPaletteButtonPressed;
+            exportPaletteButton.Pressed += OnExportPaletteButtonPressed;
         }
 
-        public void SetValues(ColorExtractionMethod colorExtractionMethod, ColorPaletteType paletteType, bool sendSignal = false)
+        public void SetValues(ColorExtractionMethod colorExtractionMethod, ColorPaletteType paletteType, string title, string currentDir, string[] filters, bool sendSignal = false)
         {
             int extractionIndex = (int)colorExtractionMethod;
             int paletteIndex = (int) paletteType;
 
             extractionMethodDropdown.Selected = extractionIndex;
             colorPaletteTypeDropdown.Selected = paletteIndex;
+            Title = title;
+            CurrentDir = currentDir;
+            Filters = filters;
 
-            switch(sendSignal)
-            {
-                case true:
-                    extractionMethodDropdown.EmitSignal(OptionButton.SignalName.ItemSelected, extractionIndex);
-                    colorPaletteTypeDropdown.EmitSignal(OptionButton.SignalName.ItemSelected, paletteIndex);
-                break;
+            if(!sendSignal) return;
 
-                case false:
-                break;
-            }
+            extractionMethodDropdown.EmitSignal(OptionButton.SignalName.ItemSelected, extractionIndex);
+            colorPaletteTypeDropdown.EmitSignal(OptionButton.SignalName.ItemSelected, paletteIndex);
         }
 
         private void CreateAutoExtractionPalette()
@@ -118,6 +142,8 @@ namespace Voidless.PixelArtToolkit
 
             float d = Constants.DIMENSION_SWATCH;
 
+            if(palette.IsNullOrEmpty()) return;
+
             foreach (Color color in palette)
             {
                 ColorRect swatch = new ColorRect();
@@ -137,7 +163,7 @@ namespace Voidless.PixelArtToolkit
         {
             paletteType = (ColorPaletteType)selection;
 
-            VCanvasItem.SetMultipleVisible(false, autoExtractPaletteContainer, definedPresetPaletteContainer, customPresetPaletteContainer);
+            VCanvasItem.SetMultipleVisible(false, autoExtractPaletteContainer, definedPresetPaletteContainer, customPresetPaletteContainer, colorPicker);
 
             switch(paletteType)
             {
@@ -148,10 +174,13 @@ namespace Voidless.PixelArtToolkit
 
                 case ColorPaletteType.DefinedPreset:
                     definedPresetPaletteContainer.Visible = true;
+                    OnDefinedPaletteOptionSelected(definedColorPaletteDropdown.Selected);
                 break;
 
                 case ColorPaletteType.CustomPreset:
                     customPresetPaletteContainer.Visible = true;
+                    colorPicker.Visible = true;
+                    OnCustomPaletteOptionSelected();
                 break;
             }
         }
@@ -163,9 +192,10 @@ namespace Voidless.PixelArtToolkit
             CreateSwatches(palette);
         }
 
-        private void OnCustomPaletteOptionSelected(long selection)
+        private void OnCustomPaletteOptionSelected()
         {
-
+            palette = colorPicker.GetPresets();
+            CreateSwatches(palette);
         }
 
         private void OnExtractionMethodOptionSelected(long selection)
@@ -182,12 +212,52 @@ namespace Voidless.PixelArtToolkit
             OnAutoExtractPaletteOptionSelected();
         }
 
+        private void OnColorPresetAdded(Color color)
+        {
+            OnCustomPaletteOptionSelected();
+        }
+
         private void OnAutoExtractPaletteOptionSelected()
         {
             //if(Image == null) return;
 
             CreateAutoExtractionPalette();
             CreateSwatches(palette);
+        }
+
+        private void OnLoadFileDialogFileSelected(string path)
+        {
+            //Color[] newPalette = VColorPalette.ParseGpl(path);
+            //Color[] newPalette = VColorPalette.ParsePng(path);
+            Color[] newPalette = VColorPalette.ParseAseprite(path);
+
+            if(newPalette.IsNullOrEmpty()) return;
+
+            palette = newPalette;
+            CreateSwatches(palette);
+        }
+
+/*==========================================================================
+|       Button Callbacks:                                                  |
+==========================================================================*/
+        private void OnExtractPreviousPaletteButtonPressed()
+        {
+
+        }
+
+        private void OnAddPaletteButtonPressed()
+        {
+
+        }
+
+        private void OnImportPaletteButtonPressed()
+        {
+            fileDialog.OpenInLoadMode(Title, CurrentDir, Constants.RATIO_FILEDIALOG, Filters);
+        }
+
+        private void OnExportPaletteButtonPressed()
+        {
+
         }
 #endregion
     }

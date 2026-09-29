@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dpl288j07lbg5" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ProcessControl.cs" id="7_0hpme"]
 [ext_resource type="Script" uid="uid://dyrb52c6mbv5" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ExportControl.cs" id="7_35h8d"]
 [ext_resource type="Script" uid="uid://ctl8dek1psgd4" path="res://Voidless/Scripts/Pixel-Art Toolkit/Control Modules/ScalingControl.cs" id="7_n4rba"]
+[ext_resource type="PackedScene" uid="uid://bw5g2elepbms3" path="res://Voidless/Scenes/Pixel-Art Toolkit/FileDialog.tscn" id="11_6pcx3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2vgv"]
 bg_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
@@ -406,9 +407,10 @@ layout_mode = 2
 [node name="HSeparator4" type="HSeparator" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_Dithering/VBoxContainer_Dithering" unique_id=992337203]
 layout_mode = 2
 
-[node name="MarginContainer_ColorPalettes" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList" unique_id=95473189 node_paths=PackedStringArray("colorPicker", "maxColorsSpinBox", "autoExtractPaletteContainer", "definedPresetPaletteContainer", "customPresetPaletteContainer", "definedPaletteFlowContainer", "colorPaletteTypeDropdown", "definedColorPaletteDropdown", "customColorPaletteDropdown", "extractionMethodDropdown", "paletteLimitButton8", "paletteLimitButton16", "paletteLimitButton32", "paletteLimitButton64", "paletteLimitButton128", "paletteLimitButton256")]
+[node name="MarginContainer_ColorPalettes" type="MarginContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList" unique_id=95473189 node_paths=PackedStringArray("fileDialog", "colorPicker", "maxColorsSpinBox", "autoExtractPaletteContainer", "definedPresetPaletteContainer", "customPresetPaletteContainer", "definedPaletteFlowContainer", "colorPaletteTypeDropdown", "definedColorPaletteDropdown", "extractionMethodDropdown", "paletteLimitButton8", "paletteLimitButton16", "paletteLimitButton32", "paletteLimitButton64", "paletteLimitButton128", "paletteLimitButton256", "extractPreviousPaletteButton", "addPaletteButton", "importPaletteButton", "exportPaletteButton")]
 layout_mode = 2
 script = ExtResource("5_gcmr3")
+fileDialog = NodePath("../../../../../../FileDialog_LoadColorPalette")
 colorPicker = NodePath("VBoxContainer_ColorPalettes/ColorPicker")
 maxColorsSpinBox = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_MaxColorPaletteColors/SpinBox_MaxColorPaletteColors")
 autoExtractPaletteContainer = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType")
@@ -417,7 +419,6 @@ customPresetPaletteContainer = NodePath("VBoxContainer_ColorPalettes/PanelContai
 definedPaletteFlowContainer = NodePath("VBoxContainer_ColorPalettes/HFlowContainer_ColorPalettePreview")
 colorPaletteTypeDropdown = NodePath("VBoxContainer_ColorPalettes/HBoxContainer_PaletteType/OptionButton_PaletteType")
 definedColorPaletteDropdown = NodePath("VBoxContainer_ColorPalettes/PanelContainer_DefinedPresetPaletteType/VBoxContainer/HBoxContainer_DefinedPalette/OptionButton_DefinedPalette")
-customColorPaletteDropdown = NodePath("VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette/OptionButton_CustomPalette")
 extractionMethodDropdown = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_ExtractionMethod/OptionButton_ExtractionMethod")
 paletteLimitButton8 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_8")
 paletteLimitButton16 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_16")
@@ -425,6 +426,10 @@ paletteLimitButton32 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto
 paletteLimitButton64 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_64")
 paletteLimitButton128 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_128")
 paletteLimitButton256 = NodePath("VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType/VBoxContainer_Auto-ExtractPaletteType/HBoxContainer_LimitColorPaletteColors/Button_PaletteLimit_256")
+extractPreviousPaletteButton = NodePath("VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/Button_ExtractPalette")
+addPaletteButton = NodePath("VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/Button_AddPalette")
+importPaletteButton = NodePath("VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/Button_ImportPalette")
+exportPaletteButton = NodePath("VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/Button_ExportPalette")
 
 [node name="VBoxContainer_ColorPalettes" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes" unique_id=436461435]
 layout_mode = 2
@@ -452,6 +457,7 @@ popup/item_2/text = "Custom Preset"
 popup/item_2/id = 2
 
 [node name="PanelContainer_Auto-ExtractPaletteType" type="PanelContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=1652383388]
+visible = false
 layout_mode = 2
 
 [node name="VBoxContainer_Auto-ExtractPaletteType" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_Auto-ExtractPaletteType" unique_id=348000403]
@@ -558,7 +564,6 @@ popup/item_11/text = "1-Bit"
 popup/item_11/id = 11
 
 [node name="PanelContainer_CustomPresetPaletteType" type="PanelContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=345389080]
-visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType" unique_id=88583204]
@@ -568,44 +573,21 @@ text = "Custom Palettes"
 [node name="VBoxContainer" type="VBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType" unique_id=653950843]
 layout_mode = 2
 
-[node name="HBoxContainer_CustomPalette" type="HBoxContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer" unique_id=1568782753]
+[node name="Button_ExtractPalette" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer" unique_id=1089264909]
 layout_mode = 2
+text = "Extract Color-Palette"
 
-[node name="Label_DefinedPalette" type="Label" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette" unique_id=1423537106]
+[node name="Button_AddPalette" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer" unique_id=992197147]
 layout_mode = 2
-text = "Palette: "
+text = "Add Color-Palette"
 
-[node name="OptionButton_CustomPalette" type="OptionButton" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer/HBoxContainer_CustomPalette" unique_id=275083758]
+[node name="Button_ImportPalette" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer" unique_id=474315080]
 layout_mode = 2
-selected = 0
-item_count = 12
-popup/item_0/text = "CGA"
-popup/item_0/id = 0
-popup/item_1/text = "EGA"
-popup/item_1/id = 1
-popup/item_2/text = "NES"
-popup/item_2/id = 2
-popup/item_3/text = "Game Boy"
-popup/item_3/id = 3
-popup/item_4/text = "Commodore 64"
-popup/item_4/id = 4
-popup/item_5/text = "ZX Spectrum"
-popup/item_5/id = 5
-popup/item_6/text = "PICO-8"
-popup/item_6/id = 6
-popup/item_7/text = "Sweetie-16"
-popup/item_7/id = 7
-popup/item_8/text = "Endesga 32"
-popup/item_8/id = 8
-popup/item_9/text = "DB 32"
-popup/item_9/id = 9
-popup/item_10/text = "Grayscale"
-popup/item_10/id = 10
-popup/item_11/text = "1-Bit"
-popup/item_11/id = 11
+text = "Import Color-Palette"
 
-[node name="HFlowContainer_DefinedPalette" type="HFlowContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer" unique_id=1807151529]
+[node name="Button_ExportPalette" type="Button" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes/PanelContainer_CustomPresetPaletteType/VBoxContainer" unique_id=606479176]
 layout_mode = 2
+text = "Export Color-Palette"
 
 [node name="HFlowContainer_ColorPalettePreview" type="HFlowContainer" parent="AppMargins/HBoxContainer_BaseLayout/VBoxContainer_RightPanel/ControlsScroll/ControlsList/MarginContainer_ColorPalettes/VBoxContainer_ColorPalettes" unique_id=1303446493]
 layout_mode = 2
@@ -653,9 +635,9 @@ text = "Export Settings"
 layout_mode = 2
 text = "Save Image"
 
-[node name="FileDialog_LoadImage" type="FileDialog" parent="." unique_id=988085372]
-oversampling_override = 1.0
-filters = PackedStringArray("*.png", "*.jpg", "*.jprg")
+[node name="FileDialog_LoadImage" parent="." unique_id=1156980966 instance=ExtResource("11_6pcx3")]
+
+[node name="FileDialog_LoadColorPalette" parent="." unique_id=1380318502 instance=ExtResource("11_6pcx3")]
 
 [node name="PopUpPanel" type="ColorRect" parent="." unique_id=620895196 node_paths=PackedStringArray("_background", "_panel", "_titleLabel", "_messageLabel", "_cancelButton", "_confirmButton")]
 visible = false

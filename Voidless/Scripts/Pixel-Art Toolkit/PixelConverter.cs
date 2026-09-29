@@ -36,6 +36,8 @@ namespace Voidless.PixelArtToolkit
 
         public override void _Ready()
         {
+            SaveSystem.Initialize();
+
             GetTree().Root.SizeChanged += OnViewportResized;
             importControl.OnFileImported += OnFileImported;
             dimensionsControl.OnChanged += OnDimensionsControlChanged;
@@ -58,7 +60,7 @@ namespace Voidless.PixelArtToolkit
             dimensionsControl.SetValues(settings.ProportionalEditing, settings.Width, settings.Height);
             scalingControl.SetValues(settings.ScaleFactor, settings.Width, settings.Height);
             ditheringControl.SetValues(settings.DitheringType, settings.DitheringStrength);
-            colorPaletteControl.SetValues(settings.ColorExtractionMethod, settings.PaletteType);
+            colorPaletteControl.SetValues(settings.ColorExtractionMethod, settings.PaletteType, "Import Color-Palette", currentDir, Constants.FILTERS_COLORPALETTES, true);
             processControl.SetValues(false);
             exportControl.SetValues(Constants.TITLE_SAVEIMAGE, currentDir, "newImage.png", Constants.FILTERS_IMAGES);
         }

@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bw5g2elepbms3"]
+
+[node name="FileDialog_LoadImage" type="FileDialog" unique_id=1156980966]
+oversampling_override = 1.0
+filters = PackedStringArray("*.png", "*.jpg", "*.jprg")

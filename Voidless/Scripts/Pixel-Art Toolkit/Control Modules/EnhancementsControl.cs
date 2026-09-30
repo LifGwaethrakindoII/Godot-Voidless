@@ -22,8 +22,8 @@ namespace Voidless.PixelArtToolkit
 
         public override void _Ready()
         {
-            contrastSpinBox.SetupNormalized(Constants.STEP_RANGE, true, contrastSlider);
-            brightnessSpinBox.SetupNormalized(Constants.STEP_RANGE, true, brightnessSlider);
+            contrastSpinBox.SetupNormalized(App.STEP_RANGE, true, contrastSlider);
+            brightnessSpinBox.SetupNormalized(App.STEP_RANGE, true, brightnessSlider);
 
             darkOutlineCheckButton.Toggled += OnDarkOutlineCheckBoxToggled;
             contrastSlider.ValueChanged += OnContrastSliderValueChanged;

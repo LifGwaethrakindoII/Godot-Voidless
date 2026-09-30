@@ -48,6 +48,10 @@ namespace Voidless.PixelArtToolkit
             set { image = value; }
         }
 
+        public ColorPaletteType PaletteType { get { return (ColorPaletteType)colorPaletteTypeDropdown.Selected; } }
+        
+        public ColorExtractionMethod ColorExtractionMethod { get { return (ColorExtractionMethod)extractionMethodDropdown.Selected; } }
+
         public string Title
         {
             get { return title; }
@@ -70,7 +74,7 @@ namespace Voidless.PixelArtToolkit
 
         public override void _Ready()
         {
-            maxColorsSpinBox.SetupIntRange(0, Constants.MAX_PALETTECOLORS);
+            maxColorsSpinBox.SetupIntRange(0, App.MAX_PALETTECOLORS);
 
             fileDialog.FileSelected += OnLoadFileDialogFileSelected;
             maxColorsSpinBox.ValueChanged += OnPaletteLimitSpinBoxValueChanged;
@@ -90,7 +94,7 @@ namespace Voidless.PixelArtToolkit
             exportPaletteButton.Pressed += OnExportPaletteButtonPressed;
         }
 
-        public void SetValues(ColorExtractionMethod colorExtractionMethod, ColorPaletteType paletteType, string title, string currentDir, string[] filters, bool sendSignal = false)
+        public void SetValues(ColorExtractionMethod colorExtractionMethod, ColorPaletteType paletteType, string title, string currentDir, params string[] filters)
         {
             int extractionIndex = (int)colorExtractionMethod;
             int paletteIndex = (int) paletteType;
@@ -100,8 +104,6 @@ namespace Voidless.PixelArtToolkit
             Title = title;
             CurrentDir = currentDir;
             Filters = filters;
-
-            if(!sendSignal) return;
 
             extractionMethodDropdown.EmitSignal(OptionButton.SignalName.ItemSelected, extractionIndex);
             colorPaletteTypeDropdown.EmitSignal(OptionButton.SignalName.ItemSelected, paletteIndex);
@@ -143,7 +145,7 @@ namespace Voidless.PixelArtToolkit
         {
             definedPaletteFlowContainer.QueueFreeChildren();
 
-            float d = Constants.DIMENSION_SWATCH;
+            float d = App.DIMENSION_SWATCH;
 
             if(palette.IsNullOrEmpty()) return;
 
@@ -230,6 +232,8 @@ namespace Voidless.PixelArtToolkit
 
         private void OnLoadFileDialogFileSelected(string path)
         {
+            currentDir = path;
+
             switch(fileDialog.FileMode)
             {
                 case FileMode.OpenFile:
@@ -265,11 +269,11 @@ namespace Voidless.PixelArtToolkit
             paletteExport = PaletteExport.Extracted;
             fileDialog.OpenInSaveMode
             (
-                "Save Extracted Color-Palette",
+                App.TITLE_EXPORTPALETTE,
                 CurrentDir,
-                "new-extracted-palette.tres",
-                Constants.RATIO_FILEDIALOG,
-                Constants.FILTERS_COLORPALETTES
+                App.FILENAME_NEWPALETTE,
+                App.RATIO_FILEDIALOG,
+                App.FILTERS_PALETTES
             );
         }
 
@@ -280,7 +284,7 @@ namespace Voidless.PixelArtToolkit
 
         private void OnImportPaletteButtonPressed()
         {
-            fileDialog.OpenInLoadMode(Title, CurrentDir, Constants.RATIO_FILEDIALOG, Filters);
+            fileDialog.OpenInLoadMode(Title, CurrentDir, App.RATIO_FILEDIALOG, Filters);
         }
 
         private void OnExportPaletteButtonPressed()

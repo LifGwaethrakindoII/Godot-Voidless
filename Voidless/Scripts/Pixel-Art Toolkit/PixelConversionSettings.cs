@@ -4,7 +4,7 @@ using System;
 namespace Voidless.PixelArtToolkit
 {
     [Serializable]
-    public struct PixelConversionSettings
+    public class PixelConversionSettings
     {
         public bool EnhanceEdges { get; set; }
         public bool DarkOutline { get; set; }
@@ -18,6 +18,7 @@ namespace Voidless.PixelArtToolkit
         public int PixelScale { get; set; }
         public float DitheringStrength { get; set; }
         public string LastFilePath { get; set; }
+        public string LastPalettePath { get; set; }
         public ColorPaletteType PaletteType { get; set; }
         public DitheringType DitheringType { get; set; }
         public ColorExtractionMethod ColorExtractionMethod { get; set; }
@@ -38,10 +39,16 @@ namespace Voidless.PixelArtToolkit
                 MaxColors = 16,
                 PixelScale = 1,
                 LastFilePath = "C:/My/Images",
+                LastPalettePath = "C:/My/Images",
                 PaletteType = ColorPaletteType.AutoExtract, // Assuming this is your enum name
                 DitheringType = DitheringType.None,
                 ColorExtractionMethod = ColorExtractionMethod.Octree
             };
+        }
+
+        public string ToJson()
+        {
+            return VJson.ToJsonString(this);
         }
     }
 }

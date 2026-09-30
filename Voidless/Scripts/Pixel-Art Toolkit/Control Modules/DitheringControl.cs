@@ -17,7 +17,7 @@ namespace Voidless.PixelArtToolkit
 
         public override void _Ready()
         {
-            strengthSpinBox.SetupNormalized(Constants.STEP_RANGE, false, strengthSlider);
+            strengthSpinBox.SetupNormalized(App.STEP_RANGE, false, strengthSlider);
 
             strengthSlider.ValueChanged += OnDitheringSliderValueChanged;
             strengthSpinBox.ValueChanged += OnDitheringSpinBoxValueChanged;

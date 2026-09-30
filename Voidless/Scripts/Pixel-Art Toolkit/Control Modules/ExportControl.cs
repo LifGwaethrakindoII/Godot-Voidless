@@ -62,7 +62,7 @@ namespace Voidless.PixelArtToolkit
 
         private void OnSaveButtonPressed()
         {
-            saveFileDialog.OpenInSaveMode(Title, CurrentDir, DefaultFileName, Constants.RATIO_FILEDIALOG, Filters);
+            saveFileDialog.OpenInSaveMode(Title, CurrentDir, DefaultFileName, App.RATIO_FILEDIALOG, Filters);
         }
 
         private void OnSaveFileDialogFileSelected(string path)

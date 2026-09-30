@@ -26,8 +26,8 @@ namespace Voidless.PixelArtToolkit
 
         public override void _Ready()
         {
-            widthSpinBox.SetupIntRange(0, Constants.MAX_DIMENSION);
-            heightSpinBox.SetupIntRange(0, Constants.MAX_DIMENSION);
+            widthSpinBox.SetupIntRange(0, App.MAX_DIMENSION);
+            heightSpinBox.SetupIntRange(0, App.MAX_DIMENSION);
 
             widthSpinBox.ValueChanged += OnWidthSpinBoxValueChanged;
             heightSpinBox.ValueChanged += OnHeightSpinBoxValueChanged;

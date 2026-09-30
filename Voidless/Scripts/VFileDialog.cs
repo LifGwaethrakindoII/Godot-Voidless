@@ -27,9 +27,15 @@ namespace Voidless.UI
             fileDialog.Title = title;
             fileDialog.CurrentDir = currentDir;
             fileDialog.Filters = filters;
+
+            // Extract the first extension from that filter to append to the name
+            // Example: If filter is "*.tres, *.gpl", this gets "*.tres"
+            string firstFilter = fileDialog.Filters[0];
+            string firstExtension = firstFilter.Split(',')[0].Trim().TrimStart('*');
+
             fileDialog.FileMode = FileMode.SaveFile;
             fileDialog.Access = FileAccess.Filesystem;
-            fileDialog.CurrentFile = defaultFileName;  
+            fileDialog.CurrentFile = string.Concat(defaultFileName + firstExtension);  
             fileDialog.PopupCenteredRatio(ratio);
         }
     }

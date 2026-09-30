@@ -30,8 +30,6 @@ namespace Voidless.PixelArtToolkit
         [Export] private FileDialog loadImageFileDialog;
         [ExportGroup("Checkboxes/Toggles:")]
         [Export] private CheckButton showSourceCheck;
-        private ConfigFile configFile;
-        private PixelConversionSettings settings;
         private bool isLandscape;
 
         public override void _Ready()
@@ -40,6 +38,7 @@ namespace Voidless.PixelArtToolkit
             popUp.Visible = false;
             controlsScroll.ClipContents = true;
             SaveSystem.Initialize();
+            GetTree().AutoAcceptQuit = false; // Prevent Godot from closing the window automatically
 
             GetTree().Root.SizeChanged += OnViewportResized;
             importControl.OnFileImported += OnFileImported;
@@ -48,29 +47,81 @@ namespace Voidless.PixelArtToolkit
             processControl.OnProcessRequested += OnProcessRequested;
             exportControl.OnFileExported += OnFileExported;
 
-            LoadConfigFile();
             SetupControls();
             UpdateLayout();
             EvaluateImageDisplays();
         }
 
+        public override void _Notification(int notification)
+        {
+            if(notification == NotificationWMCloseRequest)
+            {
+                GD.Print("Saving data before exit...");
+                UpdateSettings();
+                GetTree().Quit();
+            }
+        }
+
         private void SetupControls()
         {
-            string currentDir = configFile.GetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, Constants.VARIANT_LASTPATH).As<string>();
-            
-            importControl.SetValues(Constants.TITLE_LOADIMAGE, currentDir, Constants.FILTERS_IMAGES);
+            PixelConversionSettings settings = SaveSystem.PixelConversionSettings;
+            string currentImageDir = SaveSystem.GetValue
+            (
+                App.SECTION_PATH,
+                App.KEY_LASTPATH_IMAGES,
+                App.VARIANT_LASTPATH
+            );
+            string currentPaletteDir = SaveSystem.GetValue
+            (
+                App.SECTION_PATH,
+                App.KEY_LASTPATH_PALETTES,
+                App.VARIANT_LASTPATH
+            );
+
+            importControl.SetValues(App.TITLE_LOADIMAGE, currentImageDir, App.FILTERS_IMAGES);
             enhancementsControl.SetValues(settings.DarkOutline, settings.Contrast, settings.Brightness);
             dimensionsControl.SetValues(settings.ProportionalEditing, settings.Width, settings.Height);
             scalingControl.SetValues(settings.ScaleFactor, settings.Width, settings.Height);
             ditheringControl.SetValues(settings.DitheringType, settings.DitheringStrength);
-            colorPaletteControl.SetValues(settings.ColorExtractionMethod, settings.PaletteType, "Import Color-Palette", currentDir, Constants.FILTERS_COLORPALETTES, true);
+            colorPaletteControl.SetValues(settings.ColorExtractionMethod, settings.PaletteType, App.TITLE_IMPORTPALETTE, currentImageDir, App.FILTERS_PALETTES);
             processControl.SetValues(false);
-            exportControl.SetValues(Constants.TITLE_SAVEIMAGE, currentDir, "newImage.png", Constants.FILTERS_IMAGES);
+            exportControl.SetValues(App.TITLE_EXPORTPALETTE, currentImageDir, App.FILENAME_NEWIMAGE, App.FILTERS_IMAGES);
         }
 
         private void UpdateSettings()
         {
+            PixelConversionSettings settings = SaveSystem.PixelConversionSettings;
+            string currentImageDir = SaveSystem.GetValue
+            (
+                App.SECTION_PATH,
+                App.KEY_LASTPATH_IMAGES,
+                App.VARIANT_LASTPATH
+            );
+            string currentPaletteDir = SaveSystem.GetValue
+            (
+                App.SECTION_PATH,
+                App.KEY_LASTPATH_PALETTES,
+                App.VARIANT_LASTPATH
+            );
 
+            //settings.EnhanceEdges = enhancementsControl.EnhanceEdges;
+            settings.DarkOutline = enhancementsControl.DarkOutline;
+            settings.Contrast = enhancementsControl.Contrast;
+            settings.Brightness = enhancementsControl.Brightness;
+            settings.Width = dimensionsControl.Width;
+            settings.Height = dimensionsControl.Height;
+            settings.ScaleFactor = scalingControl.ScaleFactor;
+            settings.ProportionalEditing = dimensionsControl.ProportionalEditing;
+            settings.MaxColors = colorPaletteControl.MaxColors;
+            settings.PixelScale = scalingControl.ScaleFactor;
+            settings.DitheringStrength = ditheringControl.Strength;
+            settings.LastFilePath = currentImageDir;
+            settings.LastPalettePath = currentPaletteDir;
+            settings.PaletteType = colorPaletteControl.PaletteType;
+            settings.DitheringType = ditheringControl.DitheringType;
+            settings.ColorExtractionMethod = colorPaletteControl.ColorExtractionMethod;
+
+            SaveSystem.SavePixelConversionSettings();
         }
 
         private void DisplayPopUp(string title, string message)
@@ -99,25 +150,6 @@ namespace Voidless.PixelArtToolkit
                 ditheringControl,
                 colorPaletteControl
             );
-        }
-
-        private void LoadConfigFile()
-        {
-            configFile = new ConfigFile();
-            settings = PixelConversionSettings.Default();
-
-            // Feed the ImportControl:
-            Error loadError = configFile.Load(Constants.PATH_SETTINGS);
-            string lastPath = configFile.GetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, string.Empty).As<string>();
-
-            if(loadError != Error.Ok || string.IsNullOrEmpty(lastPath))
-            {
-                lastPath = OS.GetSystemDir(OS.SystemDir.Documents);
-                configFile.SetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, lastPath);
-                configFile.Save(Constants.PATH_SETTINGS);
-            }
-
-            settings.LastFilePath = lastPath;
         }
 
 #region Callbacks:
@@ -169,20 +201,27 @@ namespace Voidless.PixelArtToolkit
                 break;
             }
             
+            SaveSystem.SetValue
+            (
+                App.SECTION_PATH,
+                App.KEY_LASTPATH_PALETTES,
+                colorPaletteControl.CurrentDir,
+                true
+            );
             imageViewerControl.UpdateProcessedDisplay();
             UpdateDisplays(sourceImage, processedImage);
         }
 
         private void OnFileImported(string path)
         {
-            GD.Print("Loading image from: " + path);
+            GD.Print(string.Concat("Loading image from: ", path));
 
             Image sourceImage = new Image();
             Error error = sourceImage.Load(path);
 
             if(error != Error.Ok)
             {
-                DisplayPopUp("Error", "Falied to load image. Error code: " + error);
+                DisplayPopUp("Error", string.Concat("Falied to load image. Error code: ", error));
                 return;
             }
 
@@ -191,10 +230,7 @@ namespace Voidless.PixelArtToolkit
 
             string newDir = Path.GetDirectoryName(path);
 
-            GD.Print("Image loaded successfully with size: " + sourceImage.GetSize());
-            configFile.SetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, newDir); // "Path", "LastPath", ...
-            configFile.Save(Constants.PATH_SETTINGS);
-
+            SaveSystem.SetValue(App.SECTION_PATH, App.KEY_LASTPATH_IMAGES, newDir);
             importControl.CurrentDir = newDir;
             exportControl.CurrentDir = newDir;
         }
@@ -217,14 +253,12 @@ namespace Voidless.PixelArtToolkit
             {
                 string newDir = Path.GetDirectoryName(path);
 
-                configFile.SetValue(Constants.SECTION_PATH, Constants.KEY_LASTPATH, newDir);
-                configFile.Save(Constants.PATH_SETTINGS);
-
+                SaveSystem.SetValue(App.SECTION_PATH, App.KEY_LASTPATH_IMAGES, newDir, true);
                 importControl.CurrentDir = newDir;
                 exportControl.CurrentDir = newDir;
             }
 
-            DisplayPopUp(result ? "Success" : "Failure", "Saved at path: " + path + ". Successful? " + result);
+            DisplayPopUp(result ? "Success" : "Failure", string.Concat((result ? "Saved at path: " : "Couldn't save at path: "), path));
         }
 
         private void OnDimensionsControlChanged()
@@ -245,7 +279,7 @@ namespace Voidless.PixelArtToolkit
         private void UpdateLayout()
         {
             Vector2 size = GetViewportRect().Size;
-            isLandscape = size.X > (size.Y * Constants.THRESHOLD_LANDSCAPE);
+            isLandscape = size.X > (size.Y * App.THRESHOLD_LANDSCAPE);
 
             //if(isLandscape) RebuildLayout();
         }
@@ -259,7 +293,7 @@ namespace Voidless.PixelArtToolkit
             appMargins.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
 
             BoxContainer newLayout = isLandscape ? new HBoxContainer() : new VBoxContainer();
-            GD.Print("[Voidless] Switched to " + (isLandscape ? "LANDSCAPE (PC) " : "PORTRAIT (Mobile) " + "layout."));
+            GD.Print(string.Concat("[Voidless] Switched to ", (isLandscape ? "LANDSCAPE (PC) " : "PORTRAIT (Mobile) ", "layout.")));
 
             newLayout.Name = "BaseLayout";
             newLayout.AddThemeConstantOverride("separation", 16);
